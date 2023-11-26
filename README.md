@@ -6,7 +6,7 @@
 - Kung di niyo pa alam gumamit ng github tas git nood muna kayo youtube
 - yung commit messages niyo dapat short and clear, ilalagay niyo duon kung ano yung ginawa niyo sa file
 
-## NVM commands
+## NVM commands (kapag nainstall na yung NVM)
 
 1. `nvm install lts` para mainstall yung node js
 
