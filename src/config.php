@@ -10,6 +10,8 @@ $mainDB = "iSafe";
 $mainConn = new mysqli($host, $user, $pwd, $mainDB);
 $schoolConn = new mysqli($host, $user, $pwd, $schoolDB);
 
+$management_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE1MjE3NzcsImV4cCI6MTcwMTYwODE3NywianRpIjoiand0X25vbmNlIiwidHlwZSI6Im1hbmFnZW1lbnQiLCJ2ZXJzaW9uIjoyLCJuYmYiOjE3MDE1MjE3NzcsImFjY2Vzc19rZXkiOiI2NTYwOGY4MzY4MTExZjZmZTRiNTdmOWIifQ.-MjLdJwVegd9Z4COeH3z2dt_vxrgtb_-wt5QE2KiCpg>';
+
 if ($mainConn->connect_errno || $schoolConn->connect_errno) {
     die("Failed to connect to the database");
 }
@@ -50,6 +52,7 @@ function register_user($id, $email, $password) : bool{
     if (!insert_data($insert_query))
         return false;
 
+    // set room id for 100ms vid call for counselors
     if ($user_info['id'] === "counselor") {
         return set_room_id($user_info['id']);
     }
@@ -59,8 +62,8 @@ function register_user($id, $email, $password) : bool{
 
 function set_room_id($user_id): bool {
 
+    global $management_token;
     $url = 'https://api.100ms.live/v2/rooms';
-    $managementToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE1MjE3NzcsImV4cCI6MTcwMTYwODE3NywianRpIjoiand0X25vbmNlIiwidHlwZSI6Im1hbmFnZW1lbnQiLCJ2ZXJzaW9uIjoyLCJuYmYiOjE3MDE1MjE3NzcsImFjY2Vzc19rZXkiOiI2NTYwOGY4MzY4MTExZjZmZTRiNTdmOWIifQ.-MjLdJwVegd9Z4COeH3z2dt_vxrgtb_-wt5QE2KiCpg>'; // Replace '<management_token>' with your actual management token
     $templateId = '65608f96b198c75233a7fcb0';
 
     $room_id = "";
@@ -72,7 +75,7 @@ function set_room_id($user_id): bool {
     );
 
     $headers = array(
-        'Authorization: Bearer ' . $managementToken,
+        'Authorization: Bearer ' . $management_token,
         'Content-Type: application/json'
     );
 
@@ -110,4 +113,33 @@ function insert_data($insert_query) : bool {
     }
 
     return true;
+}
+
+function get_room_code($room_id) {
+    global $management_token;
+
+    $url = 'https://api.100ms.live/v2/room-codes/room/' . $room_id;
+
+    $headers = array(
+        'Authorization: Bearer ' . $management_token,
+        'Content-Type: application/json'
+    );
+
+    $ch = curl_init($url);
+
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = json_decode(curl_exec($ch), true);
+
+    if (curl_errno($ch)) {
+        echo 'Error: ' . curl_error($ch);
+        curl_close($ch);
+        return array();
+    }
+
+    curl_close($ch);
+
+    return array('host'=>$response['data'][0]['code'], 'patient'=>$response['data'][1]['code']);
 }
