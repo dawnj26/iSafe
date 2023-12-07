@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="output.css"> <!-- Include your Tailwind CSS file here -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="font-sans bg-gray-100 min-h-screen flex justify-center items-center">
+
+    <div class="login-container bg-white rounded shadow-md overflow-hidden flex w-2/3 min-h-[500px]">
+        <div class="left-side bg-cover bg-center rounded-l-lg bg-cyan-900 w-1/2" style="background-color: cyan;"><img src="bg1.svg" alt="" class="ml-5 mt-14"></div> <!-- Adjusted width and min-height -->
+        <div class="login-form flex-grow p-5">
+            <img class="welcome-image" src="image/bg.svg" alt="Your Logo" style="height: 40px; width: 40px;">
+            <div class="login-form">
+                <h2 class="text-black text-2xl">Welcome Back!</h2>
+                <br>
+                Please Enter your Details
+                <form action="#" method="post">
+                    <div class="form-group mb-4">
+                       
+                        <label for="idNumber" class="text-gray-700 block mb-2">ID</label>
+                        <input type="text" id="idNumber" name="idNumber" placeholder="Enter your ID Number" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                    </div>
+                   
+                    <div class="form-group mb-4">
+                        <label for="password" class="text-gray-700 block mb-2">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter Password" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                    </div>
+                      <br>
+                    <div class="remember-forgot-container flex justify-between items-center mb-4">
+                        <div class="form-group checkbox flex items-center">
+                            <input type="checkbox" name="rememberMe" class="mr-1">
+                            <label for="rememberMe" class="text-gray-700"> RememberMe</label>
+                        </div>
+                       
+                        <div class="form-group forgot-password text-right">
+                            <a href="#" class="text-blue-500">Forgot Password?</a>
+                        </div>
+                    </div>
+                      <br>
+                    <button type="submit" class="login-button bg-blue-800 text-white px-4 py-2 w-full rounded hover:bg-green-500 transition duration-300">Log in</button>
+                </form>
+                <br>
+ 
+                <div class="register-link text-center">
+                    Don’t have an account? <a href="#" class="text-blue-500">Register here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
