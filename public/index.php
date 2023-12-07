@@ -7,7 +7,7 @@
     <!-- Add the link to the Tailwind CSS CDN -->
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 font-inter">
 
 <div class="p-4 shadow-lg">
     <nav class="container mx-auto flex items-center justify-between">
@@ -35,16 +35,22 @@
 </div>
 
 <!-- Main content centered on the page -->
-<div class="container mx-auto mt-36 border w-3/4">
-    <div><img src="assets/icons/hero-img.svg" alt="Placeholder Image" class="relative mr-20 float-right inline-block rounded-lg"></div>
+<div class="flex justify-between  container mx-auto mt-36 w-3/4 items-center">
+	<div class="flex flex-col gap-12 mr-4">
+		<div>
+			<h1 class="text-4xl font-semibold mb-6">Empowering PSUians: Creating a Safe Haven Against Gender-Based Violence</h1>
+			<p class="text-lg">
+				iSafe is a pioneering web-based system dedicated to combating gender-based violence within the Pangasinan State University (PSU) community
+			</p>
+		</div>
 
-    <div class="text-3xl font-bold w-25 inline-block"><h1 >Empowering PSUians: Creating <br> a Safe Haven Against Gender- <br>Based Violence</h1></div>
+		<a href="" class="px-4 py-2 bg-brand-600 w-max font-medium text-white rounded-lg hover:bg-brand-700">Join now!</a>
+	</div>
+	<img src="assets/icons/hero-img.svg" alt="Placeholder Image" class="">
 
-    <div class=" mb-4 inline-block mt-14 text-2xl"><p>
-            iSafe is a pioneering web-based system dedicated to <br> combating gender-based violence within the Pangasinan <br> State University (PSU) community
-        </p></div>
 
-    <br><br><br><div class="inline-block border font-semibold rounded-md px-4 py-2 mt-10 " style="background-color: #7F56D9; color: white;"><a href="#" >Join now</a></div>
+
+
 </div>
 
 <section>
@@ -65,22 +71,30 @@
 
 <section>
 
-    <div class="container mx-auto mt-36 border w-3/4 bg-brand-400">
+    <div class="flex container mx-auto mt-36 border w-3/4 bg-brand-600 p-8 rounded-lg">
 
-        <div class="ml-10 mt-10 inline-block"><img src="assets/icons/logo.svg" class="inline-block"></div>
-        <div class="inline-block text-2xl relative top-1"><p>iSafe</p></div>
-        <div class="inline-block float-right mt-10 w-96 h-2/4"><img src="assets/icons/teacher.svg" alt=""></div>
+	    <div class="flex flex-col gap-10">
+		    <div class="flex items-center gap-2">
+			    <img src="assets/icons/logo.svg" class="">
+			    <p class="text-2xl font-medium text-white">iSafe</p>
+		    </div>
 
-        <div class="ml-10 font-semibold text-3xl mt-10"><p>Empower your success with a <br> counselor's expert guidance.</p></div>
 
-        <div class="ml-10 mt-8"><p>We provide personalized support, empowers individuals to overcome <br> obstacles, and helps them discover their strengths, enabling them to <br> navigate challenges and achieve personal and academic success <br> effectively.</p></div>
-        <div class="ml-10 mt-8 border font-semibold rounded-md px-4 py-2 mx-2 bg-brand-600 inline-block"><a href="#">Try it now</a></div>
+		    <div class="flex flex-col text-white">
+			    <h3 class="font-semibold text-3xl mb-3">Empower your success with a counselor's expert guidance.</h3
+			    <p>We provide personalized support, empowers individuals to overcome obstacles, and helps them discover their strengths, enabling them to navigate challenges and achieve personal and academic success effectively.</p>
+		    </div>
+		    <a href="#" class="text-brand-600 font-semibold rounded-md px-6 py-3 bg-white w-max">Try it now</a>
+	    </div>
+
+
+        <img src="assets/icons/teacher.svg" alt="">
     </div>
 
 </section>
 
 <section >
-    <div class="mx-auto border-4 mt-28 bg-black text-white">
+    <div class="mt-28 text-white">
         <footer style="background-color: #7F56D9; color: black;">
 
             <div class="container mx-auto  w-3/4 ">
