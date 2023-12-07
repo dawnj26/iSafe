@@ -9,9 +9,12 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="js/jquery-ui-1.13.2.custom/jquery-ui.min.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="js/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
 	<title>Document</title>
 </head>
-<body class="h-screen flex flex-col">
+<body class="h-screen flex flex-col font-inter relative">
 <header class="py-4 px-6 flex w-full items-center justify-between shadow">
 	<div class="logo flex items-center gap-2">
 		<svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,12 +39,13 @@
 		</button>
 		<div class="flex gap-6">
 			<!--			notification button-->
-			<button type="button" class="rounded-full hover:bg-slate-100 p-2">
+			<label for="checkbox-modal" class="rounded-full hover:bg-slate-100 p-2" id="open-modal">
 				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M13.73 21C13.5542 21.3031 13.3018 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z"
 					      stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
-			</button>
+			</label>
+			<input type="checkbox" name="checkbox-modal" id="checkbox-modal" class="hidden">
 			<!--			profile-->
 			<div class="flex items-center gap-4">
 				<svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -110,10 +114,53 @@
 	</aside>
 
 
-	<div class="place-self-center">
-		<h1 class="text-4xl">dito na yung mga contents</h1>
+	<div class="flex items-center justify-center bg-gray-100 h-full w-full">
+		<h3 class="text-2xl">Dito kayo maglalagay</h3>
+	</div>
+
+
+</div>
+<div id="notification-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
+	<div class="bg-white p-8 w-2/3 max-h-96 rounded-xl">
+		<div class="header flex justify-between mb-6">
+			<h2 class="text-xl">Notifications</h2>
+			<button type="button" id="close-modal">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</button>
+		</div>
+		<!--Call notification-->
+		<div class="flex justify-between bg-brand-100 p-4 rounded-xl mb-2">
+			<div class="flex gap-4 items-center">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M16 2V6M8 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div>
+					<p class="text-sm font-semibold">Magno started a meeting</p>
+					<p class="text-xs text-gray-600">Monday, December 25, 2023 | 12:00am</p>
+				</div>
+			</div>
+			<button type="button" class="text-white text-sm font-medium bg-brand-600 h-min py-2 px-4 rounded-xl hover:bg-brand-700">
+				Join
+			</button>
+		</div>
+		<!--Message notification-->
+		<div class="flex items-center justify-between bg-brand-100 p-4 rounded-xl">
+			<div class="flex gap-4 items-center">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div>
+					<p class="text-sm font-semibold">Magno messaged you</p>
+					<p class="text-xs text-gray-600">Monday, December 25, 2023 | 12:00am</p>
+				</div>
+			</div>
+			<p class="text-sm">"Hallo good morning hahahahhhh"</p>
+		</div>
 	</div>
 </div>
 
+<script src="js/close_modal.js"></script>
 </body>
 </html>
