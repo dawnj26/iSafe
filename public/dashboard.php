@@ -5,10 +5,22 @@
 	<meta name="viewport"
 	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!--google font-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!--tailwindcss file-->
 	<link rel="stylesheet" href="css/style.css">
+<!--Leaflet-->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+	      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+	      crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+	        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+	        crossorigin=""></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<!--jquery-->
 	<link rel="stylesheet" href="js/jquery-ui-1.13.2.custom/jquery-ui.min.css">
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="js/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
@@ -29,7 +41,7 @@
 	<!--	Ito yung nasa left side-->
 	<div class="flex items-center gap-10">
 		<!--		create an appointment button-->
-		<button type="button"
+		<button type="button" id="open-appointment"
 		        class="font-inter text-xs bg-brand-600 text-white font-semibold flex gap-2 items-center py-2 px-4 rounded-lg hover:bg-brand-700 h-min">
 			Create an appointment
 			<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +51,7 @@
 		</button>
 		<div class="flex gap-6">
 			<!--			notification button-->
-			<label for="checkbox-modal" class="rounded-full hover:bg-slate-100 p-2" id="open-modal">
+			<label for="checkbox-modal" class="rounded-full hover:bg-slate-100 p-2" id="open-notification">
 				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M13.73 21C13.5542 21.3031 13.3018 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z"
 					      stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -120,11 +132,13 @@
 
 
 </div>
+
+<!--Notifications-->
 <div id="notification-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
 	<div class="bg-white p-8 w-2/3 max-h-96 rounded-xl">
 		<div class="header flex justify-between mb-6">
 			<h2 class="text-xl">Notifications</h2>
-			<button type="button" id="close-modal">
+			<button type="button" id="close-notification">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
@@ -161,6 +175,81 @@
 	</div>
 </div>
 
+<!--Create appointment modal-->
+<div id="appointment-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
+	<div class="bg-white p-8 w-2/3 rounded-xl">
+		<div class="header flex justify-between mb-6">
+			<h2 class="text-xl font-medium">Create an appointment</h2>
+			<button type="button" id="close-appointment">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</button>
+		</div>
+
+		<form>
+			<div class="grid grid-cols-2 w-full gap-4">
+				<div id="left-form">
+					<div class="flex flex-col gap-1 mb-2">
+						<label for="violence" class="text-sm">Type of violence</label>
+						<input type="text" name="violence" id="violence" class="outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="What did they do?">
+					</div>
+					<div class="flex flex-col gap-1 mb-2">
+						<label for="description" class="text-sm">Event description</label>
+						<textarea name="description" id="description" cols="30" rows="4" placeholder="What happened?" class="border border-gray-400 outline-none px-4 py-2 resize-none rounded-lg"></textarea>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label for="location" class="text-sm">Location</label>
+						<div id="map" class="w-full h-56 rounded-lg">
+
+						</div>
+						<button type="button" id="locate" class="w-max px-4 py-2 border border-gray-500 rounded-lg text-sm hover:bg-gray-100">Locate me</button>
+					</div>
+				</div>
+				<div id="right-form">
+					<div class="flex flex-col gap-1 mb-2">
+						<label for="date-of-event" class="text-sm">Date of event</label>
+						<input type="text" name="date-of-event" id="date-of-event" class="outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select date">
+					</div>
+					<div class="flex flex-col gap-1 mb-8">
+						<label for="time-of-event" class="text-sm">Time of event</label>
+						<input type="time" name="time-of-event" id="time-of-event" class="outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select time">
+					</div>
+					<div class="flex flex-col gap-1 mb-4">
+						<label for="counselor" class="text-sm">Counselor</label>
+						<select name="counselor" id="counselor" class="outline-none border border-gray-400 px-4 py-2 rounded-lg text-gray-500 bg-white  ">
+							<option value="">Select option</option>
+							<option value="">Option1</option>
+							<option value="">Option2</option>
+						</select>
+						<a href="" class="text-brand-600 font-medium text-sm">View profile</a>
+					</div>
+					<div class="flex flex-col gap-1 mb-2">
+						<label for="date-of-appointment" class="text-sm">Date of appointment</label>
+						<input type="text" name="date-of-appointment" id="date-of-appointment" class="outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select date">
+					</div>
+					<div class="flex flex-col gap-1 mb-12">
+						<label for="time-of-appointment" class="text-sm">Time of appointment</label>
+						<input type="time" name="time-of-appointment" id="time-of-appointment" class="outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select time">
+					</div>
+					<div class="flex text-sm items-center justify-between">
+						<div id="msg" class="opacity-0">Success</div>
+						<button type="submit" class="px-4 py-2 bg-brand-600 text-white font-medium rounded-lg hover:bg-brand-700">Set appointment</button>
+					</div>
+
+				</div>
+
+			</div>
+
+
+
+		</form>
+
+	</div>
+</div>
+
+<script src="js/calendar.js"></script>
+<script src="js/leaflet.js"></script>
 <script src="js/close_modal.js"></script>
 </body>
 </html>
