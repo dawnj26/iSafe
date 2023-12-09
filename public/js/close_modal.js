@@ -7,6 +7,7 @@ const closeNotification = document.querySelector('#close-notification')
 
 
 
+
 openNotification.addEventListener('click', () => {
     notifModal.classList.replace('hidden', 'grid')
 })
