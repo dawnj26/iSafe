@@ -18,6 +18,7 @@ closeNotification.addEventListener('click', () => {
 openAppointment.addEventListener('click', () => {
     appointmentModal.classList.replace('hidden', 'grid')
 
+
     // initialize map after opening
     let pangasinanLoc = [15.891824, 120.281726]
     let map = L.map('map').setView(pangasinanLoc, 10)
@@ -91,6 +92,7 @@ openAppointment.addEventListener('click', () => {
         })
 
     })
+
 })
 
 closeAppointment.addEventListener('click', () => {
