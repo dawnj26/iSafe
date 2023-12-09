@@ -128,7 +128,16 @@
 
 	<div class="grid grid-cols-[0.4fr_1fr_0.4fr] bg-gray-100 h-full w-full">
 		<div class="h-full w-full bg-white p-4">
-			<h3 class="text-xl mb-6">Inbox</h3>
+			<div class="flex justify-between items-center mb-6">
+				<h3 class="text-xl">Inbox</h3>
+				<button type="button" class="bg-brand-600 rounded-lg h-max p-2 hover:bg-brand-700" id="open-msg">
+					<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M9.99984 4.16666V15.8333M4.1665 9.99999H15.8332" stroke="white" stroke-width="1.67"
+						      stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</button>
+			</div>
+
 			<div id="messages">
 				<div id="msg-card" class="flex gap-2 items-center hover:bg-gray-100 rounded-lg px-4 py-2">
 					<div id="avatar" CLASS="rounded-full bg-gray-200 text-brand-600 font-medium w-max p-2">
@@ -222,9 +231,27 @@
 
 
 </div>
+<!--New message-->
+<div id="message-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute z-50">
+	<div class="bg-white p-8 w-2/5 max-h-96 rounded-xl">
+		<div class="header flex justify-between mb-6">
+			<h2 class="text-xl">New message</h2>
+			<button type="button" id="close-msg">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</button>
+		</div>
+		<input type="text" name="search" id="search" class="border border-gray-500 px-4 py-2 w-full rounded-lg outline-none mb-4" placeholder="Search anything...">
+		<div id="users" class="overflow-y-auto">
+
+		</div>
+
+	</div>
+</div>
 
 <!--Notifications-->
-<div id="notification-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
+<div id="notification-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute z-50">
 	<div class="bg-white p-8 w-2/3 max-h-96 rounded-xl">
 		<div class="header flex justify-between mb-6">
 			<h2 class="text-xl">Notifications</h2>
@@ -266,7 +293,7 @@
 </div>
 
 <!--Create appointment modal-->
-<div id="appointment-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
+<div id="appointment-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute z-50">
 	<div class="bg-white p-8 w-2/3 rounded-xl">
 		<div class="header flex justify-between mb-6">
 			<h2 class="text-xl font-medium">Create an appointment</h2>
@@ -341,5 +368,6 @@
 <script src="../js/calendar.js"></script>
 <!--<script src="../js/leaflet.js"></script>-->
 <script src="../js/close_modal.js"></script>
+<script src="../js/message.js"></script>
 </body>
 </html>
