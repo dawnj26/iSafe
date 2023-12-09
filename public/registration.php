@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Display:wght@400;500&display=swap');
     </style>
@@ -15,7 +15,7 @@
 
     <div class="registration-container bg-white rounded-lg shadow-lg overflow-hidden flex w-3/4 min-h-[400px] transform scale-75">
         <div class="left-side bg-cover bg-center rounded-l-lg w-1/2">
-            <img src="image/bg.jpg" alt="" class="w-full h-full object-cover m-0">
+            <img src="client/image/bg.jpg" alt="" class="w-full h-full object-cover m-0">
         </div>
         <div class="registration-form flex-grow p-5 flex flex-col justify-center">
             <div class="registration-form">

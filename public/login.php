@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" href="output.css"> 
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="font-sans bg-gray-100 min-h-screen flex justify-center items-center">
 
     <div class="login-container bg-white rounded shadow-md overflow-hidden flex w-2/3 min-h-[500px]">
-        <div class="left-side bg-cover bg-center rounded-l-lg w-1/2" style="background-color: #7F56D9;"><img src="../image/undraw_welcome_re_h3d9 (1) 1.svg" alt="" style="position: relative; top: 55px; left:35px; "></div> 
+        <div class="left-side bg-cover bg-center rounded-l-lg w-1/2 mr-5" style="background-color: #7F56D9;"><img src="assets/icons/welcome.svg" alt="" style="position: relative; top: 55px; left:35px; "></div>
         <div class="login-form flex-grow p-5">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="48" height="48" rx="8" fill="#7F56D9"/>
