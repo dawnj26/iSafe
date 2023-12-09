@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Display:wght@400;500&display=swap');
     </style>
     <title>Sign Up Page</title>
 </head>
 
-<body class="font-semibold bg-gray-100 min-h-screen flex justify-center items-center m-8 overflow-hidden">
+<body class="font-semibold bg-gray-100 h-screen flex justify-center items-center overflow-hidden">
 
     <div class="registration-container bg-white rounded-lg shadow-lg overflow-hidden flex w-3/4 min-h-[400px] transform scale-75">
         <div class="left-side bg-cover bg-center rounded-l-lg w-1/2">
