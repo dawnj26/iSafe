@@ -35,7 +35,7 @@
                     <div class="remember-forgot-container flex justify-between items-center mb-4">
                         <div class="form-group checkbox flex items-center">
                             <input type="checkbox" name="rememberMe" class="mr-1">
-                            <label for="rememberMe" class="text-gray-700"> RememberMe</label>
+                            <label for="rememberMe" class="text-gray-700">Remember me</label>
                         </div>
                        
                         <div class="form-group forgot-password text-right">
@@ -48,7 +48,7 @@
                 <br>
  
                 <div class="register-link text-center">
-                    Don’t have an account? <a href="#" class="text-blue-500" style="color:#7F56D9; text-decoration: underline;">Register here</a>
+                    Don’t have an account? <a href="registration.php" class="text-blue-500" style="color:#7F56D9; text-decoration: underline;">Register here</a>
                 </div>
             </div>
         </div>

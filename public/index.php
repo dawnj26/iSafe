@@ -31,8 +31,8 @@
 
         <!-- Right side of the navbar -->
         <div class="">
-            <a href="#" class="rounded-md px-4 py-2 mx-2">Login</a>
-            <a href="#" class="border font-semibold rounded-md px-4 py-2 mx-2 bg-brand-600" style="background-color: #7F56D9; color: white;">Sign up</a>
+            <a href="login.php" class="rounded-md px-4 py-2 mx-2">Login</a>
+            <a href="registration.php" class="border font-semibold rounded-md px-4 py-2 mx-2 bg-brand-600" style="background-color: #7F56D9; color: white;">Sign up</a>
         </div>
     </nav>
 </div>

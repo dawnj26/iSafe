@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<!--message blobs sender-->
+<div class='grid grid-cols-[1fr_auto] w-full gap-2'>
+	<div class='flex flex-col'>
+		<div class='flex items-center justify-between mb-2 place-self-end'>
+			<p class='text-xs text-gray-700 font-medium'>You</p>
+		</div>
+		<div class='bg-brand-600 rounded-lg p-4 text-white max-w-[20rem] place-self-end'>
+			I Love you po!
+		</div>
+	</div>
+</div>
+
+<!--message blobs receiver-->
+<div class='grid grid-cols-[auto_1fr] w-full gap-2'>
+	<div id='avatar' CLASS='rounded-full bg-gray-200 text-brand-600 font-medium w-max h-max p-2'>
+		<p class=''>DQ</p>
+	</div>
+	<div class='max-w-[20rem] flex flex-col'>
+		<div class='flex items-center justify-between mb-2'>
+			<p class='text-xs text-gray-700 font-medium'>Dave Barrientos</p>
+			<p class='text-xs text-gray-700'>Friday 9:00 am</p>
+		</div>
+		<div class='bg-white rounded-lg p-4'>
+			I Love you po! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, necessitatibus, nisi? A adipisci consequuntur doloribus eum expedita fugit natus, nihil non odio officiis omnis, quaerat, quas quidem ratione saepe sint tempora totam vero? Architecto beatae dolorem enim, error explicabo, itaque laboriosam libero molestiae necessitatibus odio sed sint veniam voluptatem? Aliquam aliquid amet aspernatur at autem consectetur consequatur consequuntur distinctio dolorem ea eaque eligendi esse eveniet ex facilis fuga illo inventore itaque labore laborum libero magnam nisi, odio omnis, pariatur praesentium, quam qui quod rem repudiandae sequi similique sit suscipit tempora unde vitae voluptatem. Aliquid eius iste vel velit, veniam voluptatem.
+		</div>
+	</div>
+</div>
+
+<div class='msg-card flex gap-2 items-center hover:bg-gray-100 rounded-lg px-4 py-2' data-id=''>
+	<div  CLASS='avatar rounded-full bg-gray-200 text-brand-600 font-medium w-max p-2'>
+		<p class=''>DQ</p>
+	</div>
+	<div class=''>
+		<p class='text-sm font-medium'>Donn Jayson Quinto</p>
+		<p id='msg-content' class='text-xs text-gray-600'>I Love you po!</p>
+	</div>
+</div>
