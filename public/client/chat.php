@@ -26,7 +26,7 @@
 	<script src="../js/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
 	<title>Document</title>
 </head>
-<body class="h-screen flex flex-col font-inter relative">
+<body class="min-h-screen max-h-screen h-screen flex flex-col font-inter relative">
 <header class="py-4 px-6 flex w-full items-center justify-between shadow z-20">
 	<div class="logo flex items-center gap-2">
 		<svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -129,7 +129,9 @@
 	<div class="grid grid-cols-[0.4fr_1fr_0.4fr] bg-gray-100 h-full w-full">
 		<div class="h-full w-full bg-white p-4">
 			<div class="flex justify-between items-center mb-6">
-				<h3 class="text-xl">Inbox</h3>
+				<h3 class="text-xl">
+					Inbox
+				</h3>
 				<button type="button" class="bg-brand-600 rounded-lg h-max p-2 hover:bg-brand-700" id="open-msg">
 					<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M9.99984 4.16666V15.8333M4.1665 9.99999H15.8332" stroke="white" stroke-width="1.67"
@@ -139,58 +141,28 @@
 			</div>
 
 			<div id="messages">
-				<div id="msg-card" class="flex gap-2 items-center hover:bg-gray-100 rounded-lg px-4 py-2">
-					<div id="avatar" CLASS="rounded-full bg-gray-200 text-brand-600 font-medium w-max p-2">
-						<p class="">DQ</p>
-					</div>
-					<div class="">
-						<p class="text-sm font-medium">Donn Jayson Quinto</p>
-						<p id="msg-content" class="text-xs text-gray-600">I Love you po!</p>
-					</div>
-				</div>
+				<!--users who messaged the user-->
 			</div>
 		</div>
 
-		<div class="grid grid-rows-[4rem_1fr_4rem]">
+		<div class="grid grid-rows-[1fr_28rem_1fr] h-full">
 			<div class="bg-white p-4 flex items-center">
-				<p class="text-lg font-medium">Donn Jayson Quinto</p>
+				<p class="text-lg font-medium" id="user"></p>
 			</div>
-			<div class="bg-brand-100 p-4">
+			<div id="scrollable" class="bg-brand-100 p-4 min-h-full max-h-full h-full overflow-y-scroll">
 			<!--message card-->
-				<div class="flex flex-col h-full justify-end gap-4">
-					<div class="grid grid-cols-[auto_1fr] w-full gap-2">
-						<div id="avatar" CLASS="rounded-full bg-gray-200 text-brand-600 font-medium w-max h-max p-2">
-							<p class="">DQ</p>
-						</div>
-						<div class="">
-							<div class="flex items-center justify-between mb-2">
-								<p class="text-xs text-gray-700 font-medium">Dave Barrientos</p>
-								<p class="text-xs text-gray-700">Friday 9:00 am</p>
-							</div>
-							<div class="bg-white rounded-lg p-4">
-								I Love you po!
-							</div>
-						</div>
-					</div>
-					<div class="grid grid-cols-[1fr_auto] w-full gap-2">
-						<div class="">
-							<div class="flex items-center justify-between mb-2">
-								<p class="text-xs text-gray-700 font-medium">You</p>
-							</div>
-							<div class="bg-brand-600 rounded-lg p-4 text-white">
-								I Love you po!
-							</div>
-						</div>
-					</div>
+				<div class="flex flex-col justify-end gap-4 min-h-full" id="msg-list">
+
+
 				</div>
 
 
 			</div>
-			<form action="">
+			<form id="send-message">
 				<div class="bg-white flex items-center justify-between h-full px-4 gap-4">
-
+					<input type="hidden" name="id" id="id">
 					<input type="text" name="message" id="message" class="px-4 py-2 border border-gray-400 rounded-lg w-full outline-none" placeholder="Type message">
-					<button type="button" class="p-2 bg-brand-600 hover:bg-brand-700 rounded-lg">
+					<button type="submit" class="p-2 bg-brand-600 hover:bg-brand-700 rounded-lg">
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<g clip-path="url(#clip0_480_69)">
 								<path d="M18.3334 1.66663L9.16675 10.8333M18.3334 1.66663L12.5001 18.3333L9.16675 10.8333M18.3334 1.66663L1.66675 7.49996L9.16675 10.8333" stroke="white" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
@@ -210,21 +182,21 @@
 		<div class="bg-white h-full p-4 flex flex-col gap-4">
 			<div class="flex flex-col items-center w-full h-40 justify-center gap-4 border-b border-gray-400">
 				<div id="avatar" CLASS="rounded-full bg-gray-200 text-brand-600 font-medium w-max p-2 aspect-square flex items-center">
-					<p class="text-3xl">DQ</p>
+					<p class="text-3xl" id="initials"></p>
 				</div>
-				<p class="text-lg font-medium">Donn Jayson Quinto</p>
+				<p class="text-lg font-medium" id="user-details"></p>
 			</div>
 			<div class="flex justify-between text-sm">
 				<p CLASS="font-medium">ID:</p>
-				<p CLASS="">23-UR-0001</p>
+				<p CLASS="" id="user-id"></p>
 			</div>
 			<div class="flex justify-between text-sm">
 				<p CLASS="font-medium">Gender:</p>
-				<p CLASS="">Female</p>
+				<p CLASS="" id="user-gender"></p>
 			</div>
 			<div class="flex justify-between text-sm">
 				<p CLASS="font-medium">Birth date:</p>
-				<p CLASS="">March 26, 2003</p>
+				<p CLASS="" id="user-bday"></p>
 			</div>
 		</div>
 	</div>

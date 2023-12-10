@@ -49,7 +49,9 @@
                 </form>
                 <br>
                 <div class="register-link text-center mt-4">
-                    Do have an account? <a href="#" class="text-blue-500" style="color: #7F56D9; text-decoration: underline;">Log in here</a>
+
+                    Do have an account? <a href="login.php" class="text-blue-500" style="color: #7F56D9; text-decoration: underline;">Log in here</a>
+
                 </div>
             </div>
         </div>
