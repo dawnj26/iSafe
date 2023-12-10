@@ -682,6 +682,10 @@ video {
   margin-right: 1rem;
 }
 
+.mr-5 {
+  margin-right: 1.25rem;
+}
+
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -704,10 +708,6 @@ video {
 
 .mt-5 {
   margin-top: 1.25rem;
-}
-
-.mr-5 {
-  margin-right: 1.25rem;
 }
 
 .block {
@@ -792,8 +792,40 @@ video {
   height: 100vh;
 }
 
+.h-96 {
+  height: 24rem;
+}
+
+.h-\[100dvh\] {
+  height: 100dvh;
+}
+
+.h-\[128rem\] {
+  height: 128rem;
+}
+
+.h-\[40rem\] {
+  height: 40rem;
+}
+
+.h-\[30rem\] {
+  height: 30rem;
+}
+
 .max-h-96 {
   max-height: 24rem;
+}
+
+.max-h-full {
+  max-height: 100%;
+}
+
+.max-h-screen {
+  max-height: 100vh;
+}
+
+.max-h-\[100dvh\] {
+  max-height: 100dvh;
 }
 
 .min-h-\[400px\] {
@@ -806,6 +838,10 @@ video {
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.min-h-full {
+  min-height: 100%;
 }
 
 .w-1\/2 {
@@ -828,6 +864,10 @@ video {
   width: 75%;
 }
 
+.w-40 {
+  width: 10rem;
+}
+
 .w-60 {
   width: 15rem;
 }
@@ -839,6 +879,22 @@ video {
 .w-max {
   width: -moz-max-content;
   width: max-content;
+}
+
+.w-72 {
+  width: 18rem;
+}
+
+.w-80 {
+  width: 20rem;
+}
+
+.max-w-\[\] {
+  max-width: ;
+}
+
+.max-w-\[20rem\] {
+  max-width: 20rem;
 }
 
 .flex-grow {
@@ -887,8 +943,44 @@ video {
   grid-template-columns: auto 1fr;
 }
 
+.grid-cols-\[1fr_30rem_1fr\] {
+  grid-template-columns: 1fr 30rem 1fr;
+}
+
 .grid-rows-\[4rem_1fr_4rem\] {
   grid-template-rows: 4rem 1fr 4rem;
+}
+
+.grid-rows-\[4rem_100\%_4rem\] {
+  grid-template-rows: 4rem 100% 4rem;
+}
+
+.grid-rows-\[4rem_auto_4rem\] {
+  grid-template-rows: 4rem auto 4rem;
+}
+
+.grid-rows-\[1fr_30rem_1fr\] {
+  grid-template-rows: 1fr 30rem 1fr;
+}
+
+.grid-rows-\[1fr_20rem_1fr\] {
+  grid-template-rows: 1fr 20rem 1fr;
+}
+
+.grid-rows-\[1fr_25rem_1fr\] {
+  grid-template-rows: 1fr 25rem 1fr;
+}
+
+.grid-rows-\[1fr_26rem_1fr\] {
+  grid-template-rows: 1fr 26rem 1fr;
+}
+
+.grid-rows-\[1fr_27rem_1fr\] {
+  grid-template-rows: 1fr 27rem 1fr;
+}
+
+.grid-rows-\[1fr_28rem_1fr\] {
+  grid-template-rows: 1fr 28rem 1fr;
 }
 
 .flex-col {
@@ -943,12 +1035,32 @@ video {
   gap: 1.5rem;
 }
 
+.place-self-end {
+  place-self: end;
+}
+
+.self-end {
+  align-self: flex-end;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
 
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
 .overflow-y-auto {
   overflow-y: auto;
+}
+
+.overflow-x-scroll {
+  overflow-x: scroll;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
 }
 
 .truncate {
