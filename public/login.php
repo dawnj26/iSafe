@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+	<!--google font-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
-<body class="font-sans bg-gray-100 min-h-screen flex justify-center items-center">
+<body class="font-inter bg-gray-100 min-h-screen flex justify-center items-center">
 
     <div class="login-container bg-white rounded shadow-md overflow-hidden flex w-2/3 min-h-[500px]">
         <div class="left-side bg-cover bg-center rounded-l-lg w-1/2 mr-5" style="background-color: #7F56D9;"><img src="assets/icons/welcome.svg" alt="" style="position: relative; top: 55px; left:35px; "></div>
@@ -20,16 +25,18 @@
                 <h2 class="text-black text-2xl mt-4">Welcome Back!</h2>
                 <br>
                 <p class="mb-4">Please Enter your Details</p>
-                <form action="#" method="post">
+                <form id="login-form">
                     <div class="form-group mb-4">
                        
-                        <label for="idNumber" class="text-gray-700 block mb-2">ID</label>
-                        <input type="text" id="idNumber" name="idNumber" placeholder="Enter your ID Number" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                        <label for="id" class="text-gray-700 block mb-2">ID</label>
+                        <input type="text" id="id" name="id" placeholder="Enter your ID Number" class="w-full px-4 py-2 border border-gray-300 rounded" >
+	                    <span class="text-xs text-error-600 font-medium" id="id-msg"></span>
                     </div>
                    
                     <div class="form-group mb-4">
                         <label for="password" class="text-gray-700 block mb-2">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Enter Password" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                        <input type="password" id="password" name="password" placeholder="Enter Password" class="w-full px-4 py-2 border border-gray-300 rounded" >
+	                    <span class="text-xs text-error-600 font-medium" id="pwd-msg"></span>
                     </div>
                       <br>
                     <div class="remember-forgot-container flex justify-between items-center mb-4">
@@ -57,5 +64,7 @@
             </div>
         </div>
     </div>
+
+    <script src="js/login.js"></script>
 </body>
 </html>
