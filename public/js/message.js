@@ -3,7 +3,7 @@ $(function () {
 
     // load all messaged users
     $.ajax({
-        url: "../../src/load_msg_user.php",
+        url: "../../src/chat/load_msg_user.php",
         success: function (response) {
             let msg_usrs = JSON.parse(response);
 
@@ -53,7 +53,7 @@ $(function () {
         $('#message-modal').removeClass('hidden').addClass('grid')
         let data;
         $.ajax({
-            url: "../../src/new_message.php",
+            url: "../../src/chat/new_message.php",
             success: function (response) {
                 data = JSON.parse(response);
             }
@@ -139,7 +139,7 @@ $(function () {
         }
         
         $.ajax({
-            url: '../../src/send_message.php',
+            url: '../../src/chat/send_message.php',
             data: $(this).serialize(),
             method: 'POST',
             success: function (response) {
@@ -160,7 +160,7 @@ $(function () {
 function load_messages(receiver, click) {
     console.log(receiver)
     $.ajax({
-        url: "../../src/load_messages.php",
+        url: "../../src/chat/load_messages.php",
         method: "POST",
         data: {
             receiver: receiver
@@ -185,7 +185,7 @@ function set_user_details(i, array) {
     $('#id').val(array[i].user_id)
 
     $.ajax({
-        url: "../../src/get_user_info.php",
+        url: "../../src/chat/get_user_info.php",
         method: "POST",
         data: {
             id: array[i].user_id,
