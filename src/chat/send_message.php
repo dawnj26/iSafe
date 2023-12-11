@@ -4,7 +4,7 @@ if (empty($_POST['id']) || empty($_POST['message'])) {
     die("Data is empty");
 }
 
-require "../config/config.php";
+require "../../config/config.php";
 
 global $mainConn;
 

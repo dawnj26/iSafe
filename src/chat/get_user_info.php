@@ -4,7 +4,7 @@ if (empty($_POST['id']) || empty($_POST['role'])) {
     die("Data is not set");
 }
 
-require "../config/config.php";
+require "../../config/config.php";
 
 global $schoolConn;
 

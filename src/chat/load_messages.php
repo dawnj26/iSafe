@@ -3,7 +3,7 @@ if (empty($_POST['receiver'])) {
     die();
 }
 
-require "../config/config.php";
+require "../../config/config.php";
 
 global $mainConn;
 
