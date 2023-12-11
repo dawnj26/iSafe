@@ -4,7 +4,7 @@ $host = "localhost";
 $user = "root";
 $pwd = "";
 
-$schoolDB = "school_db";
+$schoolDB = "PSU";
 $mainDB = "iSafe";
 
 $mainConn = new mysqli($host, $user, $pwd, $mainDB);
@@ -16,20 +16,111 @@ if ($mainConn->connect_errno || $schoolConn->connect_errno) {
     die("Failed to connect to the database");
 }
 
-function get_user_role($id): array
+function check_id_login($id_number) : string
+{
+    global $schoolConn;
+    global $mainConn;
+//    $tables = array("admin", "counselor", "student", "teacher");
+    $count = 0;
+
+    $result = $schoolConn->query("SELECT * FROM student WHERE student_id =  '$id_number'");
+    if($result->num_rows > 0) $count++;
+    $result = $schoolConn->query("SELECT * FROM admin WHERE admin_id =  '$id_number'");
+    if($result->num_rows > 0) $count++;
+    $result = $schoolConn->query("SELECT * FROM teacher WHERE teacher_id =  '$id_number'");
+    if($result->num_rows > 0) $count++;
+    $result = $schoolConn->query("SELECT * FROM couselor WHERE counselor_id =  '$id_number'");
+    if($result->num_rows > 0) $count++;
+
+//    foreach ($tables as $item) {
+//        $query = "SELECT * FROM $item WHERE $item." . $item ."_id = '$id_number'";
+//        $result = $schoolConn->query($query);
+//        if ($result->num_rows > 0) {
+//            $count++;
+//        }
+//        $result->free_result();
+//    }
+    if ($count == 0) {
+        return "ID does not exist in the school database";
+    }
+
+    $res = $mainConn->query("SELECT user_id FROM user WHERE user_id = '$id_number'");
+    if ($res->num_rows <= 0) {
+        return "ID exists but it is not registered";
+    }
+    return "";
+}
+
+function check_id_reg($id_number) : string
+{
+    global $schoolConn;
+    global $mainConn;
+//    $tables = array("admin", "counselor", "student", "teacher");
+    $count = 0;
+
+    $result = $schoolConn->query("SELECT * FROM student WHERE student_id =  '$id_number'");
+    if($result->num_rows > 0) $count++;
+    $result = $schoolConn->query("SELECT * FROM admin WHERE admin_id =  '$id_number'");
+    if($result->num_rows > 0) $count++;
+    $result = $schoolConn->query("SELECT * FROM teacher WHERE teacher_id =  '$id_number'");
+    if($result->num_rows > 0) $count++;
+    $result = $schoolConn->query("SELECT * FROM couselor WHERE counselor_id =  '$id_number'");
+    if($result->num_rows > 0) $count++;
+
+//    foreach ($tables as $item) {
+//        $query = "SELECT * FROM $item WHERE $item." . $item ."_id = '$id_number'";
+//        $result = $schoolConn->query($query);
+//        if ($result->num_rows > 0) {
+//            $count++;
+//        }
+//        $result->free_result();
+//    }
+    if ($count == 0) {
+        return "ID does not exist in the school database";
+    }
+
+    $res = $mainConn->query("SELECT user_id FROM user WHERE user_id = '$id_number'");
+    if ($res->num_rows > 0) {
+        return "ID already registered";
+    }
+    return "";
+}
+
+function get_user_role($id_number): array
 {
     global $schoolConn;
 
-    $tables = array("admin", "counselor", "student", "teacher");
-
-    foreach ($tables as $item) {
-        $query = "SELECT " . $item ."_id, first_name, last_name FROM $item";
-        $result = $schoolConn->query($query);
-        if ($result->num_rows > 0) {
-            $data = $result->fetch_array();
-            return array('id'=>$data[0], 'first_name'=>$data[1], 'last_name'=>$data[2]);
-        }
+    $result = $schoolConn->query("SELECT student_id, first_name, last_name, student_gender FROM student WHERE student_id =  '$id_number'");
+    if($result->num_rows > 0) {
+        $data = $result->fetch_assoc();
+        return array('role'=>'student', 'first_name'=>$data['first_name'], 'last_name'=>$data['last_name'], 'gender'=>$data['student_gender']);
     }
+    $result = $schoolConn->query("SELECT admin_id, first_name, last_name, admin_gender FROM admin WHERE admin_id =  '$id_number'");
+    if($result->num_rows > 0) {
+        $data = $result->fetch_assoc();
+        return array('role'=>'admin', 'first_name'=>$data['first_name'], 'last_name'=>$data['last_name'], 'gender'=>$data['admin_gender']);
+    }
+    $result = $schoolConn->query("SELECT teacher_id, first_name, last_name, teacher_gender FROM teacher WHERE teacher_id =  '$id_number'");
+    if($result->num_rows > 0) {
+        $data = $result->fetch_assoc();
+        return array('role'=>'teacher', 'first_name'=>$data['first_name'], 'last_name'=>$data['last_name'], 'gender'=>$data['teacher_gender']);
+    }
+    $result = $schoolConn->query("SELECT counselor_id, first_name, last_name, counselor_gender FROM couselor WHERE counselor_id =  '$id_number'");
+    if($result->num_rows > 0) {
+        $data = $result->fetch_assoc();
+        return array('role'=>'counselor', 'first_name'=>$data['first_name'], 'last_name'=>$data['last_name'], 'gender'=>$data['counselor_gender']);
+    }
+
+//    $tables = array("admin", "counselor", "student", "teacher");
+//
+//    foreach ($tables as $item) {
+//        $query = "SELECT " . $item ."_id, first_name, last_name FROM $item";
+//        $result = $schoolConn->query($query);
+//        if ($result->num_rows > 0) {
+//            $data = $result->fetch_array();
+//            return array('id'=>$data[0], 'first_name'=>$data[1], 'last_name'=>$data[2]);
+//        }
+//    }
 
     return array();
 }
@@ -42,18 +133,21 @@ function register_user($id, $email, $password) : bool{
         return false;
     }
 
+    $role = $user_info['role'];
+    $first_name = $user_info['first_name'];
+    $last_name = $user_info['last_name'];
     global $mainConn;
 
     // encrypt password
     $encrypted_pwd = password_hash($password, PASSWORD_DEFAULT);
 
-    $insert_query = "INSERT INTO user (user_id, email_address, password) VALUES '$id', '$email', '$encrypted_pwd'";
+    $insert_query = "INSERT INTO user (user_id, email_address, user_password, first_name, last_name, user_role) VALUES ('$id', '$email', '$encrypted_pwd', '$first_name', '$last_name', '$role')";
 
     if (!insert_data($insert_query))
         return false;
 
     // set room id for 100ms vid call for counselors
-    if ($user_info['id'] === "counselor") {
+    if ($user_info['role'] === "counselor") {
         return set_room_id($user_info['id']);
     }
 
