@@ -1,16 +1,16 @@
 let temp;
 $(function () {
 
-    // load all messaged users
-    $.ajax({
-        url: "../../src/chat/load_msg_user.php",
-        success: function (response) {
-            let msg_usrs = JSON.parse(response);
+    function load(id) {
+        $.ajax({
+            url: "../../src/chat/load_msg_user.php",
+            success: function (response) {
+                let msg_usrs = JSON.parse(response);
 
-            let msg_usrs_html = ""
-            let i = 0
-            msg_usrs.forEach((item) => {
-                msg_usrs_html += `
+                let msg_usrs_html = ""
+                let i = 0
+                msg_usrs.forEach((item) => {
+                    msg_usrs_html += `
                          <div class='msg-card flex gap-2 items-center hover:bg-gray-100 rounded-lg px-4 py-2' data-id='${item.user_id}' data-index='${i++}'>
                             <div  CLASS='avatar rounded-full bg-gray-200 text-brand-600 font-medium w-max p-2'>
                                 <p class=''>${item.initials}</p>
@@ -21,26 +21,42 @@ $(function () {
                             </div>
                         </div>
                         `
-            })
-            $('#messages').html(msg_usrs_html)
+                })
+                $('#messages').html(msg_usrs_html)
+                if (id !== "") {
+                    $('.msg-card').removeClass('bg-gray-100')
+                    $('[data-id=' + id + ']').addClass('bg-gray-100')
+                    load_messages(id, true)
 
-            $('.msg-card').on('click', function () {
-                $('.msg-card').removeClass('bg-gray-100')
-                $(this).addClass('bg-gray-100')
-                load_messages($(this).data('id'), true)
+                    if (temp !== undefined) {
+                        clearInterval(temp)
+                        temp = setInterval(() => load_messages(id, false), 1000)
+                    } else {
+                        temp = setInterval(() => load_messages(id, false), 1000)
+                    }
 
-                if(temp !== undefined) {
-                    clearInterval(temp)
-                    temp = setInterval(() => load_messages($(this).data('id'), false), 1000)
-                } else {
-                    temp = setInterval(() => load_messages($(this).data('id'), false), 1000)
+                    set_user_details(+$('[data-id=' + id + ']').data('index'), msg_usrs)
                 }
+                $('.msg-card').on('click', function () {
+                    $('.msg-card').removeClass('bg-gray-100')
+                    $(this).addClass('bg-gray-100')
+                    load_messages($(this).data('id'), true)
+                    $('#call-btn').removeAttr('disabled')
+                    if (temp !== undefined) {
+                        clearInterval(temp)
+                        temp = setInterval(() => load_messages($(this).data('id'), false), 1000)
+                    } else {
+                        temp = setInterval(() => load_messages($(this).data('id'), false), 1000)
+                    }
 
+                    set_user_details(+$(this).data('index'), msg_usrs)
+                })
+            }
+        })
+    }
 
-                set_user_details(+$(this).data('index'), msg_usrs)
-            })
-        }
-    })
+// load all messaged users
+    load("");
 
 
 
@@ -100,10 +116,12 @@ $(function () {
                                     </div>
                                 </div>
                                  `
+
+                $('.msg-card').removeClass('bg-gray-100')
                 $('.msg-card').each(function () {
                     let name = $(this).find('#receiver-usr .name').text()
+                    let selected = $(this)
                     if (result[index].full_name === name) {
-                        let selected = $(this)
                         usr = "";
                         selected.addClass('bg-gray-100')
                         load_messages(selected.data('id'), true)
@@ -114,9 +132,12 @@ $(function () {
                         } else {
                             temp = setInterval(() => load_messages($(this).data('id'), false), 1000)
                         }
-
+                        return
                     }
-
+                    if(temp !== undefined) {
+                        clearInterval(temp)
+                    }
+                    $('#msg-list').html("")
                 })
 
                 $('#messages').prepend(usr)
@@ -146,6 +167,13 @@ $(function () {
                 // load messages after sending
                 $('#message').val("")
                 load_messages($('#id').val(),true)
+                if(temp !== undefined) {
+                    clearInterval(temp)
+                    temp = setInterval(() => load_messages($('#id').val(), false), 1000)
+                } else {
+                    temp = setInterval(() => load_messages($('#id').val(), false), 1000)
+                }
+                load($('#id').val())
             }
         })
     })
@@ -195,6 +223,32 @@ function set_user_details(i, array) {
             let result = JSON.parse(response)
             $('#user-gender').html(result.gender)
             $('#user-bday').html(result.birth_date)
+        }
+    })
+}
+
+function logout() {
+    $.ajax({
+        url: "../../src/login-reg/logout.php",
+        success: function (response) {
+            if (response === "SUCCESS") {
+                location.reload()
+            }
+        }
+    })
+}
+
+function call() {
+    $.ajax({
+        url: "../../src/chat/get_room.php",
+        method: "POST",
+        data: {
+            receiver: $('#id').val()
+        },
+        success: function (response) {
+            let result = JSON.parse(response)
+            let newTab = window.open(result[0], '_blank');
+            newTab.focus();
         }
     })
 }
