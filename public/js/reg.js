@@ -87,7 +87,7 @@ $(function () {
             valid("email")
         }
 
-        if (input_repwd.val() === "") {
+        if (input_repwd.val() !== input_pwd.val()) {
             displayErr('Password does not match', 'repwd')
         } else {
             valid("repwd")

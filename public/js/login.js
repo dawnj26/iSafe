@@ -1,6 +1,6 @@
-const loginForm = $('#login-form')
-const input_ID = $('#id')
-const input_pwd = $('#password')
+let loginForm = $('#login-form')
+let input_ID = $('#id')
+let input_pwd = $('#password')
 $(function () {
     let isValid = true;
 
@@ -40,13 +40,32 @@ $(function () {
             url: "../src/login-reg/auth.php",
             method: "POST",
             data: {
-                id: input_ID.val()
+                id: input_ID.val(),
+                password: input_pwd.val()
             },
             success: function (response) {
-                if (response === "SUCCESS") {
+                let client = ["student", "employee"]
+                let counselor = "counselor"
+                let admin = "admin"
+
+                if (client.includes(response)) {
+                    location.href = "client/dashboard.php"
                     return
                 }
 
+                if (response === counselor) {
+                    location.href = "counselor/chat.php"
+                    return
+                }
+
+                if (response === admin) {
+                    return
+                }
+
+                if(response.includes("password")) {
+                    displayErr(response, "pwd")
+                    return
+                }
                 displayErr(response, "id")
             }
         })
