@@ -3,12 +3,15 @@
 if (empty($_POST['id']) || empty($_POST['message'])) {
     die("Data is empty");
 }
-
+session_start();
+if(!isset($_SESSION['id'])) {
+    die();
+}
 require "../../config/config.php";
 
 global $mainConn;
 
-$sender = "21-UR-0001";
+$sender = $_SESSION['id'];
 $receiver = $_POST['id'];
 $message = $_POST['message'];
 

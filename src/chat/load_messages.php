@@ -2,12 +2,16 @@
 if (empty($_POST['receiver'])) {
     die();
 }
+session_start();
+if(!isset($_SESSION['id'])) {
+    die();
+}
 
 require "../../config/config.php";
 
 global $mainConn;
 
-$sender = "21-UR-0001";
+$sender = $_SESSION['id'];
 $receiver = $_POST['receiver'];
 //$receiver = "21-UR-0002";
 
@@ -40,6 +44,18 @@ if($result->num_rows > 0) {
                                 </div>
                             </div>
                             ";
+        $template_call = "
+                            <div class='grid grid-cols-[1fr_auto] w-full gap-2'>
+	                            <div class='flex flex-col'>
+                                    <div class='flex items-center justify-between mb-2 place-self-end'>
+                                        <p class='text-xs text-gray-700 font-medium'>You</p>
+                                    </div>
+                                    <div class='bg-brand-600 rounded-lg p-4 text-white max-w-[20rem] place-self-end'>
+                                    <a href='$msg' target='_blank' class='px-4 py-2 bg-warning-400 text-black rounded-lg'>Join call</a>
+                                    </div>
+                                </div>
+                            </div>
+                            ";
         $template_receiver = "
                             <div class='grid grid-cols-[auto_1fr] w-full gap-2'>
                                 <div id='avatar' CLASS='rounded-full bg-gray-200 text-brand-600 font-medium w-max h-max p-2'>
@@ -57,6 +73,11 @@ if($result->num_rows > 0) {
                             </div>
         
                             ";
+
+        if (str_contains($msg, "https")) {
+            echo $template_call;
+            return;
+        }
 
         echo $id != $sender ? $template_receiver : $template_sender;
     }

@@ -1,8 +1,11 @@
 <?php
-
+session_start();
+if(!isset($_SESSION['id'])) {
+    die();
+}
 require "../../config/config.php";
 
-$id = "21-UR-0001";
+$id = $_SESSION['id'];
 
 $result = $mainConn->query("SELECT user_id, first_name, last_name, user_role FROM user WHERE user_id != '$id'");
 $count = 0;

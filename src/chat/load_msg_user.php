@@ -1,23 +1,28 @@
 <?php
+session_start();
+if(!isset($_SESSION['id'])) {
+ die();
+}
 
 require "../../config/config.php";
 
 global $mainConn;
 
-$id = '21-UR-0001';
+$id = $_SESSION['id'];
 
 $query = "
-            SELECT user.user_id, user.first_name, user.last_name, user.user_role
-            FROM (
-                SELECT sender_id AS user_id
-                FROM chat
-                WHERE receiver_id = '$id' -- Replace ? with your user ID
-                UNION
-                SELECT receiver_id AS user_id
-                FROM chat
-                WHERE sender_id = '$id' -- Replace ? with your user ID
-            ) chat
-            INNER JOIN user ON chat.user_id = user.user_id;
+SELECT DISTINCT user.user_id, user.first_name, user.last_name, user.user_role
+FROM (
+    SELECT sender_id AS user_id, chat_date
+    FROM chat
+    WHERE receiver_id = '$id'
+    UNION
+    SELECT receiver_id AS user_id, chat_date
+    FROM chat
+    WHERE sender_id = '$id'
+) chat
+INNER JOIN user ON chat.user_id = user.user_id
+ORDER BY chat.chat_date DESC
         ";
 
 $result = $mainConn->query($query);
