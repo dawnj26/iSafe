@@ -1,3 +1,8 @@
+<?php
+require '../config/config.php';
+
+$counselors = get_counselors();
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -176,7 +181,7 @@
 </div>
 
 <!--Create appointment modal-->
-<div id="appointment-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
+<div id="appointment-modal" class="w-full h-full bg-brand-400 bg-opacity-40 grid place-items-center absolute">
 	<div class="bg-white p-8 w-2/3 rounded-xl">
 		<div class="header flex justify-between mb-6">
 			<h2 class="text-xl font-medium">Create an appointment</h2>
@@ -187,19 +192,30 @@
 			</button>
 		</div>
 
-		<form>
+		<form id="appointment">
+			<input type="hidden" name="latitude" id="latitude">
+			<input type="hidden" name="longitude" id="longitude">
 			<div class="grid grid-cols-2 w-full gap-4">
 				<div id="left-form">
 					<div class="flex flex-col gap-1 mb-2">
-						<label for="violence" class="text-sm">Type of violence</label>
-						<input type="text" name="violence" id="violence" class="outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="What did they do?">
+						<label for="violence" class="flex gap-4 items-center justify-between">
+							<span class="text-sm">Type of violence</span>
+							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
+						</label>
+						<input type="text" name="violence" id="violence" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="What did they do?">
 					</div>
 					<div class="flex flex-col gap-1 mb-2">
-						<label for="description" class="text-sm">Event description</label>
-						<textarea name="description" id="description" cols="30" rows="4" placeholder="What happened?" class="border border-gray-400 outline-none px-4 py-2 resize-none rounded-lg"></textarea>
+						<label for="description" class="flex gap-4 items-center justify-between">
+							<span class="text-sm">Event description</span>
+							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
+						</label>
+						<textarea name="description" id="description" cols="30" rows="4" placeholder="What happened?" class="border border-gray-400 input outline-none px-4 py-2 resize-none rounded-lg"></textarea>
 					</div>
 					<div class="flex flex-col gap-1">
-						<label for="location" class="text-sm">Location</label>
+						<label for="location" class="flex gap-4 items-center justify-between">
+							<span class="text-sm">Location</span>
+
+						</label>
 						<div id="map" class="w-full h-56 rounded-lg">
 
 						</div>
@@ -208,32 +224,75 @@
 				</div>
 				<div id="right-form">
 					<div class="flex flex-col gap-1 mb-2">
-						<label for="date-of-event" class="text-sm">Date of event</label>
-						<input type="text" name="date-of-event" id="date-of-event" class="outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select date">
+						<label for="date-of-event" class="flex gap-4 items-center justify-between">
+							<span class="text-sm">Date of event</span>
+							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
+						</label>
+						<input type="text" name="date-of-event" id="date-of-event" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select date">
 					</div>
 					<div class="flex flex-col gap-1 mb-8">
-						<label for="time-of-event" class="text-sm">Time of event</label>
-						<input type="time" name="time-of-event" id="time-of-event" class="outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select time">
+						<label for="time-of-event" class="flex gap-4 items-center justify-between">
+							<span class="text-sm">Time of event</span>
+							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
+						</label>
+						<input type="time" name="time-of-event" id="time-of-event" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select time">
 					</div>
 					<div class="flex flex-col gap-1 mb-4">
-						<label for="counselor" class="text-sm">Counselor</label>
-						<select name="counselor" id="counselor" class="outline-none border border-gray-400 px-4 py-2 rounded-lg text-gray-500 bg-white  ">
+						<label for="counselor" class="flex gap-4 items-center justify-between">
+							<span class="text-sm">Counselor</span>
+							<span class="text-error-500 text-xs hidden error-msg">Must select a counselor</span>
+						</label>
+						<select name="counselor" id="counselor" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg text-gray-500 bg-white">
 							<option value="">Select option</option>
-							<option value="">Option1</option>
-							<option value="">Option2</option>
+							<?php
+                            foreach ($counselors as $counselor) {
+								$id = $counselor['user_id'];
+								$name = $counselor['full_name'];
+								echo "<option value='$id'>$name</option>";
+							}
+
+							?>
 						</select>
 						<a href="" class="text-brand-600 font-medium text-sm">View profile</a>
 					</div>
 					<div class="flex flex-col gap-1 mb-2">
-						<label for="date-of-appointment" class="text-sm">Date of appointment</label>
-						<input type="text" name="date-of-appointment" id="date-of-appointment" class="outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select date">
+						<label for="date-of-appointment" class="flex gap-4 items-center justify-between">
+							<span class="text-sm">Date of appointment</span>
+							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
+						</label>
+						<input type="text" name="date-of-appointment" id="date-of-appointment" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select date">
 					</div>
 					<div class="flex flex-col gap-1 mb-12">
-						<label for="time-of-appointment" class="text-sm">Time of appointment</label>
-						<input type="time" name="time-of-appointment" id="time-of-appointment" class="outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select time">
+						<label for="time-of-appointment" class="flex gap-4 items-center justify-between">
+							<span class="text-sm">Time of appointment</span>
+							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
+						</label>
+						<select name="time-of-appointment" id="time-of-appointment" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg text-gray-500 bg-white">
+							<option value="">Select time</option>
+							<option value="08:00">8:00 am to 9:00 am</option>
+							<option value="09:00">9:00 am to 10:00 am</option>
+							<option value="10:00">10:00 am to 11:00 am</option>
+							<option value="11:00">11:00 am to 12:00 pm</option>
+							<option value="13:00">1:00 pm to 2:00 pm</option>
+							<option value="14:00">2:00 pm to 3:00 pm</option>
+							<option value="15:00">3:00 pm to 4:00pm</option>
+							<option value="16:00">4:00 pm to 5:00 pm</option>
+						</select>
 					</div>
 					<div class="flex text-sm items-center justify-between">
-						<div id="msg" class="opacity-0">Success</div>
+						<div id="msg" class="text-success-600 flex items-center gap-2 opacity-0">
+							Successfully appointed
+							<svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<g clip-path="url(#clip0_296_882)">
+									<path d="M14.6668 7.45656V8.0699C14.666 9.50751 14.2005 10.9063 13.3397 12.0578C12.4789 13.2092 11.269 14.0515 9.8904 14.4592C8.51178 14.8668 7.03834 14.8178 5.68981 14.3196C4.34128 13.8214 3.18993 12.9006 2.40747 11.6946C1.62501 10.4886 1.25336 9.06194 1.34795 7.62744C1.44254 6.19294 1.9983 4.82745 2.93235 3.73461C3.8664 2.64178 5.12869 1.88015 6.53096 1.56333C7.93323 1.2465 9.40034 1.39145 10.7135 1.97656M14.6668 2.73656L8.00017 9.4099L6.00017 7.4099" stroke="#039855" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+								</g>
+								<defs>
+									<clipPath id="clip0_296_882">
+										<rect width="16" height="16" fill="white" transform="translate(0 0.0698853)"/>
+									</clipPath>
+								</defs>
+							</svg>
+						</div>
 						<button type="submit" class="px-4 py-2 bg-brand-600 text-white font-medium rounded-lg hover:bg-brand-700">Set appointment</button>
 					</div>
 
@@ -248,8 +307,9 @@
 	</div>
 </div>
 
-<script src="js/calendar.js"></script>
-<script src="js/leaflet.js"></script>
+<!--<script src="js/calendar.js"></script>-->
+<!--<script src="js/leaflet.js"></script>-->
 <script src="js/close_modal.js"></script>
+<script src="js/create_appointment.js"></script>
 </body>
 </html>
