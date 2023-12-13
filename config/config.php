@@ -23,22 +23,23 @@ function get_user_role($id): array
     $tables = array("admin", "counselor", "student", "teacher");
 
     foreach ($tables as $item) {
-        $query = "SELECT " . $item ."_id, first_name, last_name FROM $item";
+        $query = "SELECT " . $item . "_id, first_name, last_name FROM $item";
         $result = $schoolConn->query($query);
         if ($result->num_rows > 0) {
             $data = $result->fetch_array();
-            return array('id'=>$data[0], 'first_name'=>$data[1], 'last_name'=>$data[2]);
+            return array('id' => $data[0], 'first_name' => $data[1], 'last_name' => $data[2]);
         }
     }
 
     return array();
 }
 
-function register_user($id, $email, $password) : bool{
+function register_user($id, $email, $password): bool
+{
 
     $user_info = get_user_role($id);
     // check if the user is a student in PSU
-    if(empty($user_info)) {
+    if (empty($user_info)) {
         return false;
     }
 
@@ -60,7 +61,8 @@ function register_user($id, $email, $password) : bool{
     return true;
 }
 
-function set_room_id($user_id): bool {
+function set_room_id($user_id): bool
+{
 
     global $management_token;
     $url = 'https://api.100ms.live/v2/rooms';
@@ -103,7 +105,8 @@ function set_room_id($user_id): bool {
     return insert_data($q);
 }
 
-function insert_data($insert_query) : bool {
+function insert_data($insert_query): bool
+{
     global $mainConn;
 
     $result = $mainConn->query($insert_query);
@@ -115,7 +118,8 @@ function insert_data($insert_query) : bool {
     return true;
 }
 
-function get_room_code($room_id) {
+function get_room_code($room_id)
+{
     global $management_token;
 
     $url = 'https://api.100ms.live/v2/room-codes/room/' . $room_id;
@@ -141,5 +145,5 @@ function get_room_code($room_id) {
 
     curl_close($ch);
 
-    return array('host'=>$response['data'][0]['code'], 'patient'=>$response['data'][1]['code']);
+    return array('host' => $response['data'][0]['code'], 'patient' => $response['data'][1]['code']);
 }
