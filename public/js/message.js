@@ -1,4 +1,5 @@
 let temp;
+let temp;
 $(function () {
 
     function load(id) {
@@ -63,6 +64,9 @@ $(function () {
 
     // Create new message
     $('#open-msg').on('click', function () {
+        let users = $('#users')
+
+        //get all current users
         let users = $('#users')
 
         //get all current users
