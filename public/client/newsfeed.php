@@ -115,7 +115,7 @@
             <div class="grid grid-cols-2 gap-8" id="postContainer">
                 <!-- Left Container - Post 1 -->
                 <div class="col-span-1 overflow-y-auto">
-                    <div class="bg-white p-4 relative post-container mb-4 mr-3">
+                    <div class="bg-white p-4 relative post-container mb-4 mr-3 rounded-lg">
                         <!-- X icon -->
                         <img src="image/x_icon.svg" alt="Close Icon" style="position: absolute; top: 8px; right: 8px; cursor: pointer; width: 24px; height: 24px; z-index: 1;">
                         <div class="flex items-center mb-4">
@@ -150,7 +150,7 @@
                         </div>
                     </div>
                     <!-- Left Container - Post 2 (Anonymous) -->
-                    <div class="bg-white p-4 relative post-container mb-4 mr-3">
+                    <div class="bg-white p-4 relative post-container mb-4 mr-3 rounded-lg">
                         <!-- X icon -->
                         <img src="image/x_icon.svg" alt="Close Icon" style="position: absolute; top: 8px; right: 8px; cursor: pointer; width: 24px; height: 24px; z-index: 1;">
                         <div class="flex items-center mb-4">
@@ -187,7 +187,7 @@
                 </div>
                 <!-- Quote of the day - Container -->
                 <div class="col-span-2 flex flex-col">
-                    <div class="bg-white p-4 max-w-xs" style="position: fixed; width: 580px;">
+                    <div class="bg-white p-4 max-w-xs rounded-lg" style="position: fixed; width: 580px;">
                         <div class="mb-4">
                             <img src="image/placeholder2.svg" alt="Right Container Photo" class="w-full">
                         </div>
