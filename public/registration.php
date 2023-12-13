@@ -4,17 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Display:wght@400;500&display=swap');
-    </style>
-    <title>Sign Up Page</title>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+	<title>Sign Up Page</title>
 </head>
 
-<body class="font-semibold bg-gray-100 h-screen flex justify-center items-center overflow-hidden">
+<body class="font-semibold font-inter bg-gray-100 h-screen flex justify-center items-center overflow-hidden">
 
     <div class="registration-container bg-white rounded-lg shadow-lg overflow-hidden flex w-3/4 min-h-[400px] transform scale-75">
-        <div class="left-side bg-cover bg-center rounded-l-lg w-1/2">
+        <div class="left-side bg-cover bg-center rounded-l-lg min-w-[30rem]">
             <img src="client/image/bg.jpg" alt="" class="w-full h-full object-cover m-0">
         </div>
         <div class="registration-form flex-grow p-5 flex flex-col justify-center">
@@ -27,22 +29,26 @@
                 <h2 class="font-display text-black text-3xl mt-4 font-bold">Sign up</h2>
                 <br>
                 <p class=" font-display mb-4">Please enter your details</p>
-                <form action="#" method="post">
+                <form id="reg-form">
                     <div class="form-group mb-4">
-                        <label for="idNumber" class="text-gray-700 block mb-2">ID</label>
-                        <input type="text" id="idNumber" name="idNumber" placeholder="Enter your ID number" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                        <label for="id" class="text-gray-700 block mb-2">ID</label>
+                        <input type="text" id="id" name="id" placeholder="Enter your ID number" class="w-full px-4 py-2 border border-gray-300 rounded outline-none">
+	                    <span class="text-xs text-error-600 font-medium" id="id-msg"></span>
                     </div>
                     <div class="form-group mb-4">
                         <label for="email" class="text-gray-700 block mb-2">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Enter your email" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" class="w-full px-4 py-2 border border-gray-300 rounded outline-none">
+	                    <span class="text-xs text-error-600 font-medium" id="email-msg"></span>
                     </div>
                     <div class="form-group mb-4">
                         <label for="password" class="text-gray-700 block mb-2">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Enter password" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                        <input type="password" id="password" name="password" placeholder="Enter password" class="w-full px-4 py-2 border border-gray-300 rounded outline-none">
+	                    <span class="text-xs text-error-600 font-medium" id="pwd-msg"></span>
                     </div>
                     <div class="form-group mb-8">
                         <label for="retype-password" class="text-gray-700 block mb-2">Re-type Password</label>
-                        <input type="password" id="retype-password" name="retype-password" placeholder="Re-enter your password" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                        <input type="password" id="retype-password" name="retype-password" placeholder="Re-enter your password" class="w-full px-4 py-2 border border-gray-300 rounded outline-none">
+	                    <span class="text-xs text-error-600 font-medium" id="repwd-msg"></span>
                     </div>
 
                     <button type="submit" class="reg-button text-white px-4 py-2 w-full rounded hover:bg-black-500 transition duration-300" style="background-color: #7F56D9;">Sign Up</button>
@@ -56,7 +62,7 @@
             </div>
         </div>
     </div>
-
+    <script src="js/reg.js"></script>
 </body>
 
 </html>

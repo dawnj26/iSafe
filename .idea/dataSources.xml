@@ -8,11 +8,11 @@
       <jdbc-url>jdbc:mysql://localhost:3306/iSafe</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="school_db@localhost" uuid="d975442a-5ffd-4006-9209-5fc1fa4a1d4b">
+    <data-source source="LOCAL" name="PSU@localhost" uuid="d9952ab0-f7de-49de-8771-3531ffcb421f">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/school_db</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/PSU</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

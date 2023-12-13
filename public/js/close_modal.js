@@ -26,6 +26,8 @@ openAppointment.addEventListener('click', () => {
     let input = document.getElementById('coord')
     let locate = document.getElementById('locate')
     let circle;
+    let longitude = $('#longitude')
+    let latitude = $('#latitude')
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -43,21 +45,16 @@ openAppointment.addEventListener('click', () => {
 
 // Mark clicked location and display address
     map.on('click', function (e) {
-        geocoder.options.geocoder.reverse(e.latlng, map.options.crs.scale(18), function(results) {
-            var r = results[0];
-            if (!r) {
-                return
-            }
+        if (marker) {
+            map.removeLayer(marker);
+        }
+        if(circle) {
+            map.removeLayer(circle)
+        }
 
-            if (marker) {
-                map.removeLayer(marker);
-            }
-            marker = L.marker(r.center).bindPopup(r.html || r.name).addTo(map).openPopup();
-
-            // set the value to selected coordinates
-            let coord = r.center.lat.toFixed(6) + ", " + r.center.lng.toFixed(6)
-            input.setAttribute('value', coord)
-        })
+        marker = L.marker(e.latlng).addTo(map)
+        longitude.val(e.latlng.lng)
+        latitude.val(e.latlng.lat)
     })
 
     function onLocationFound(e) {
@@ -75,7 +72,7 @@ openAppointment.addEventListener('click', () => {
             marker = L.marker(r.center).bindPopup(r.html || r.name).addTo(map).openPopup();
         })
 
-        L.circle(e.latlng, 300).addTo(map);
+        circle = L.circle(e.latlng, 300).addTo(map);
     }
 
     function onLocationError(e) {
@@ -99,3 +96,14 @@ openAppointment.addEventListener('click', () => {
 closeAppointment.addEventListener('click', () => {
     appointmentModal.classList.replace('grid', 'hidden')
 })
+
+function logout() {
+    $.ajax({
+        url: "../../src/login-reg/logout.php",
+        success: function (response) {
+            if (response === "SUCCESS") {
+                location.reload()
+            }
+        }
+    })
+}

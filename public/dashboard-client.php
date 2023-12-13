@@ -1,12 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
-    session_destroy();
-    header("Location: ../login.php");
-    exit();
-}
-?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,7 +10,7 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <!--tailwindcss file-->
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="css/style.css">
 <!--Leaflet-->
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 	      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -30,13 +21,13 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
 	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 <!--jquery-->
-	<link rel="stylesheet" href="../js/jquery-ui-1.13.2.custom/jquery-ui.min.css">
+	<link rel="stylesheet" href="js/jquery-ui-1.13.2.custom/jquery-ui.min.css">
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<script src="../js/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
+	<script src="js/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
 	<title>Document</title>
 </head>
-<body class="min-h-screen max-h-screen h-screen flex flex-col font-inter relative">
-<header class="py-4 px-6 flex w-full items-center justify-between shadow z-20">
+<body class="h-screen flex flex-col font-inter relative">
+<header class="py-4 px-6 flex w-full items-center justify-between shadow">
 	<div class="logo flex items-center gap-2">
 		<svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<rect width="40" height="40" rx="8" fill="#7F56D9"/>
@@ -85,11 +76,11 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
 <!-- Navigation -->
 <div class="grid grid-cols-[12rem_1fr] h-full">
 <!-- Wrap in anchor tag to navigate through pages, yung li element-->
-	<aside class="h-full pt-2 shadow-[rgba(0,0,0,0.1)_2px_0_0_0] z-10">
+	<aside class="h-full pt-2 shadow-[rgba(0,0,0,0.1)_2px_0_0_0]">
 		<ul>
-			<li class="flex items-center p-4 gap-2 active-tab w-full hover:bg-slate-100 cursor-pointer">
+			<li class="flex items-center p-4 gap-2 active-tab text-brand-600 w-full border-r-4 border-brand-600 hover:bg-slate-100 cursor-pointer">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M9 22V12H15V22M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M9 22V12H15V22M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="#7F56D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 				Dashboard
 			</li>
@@ -100,9 +91,9 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
 
 				Appointments
 			</li>
-			<li class="flex items-center p-4 gap-2 w-full hover:bg-slate-100 text-brand-600 border-r-4 border-brand-600 cursor-pointer">
+			<li class="flex items-center p-4 gap-2 w-full hover:bg-slate-100 cursor-pointer">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="#7F56D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 
 				Chat
@@ -131,113 +122,289 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
 
 				Settings
 			</li>
-			<li class="w-full flex justify-center mt-4">
-				<button type="button" class="px-4 py-2 bg-error-600 rounded-lg text-white" onclick="logout()">
-					Logout
-				</button>
-			</li>
 		</ul>
 	</aside>
 
 
-	<div class="grid grid-cols-[0.4fr_1fr_0.4fr] bg-gray-100 h-full w-full">
-		<div class="h-full w-full bg-white p-4">
-			<div class="flex justify-between items-center mb-6">
-				<h3 class="text-xl">
-					Inbox
-				</h3>
-				<button type="button" class="bg-brand-600 rounded-lg h-max p-2 hover:bg-brand-700" id="open-msg">
-					<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M9.99984 4.16666V15.8333M4.1665 9.99999H15.8332" stroke="white" stroke-width="1.67"
-						      stroke-linecap="round" stroke-linejoin="round"/>
-					</svg>
-				</button>
-			</div>
+	<div class="flex items-center justify-center bg-gray-100 h-full w-full">
+		<div class="flex-1 flex flex-col overflow-hidden">
+			<!-- Your main content goes here -->
+			<div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 ">
+				<!-- Page Content -->
 
-			<div id="messages">
-				<!--users who messaged the user-->
-			</div>
-		</div>
-
-		<div class="grid grid-rows-[1fr_28rem_1fr] h-full">
-			<div class="bg-white p-4 flex items-center">
-				<p class="text-lg font-medium" id="user"></p>
-			</div>
-			<div id="scrollable" class="bg-brand-100 p-4 min-h-full max-h-full h-full overflow-y-scroll">
-			<!--message card-->
-				<div class="flex flex-col justify-end gap-4 min-h-full" id="msg-list">
-
-
+				<div class="m-4 border-black bg-white rounded-md p-4 flex items-center">
+					<div class="flex-1 ml-5">
+						<div class="font-extralight mb-8">
+							<p>Friday, 24 November 2023</p>
+						</div>
+						<div class="text-3xl mb-8">
+							<p>Good Evening, USER</p>
+						</div>
+						<div class="font-light mb-8">
+							<p>"The purpose of our life is to be <span style="color: #7F56D9;" class="">happy</span>" -
+								<span class="italic">Dalai Lama</span></p>
+						</div>
+					</div>
+					<div class="flex-shrink-0 mr-14">
+						<img src="assets/icons/undraw_mindfulness_8gqa 1.svg" alt="Image description"
+						     class="rounded-md" width="300">
+					</div>
 				</div>
+				<div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 ">
+					<!-- Page Content -->
+
+					<div class="m-4 border-black bg-white rounded-md p-4 flex items-center">
+						<div class="flex-1">
+							<div class="font-bold mb-8 text-2xl mt-4 ml-4">
+								<p>Latest Posts</p>
+							</div>
+
+							<div class="flex justify-evenly">
+								<div class="p-5 inline-block rounded-lg"
+								     style="background-color: #F4EBFF; color: black; width: 400px;">
+
+									<div class="flex items-center justify-between mb-4">
+										<div class="flex items-center">
+											<div class="inline-block">
+												<img src="assets/icons/olivia.svg" alt="Avatar" class="rounded-full"
+												     style="width: 50px; height: 50px;">
+											</div>
+											<div class="inline-block ml-4">
+												<p class="font-bold">Olivia Rhye</p>
+												<p class="text-sm">Student</p>
+											</div>
+										</div>
+										<p class="text-sm text-gray-500">9:00 PM</p>
+									</div>
+
+									<!-- Adjust max-width for the message box and remove fixed width -->
+									<div class="mt-5 mb-5 overflow-y-auto max-h-40">
+										<p>
+											<!-- Add more text or user information as needed -->
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+											tempor incididunt ut labore et dolore magna aliqua.
+										</p>
+									</div>
+
+									<hr>
+
+									<div class="flex justify-between mt-4">
+										<a href="#" class="text-blue-500">
+											<svg class="inline-block relative right-1" width="22" height="22"
+											     viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M6 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V12C1 11.4696 1.21071 10.9609 1.58579 10.5858C1.96086 10.2107 2.46957 10 3 10H6M13 8V4C13 3.20435 12.6839 2.44129 12.1213 1.87868C11.5587 1.31607 10.7956 1 10 1L6 10V21H17.28C17.7623 21.0055 18.2304 20.8364 18.5979 20.524C18.9654 20.2116 19.2077 19.7769 19.28 19.3L20.66 10.3C20.7035 10.0134 20.6842 9.72068 20.6033 9.44225C20.5225 9.16382 20.3821 8.90629 20.1919 8.68751C20.0016 8.46873 19.7661 8.29393 19.5016 8.17522C19.2371 8.0565 18.9499 7.99672 18.66 8H13Z"
+												      stroke="#475467" stroke-width="2" stroke-linecap="round"
+												      stroke-linejoin="round"/>
+											</svg>
+											<div class="inline-block">Like</div>
+										</a>
+										<a href="#" class="text-blue-500">
+											<svg class="inline-block relative right-1" width="20" height="20"
+											     viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M19 9.5C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7117 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013
+														18.0034 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.5C2.00061 7.92176 2.44061 6.37485 3.27072 5.03255C4.10083 3.69025 5.28825 2.60557 6.7 1.9C7.87812 1.30493 9.18013 0.996557 10.5 0.999998H11C13.0843 1.11499 15.053 1.99476 16.5291 3.47086C18.0052 4.94695 18.885 6.91565 19 9V9.5Z"
+												      stroke="#475467" stroke-width="2" stroke-linecap="round"
+												      stroke-linejoin="round"/>
+											</svg>
+											<div class="inline-block">Comment</div>
+										</a>
+									</div>
+
+								</div>
+
+								<div class="p-5 inline-block rounded-lg"
+								     style="background-color: #F4EBFF; color: black; width: 400px;">
+
+									<div class="flex items-center justify-between mb-4">
+										<div class="flex items-center">
+											<div class="inline-block">
+												<img src="assets/icons/olivia.svg" alt="Avatar" class="rounded-full"
+												     style="width: 50px; height: 50px;">
+											</div>
+											<div class="inline-block ml-4">
+												<p class="font-bold">Olivia Rhye</p>
+												<p class="text-sm">Student</p>
+											</div>
+										</div>
+										<p class="text-sm text-gray-500">9:00 PM</p>
+									</div>
+									<div class="mt-5 mb-5 overflow-y-auto max-h-40">
+										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+											tempor incididunt ut labore et dolore magna aliqua.</p>
+									</div>
+
+									<hr>
+
+									<div class="flex justify-between mt-4">
+										<a href="#" class="text-blue-500">
+											<svg class="inline-block relative right-1" width="22" height="22"
+											     viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M6 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V12C1 11.4696 1.21071 10.9609 1.58579 10.5858C1.96086 10.2107 2.46957 10 3 10H6M13 8V4C13 3.20435 12.6839 2.44129 12.1213 1.87868C11.5587 1.31607 10.7956 1 10 1L6 10V21H17.28C17.7623 21.0055 18.2304 20.8364 18.5979 20.524C18.9654 20.2116 19.2077 19.7769 19.28 19.3L20.66 10.3C20.7035 10.0134 20.6842 9.72068 20.6033 9.44225C20.5225 9.16382 20.3821 8.90629 20.1919 8.68751C20.0016 8.46873 19.7661 8.29393 19.5016 8.17522C19.2371 8.0565 18.9499 7.99672 18.66 8H13Z"
+												      stroke="#475467" stroke-width="2" stroke-linecap="round"
+												      stroke-linejoin="round"/>
+											</svg>
+											<div class="inline-block">Like</div>
+										</a>
+										<a href="#" class="text-blue-500">
+											<svg class="inline-block relative right-1" width="20" height="20"
+											     viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M19 9.5C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7117 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013
+														18.0034 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.5C2.00061 7.92176 2.44061 6.37485 3.27072 5.03255C4.10083 3.69025 5.28825 2.60557 6.7 1.9C7.87812 1.30493 9.18013 0.996557 10.5 0.999998H11C13.0843 1.11499 15.053 1.99476 16.5291 3.47086C18.0052 4.94695 18.885 6.91565 19 9V9.5Z"
+												      stroke="#475467" stroke-width="2" stroke-linecap="round"
+												      stroke-linejoin="round"/>
+											</svg>
+											<div class="inline-block">Comment</div>
+										</a>
+									</div>
 
 
-			</div>
-			<form id="send-message">
-				<div class="bg-white flex items-center justify-between h-full px-4 gap-4">
-					<input type="hidden" name="id" id="id">
-					<input type="text" name="message" id="message" class="px-4 py-2 border border-gray-400 rounded-lg w-full outline-none" placeholder="Type message">
-					<button type="submit" class="p-2 bg-brand-600 hover:bg-brand-700 rounded-lg">
-						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<g clip-path="url(#clip0_480_69)">
-								<path d="M18.3334 1.66663L9.16675 10.8333M18.3334 1.66663L12.5001 18.3333L9.16675 10.8333M18.3334 1.66663L1.66675 7.49996L9.16675 10.8333" stroke="white" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
-							</g>
-							<defs>
-								<clipPath id="clip0_480_69">
-									<rect width="20" height="20" fill="white"/>
-								</clipPath>
-							</defs>
-						</svg>
+								</div>
 
-					</button>
+								<div class="p-5 inline-block rounded-lg"
+								     style="background-color: #F4EBFF; color: black; width: 400px;">
 
-				</div>
-			</form>
-		</div>
-		<div class="bg-white h-full p-4 flex flex-col gap-4">
-			<div class="flex flex-col items-center w-full h-40 justify-center gap-4 border-b border-gray-400">
-				<div id="avatar" CLASS="rounded-full bg-gray-200 text-brand-600 font-medium w-max p-2 aspect-square flex items-center">
-					<p class="text-3xl" id="initials"></p>
-				</div>
-				<p class="text-lg font-medium" id="user-details"></p>
-			</div>
-			<div class="flex justify-between text-sm">
-				<p CLASS="font-medium">ID:</p>
-				<p CLASS="" id="user-id"></p>
-			</div>
-			<div class="flex justify-between text-sm">
-				<p CLASS="font-medium">Gender:</p>
-				<p CLASS="" id="user-gender"></p>
-			</div>
-			<div class="flex justify-between text-sm">
-				<p CLASS="font-medium">Birth date:</p>
-				<p CLASS="" id="user-bday"></p>
-			</div>
-		</div>
+									<div class="flex items-center justify-between mb-4">
+										<div class="flex items-center">
+											<div class="inline-block">
+												<img src="assets/icons/olivia.svg" alt="Avatar" class="rounded-full"
+												     style="width: 50px; height: 50px;">
+											</div>
+											<div class="inline-block ml-4">
+												<p class="font-bold">Olivia Rhye</p>
+												<p class="text-sm">Student</p>
+											</div>
+										</div>
+										<p class="text-sm text-gray-500">9:00 PM</p>
+									</div>
+									<div class="mt-5 mb-5 overflow-y-auto max-h-40">
+										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+											tempor incididunt ut labore et dolore magna aliqua.</p>
+									</div>
+
+									<hr>
+
+									<div class="flex justify-between mt-4">
+										<a href="#" class="text-blue-500">
+											<svg class="inline-block relative right-1" width="22" height="22"
+											     viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M6 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V12C1 11.4696 1.21071 10.9609 1.58579 10.5858C1.96086 10.2107 2.46957 10 3 10H6M13 8V4C13 3.20435 12.6839 2.44129 12.1213 1.87868C11.5587 1.31607 10.7956 1 10 1L6 10V21H17.28C17.7623 21.0055 18.2304 20.8364 18.5979 20.524C18.9654 20.2116 19.2077 19.7769 19.28 19.3L20.66 10.3C20.7035 10.0134 20.6842 9.72068 20.6033 9.44225C20.5225 9.16382 20.3821 8.90629 20.1919 8.68751C20.0016 8.46873 19.7661 8.29393 19.5016 8.17522C19.2371 8.0565 18.9499 7.99672 18.66 8H13Z"
+												      stroke="#475467" stroke-width="2" stroke-linecap="round"
+												      stroke-linejoin="round"/>
+											</svg>
+											<div class="inline-block">Like</div>
+										</a>
+										<a href="#" class="text-blue-500">
+											<svg class="inline-block relative right-1" width="20" height="20"
+											     viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M19 9.5C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7117 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013
+															18.0034 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.5C2.00061 7.92176 2.44061 6.37485 3.27072 5.03255C4.10083 3.69025 5.28825 2.60557 6.7 1.9C7.87812 1.30493 9.18013 0.996557 10.5 0.999998H11C13.0843 1.11499 15.053 1.99476 16.5291 3.47086C18.0052 4.94695 18.885 6.91565 19 9V9.5Z"
+												      stroke="#475467" stroke-width="2" stroke-linecap="round"
+												      stroke-linejoin="round"/>
+											</svg>
+											<div class="inline-block">Comment</div>
+										</a>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="flex items-center w-full">
+
+						<!-- Appointments Container -->
+						<div class="m-4 bg-white rounded-md p-4 items-center w-1/2 inline-block">
+							<div class="flex-1 ml-5">
+								<div class="font-bold mb-5 text-2xl">
+									<p>Appointments</p>
+								</div>
+
+								<!-- First Appointment -->
+								<a href="#" class="block mb-2 hover:bg-purple-100 rounded-2xl">
+									<div class="p-5 block rounded-lg text-black w-full">
+										<div class="flex items-center justify-between mb-4">
+											<div class="flex items-center">
+												<div class="inline-block">
+													<img src="assets/icons/olivia.svg" alt="Avatar"
+													     class="rounded-full w-12 h-12">
+												</div>
+												<div class="inline-block ml-4">
+													<p class="font-bold">Olivia Rhye</p>
+													<p class="text-sm">First Visit | Age: 18</p>
+												</div>
+											</div>
+											<p class="text-sm text-gray-500">9:00 PM</p>
+										</div>
+									</div>
+								</a>
+
+								<!-- Second Appointment -->
+								<a href="#" class="block mb-2 hover:bg-purple-100 rounded-2xl">
+									<div class="p-5 block rounded-lg text-black w-full">
+										<div class="flex items-center justify-between mb-4">
+											<div class="flex items-center">
+												<div class="inline-block">
+													<img src="assets/icons/olivia.svg" alt="Avatar"
+													     class="rounded-full w-12 h-12">
+												</div>
+												<div class="inline-block ml-4">
+													<p class="font-bold">hotdog ni kap</p>
+													<p class="text-sm">Second Visit | Age: 25</p>
+												</div>
+											</div>
+											<p class="text-sm text-gray-500">10:30 AM</p>
+										</div>
+									</div>
+								</a>
+
+								<!-- Third Appointment -->
+								<a href="#" class="block mb-2 hover:bg-purple-100 rounded-2xl">
+									<div class="p-5 block rounded-lg text-black w-full">
+										<div class="flex items-center justify-between mb-4">
+											<div class="flex items-center">
+												<div class="inline-block">
+													<img src="assets/icons/olivia.svg" alt="Avatar"
+													     class="rounded-full w-12 h-12">
+												</div>
+												<div class="inline-block ml-4">
+													<p class="font-bold">Jane Smith</p>
+													<p class="text-sm">Third Visit | Age: 30</p>
+												</div>
+											</div>
+											<p class="text-sm text-gray-500">1:45 PM</p>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<!-- Incident Map -->
+						<div class="m-4 border-black bg-white rounded-md p-4 w-1/2 inline-block">
+							<div class="ml-5 flex flex-col h-full">
+								<div class="font-bold mb-2 text-2xl flex">
+									<p class="mt-3">Incident Map</p>
+								</div>
+								<div class="text-sm mb-2 flex justify-end relative bottom-8">
+									<p>As of 9:43 am</p>
+								</div>
+								<img src="assets/icons/Figmap.svg" alt="Incident Map"
+								     class="w-60 h-60 rounded-lg relative bottom-10">
+								<div class="text-sm">
+									<p class="">BULLYING</p>
+									<p class="mb-2 flex">At Umingan Pangasinan</p>
+									<p class="text-gray-500 ">Time: Time of the Incident at Umingan Pangasinan</p>
+								</div>
+							</div>
+						</div>
+
+					</div>
 	</div>
 
 
-</div>
-<!--New message-->
-<div id="message-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute z-50">
-	<div class="bg-white p-8 w-2/5 max-h-96 rounded-xl">
-		<div class="header flex justify-between mb-6">
-			<h2 class="text-xl">New message</h2>
-			<button type="button" id="close-msg">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-				</svg>
-			</button>
-		</div>
-		<input type="text" name="search" id="search" class="border border-gray-500 px-4 py-2 w-full rounded-lg outline-none mb-4" placeholder="Search anything...">
-		<div id="users" class="overflow-y-auto">
-
-		</div>
-
-	</div>
 </div>
 
 <!--Notifications-->
-<div id="notification-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute z-50">
+<div id="notification-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
 	<div class="bg-white p-8 w-2/3 max-h-96 rounded-xl">
 		<div class="header flex justify-between mb-6">
 			<h2 class="text-xl">Notifications</h2>
@@ -279,7 +446,7 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
 </div>
 
 <!--Create appointment modal-->
-<div id="appointment-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute z-50">
+<div id="appointment-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
 	<div class="bg-white p-8 w-2/3 rounded-xl">
 		<div class="header flex justify-between mb-6">
 			<h2 class="text-xl font-medium">Create an appointment</h2>
@@ -303,7 +470,7 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
 					</div>
 					<div class="flex flex-col gap-1">
 						<label for="location" class="text-sm">Location</label>
-						<div id="map" class="w-full h-56 rounded-lg map">
+						<div id="map" class="w-full h-56 rounded-lg">
 
 						</div>
 						<button type="button" id="locate" class="w-max px-4 py-2 border border-gray-500 rounded-lg text-sm hover:bg-gray-100">Locate me</button>
@@ -351,9 +518,8 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
 	</div>
 </div>
 
-<script src="../js/calendar.js"></script>
-<!--<script src="../js/leaflet.js"></script>-->
-<script src="../js/close_modal.js"></script>
-<script src="../js/message.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/leaflet.js"></script>
+<script src="js/close_modal.js"></script>
 </body>
 </html>
