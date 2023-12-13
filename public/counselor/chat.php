@@ -160,8 +160,14 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
 		</div>
 
 		<div class="grid grid-rows-[1fr_28rem_1fr] h-full">
-			<div class="bg-white p-4 flex items-center">
+			<div class="bg-white p-4 flex items-center justify-between">
 				<p class="text-lg font-medium" id="user"></p>
+				<button type="button" disabled id="call-btn" onclick="call()" class="text-sm px-4 py-2 bg-success-500 rounded-lg text-white flex items-center gap-2 hover:bg-success-600 disabled:bg-gray-400">
+					Start call
+					<svg width="16" height="17" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M18.3334 14.6V17.1C18.3344 17.3321 18.2868 17.5618 18.1939 17.7744C18.1009 17.9871 17.9645 18.178 17.7935 18.3349C17.6225 18.4918 17.4206 18.6112 17.2007 18.6856C16.9809 18.7599 16.7479 18.7875 16.5168 18.7666C13.9525 18.488 11.4893 17.6118 9.32511 16.2083C7.31163 14.9289 5.60455 13.2218 4.32511 11.2083C2.91676 9.03432 2.04031 6.55914 1.76677 3.98331C1.74595 3.75287 1.77334 3.52061 1.84719 3.30133C1.92105 3.08205 2.03975 2.88055 2.19575 2.70966C2.35174 2.53877 2.54161 2.40224 2.75327 2.30875C2.96492 2.21526 3.19372 2.16686 3.42511 2.16665H5.92511C6.32953 2.16267 6.7216 2.30588 7.02824 2.56959C7.33488 2.8333 7.53517 3.19952 7.59177 3.59998C7.69729 4.40003 7.89298 5.18558 8.17511 5.94165C8.28723 6.23992 8.31149 6.56407 8.24503 6.87571C8.17857 7.18735 8.02416 7.4734 7.80011 7.69998L6.74177 8.75831C7.92807 10.8446 9.65549 12.572 11.7418 13.7583L12.8001 12.7C13.0267 12.4759 13.3127 12.3215 13.6244 12.2551C13.936 12.1886 14.2602 12.2129 14.5584 12.325C15.3145 12.6071 16.1001 12.8028 16.9001 12.9083C17.3049 12.9654 17.6746 13.1693 17.9389 13.4812C18.2032 13.7931 18.3436 14.1913 18.3334 14.6Z" stroke="white" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</button>
 			</div>
 			<div id="scrollable" class="bg-brand-100 p-4 min-h-full max-h-full h-full overflow-y-scroll">
 			<!--message card-->

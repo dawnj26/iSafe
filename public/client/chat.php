@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
+    session_destroy();
+    header("Location: ../login.php");
+    exit();
+}
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -121,6 +130,11 @@
 				</svg>
 
 				Settings
+			</li>
+			<li class="w-full flex justify-center mt-4">
+				<button type="button" class="px-4 py-2 bg-error-600 rounded-lg text-white" onclick="logout()">
+					Logout
+				</button>
 			</li>
 		</ul>
 	</aside>
