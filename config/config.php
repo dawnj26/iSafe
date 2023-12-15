@@ -10,7 +10,7 @@ $mainDB = "iSafe";
 $mainConn = new mysqli($host, $user, $pwd, $mainDB);
 $schoolConn = new mysqli($host, $user, $pwd, $schoolDB);
 
-$management_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDIzNDMyMjgsImV4cCI6MTcwMjQyOTYyOCwianRpIjoiand0X25vbmNlIiwidHlwZSI6Im1hbmFnZW1lbnQiLCJ2ZXJzaW9uIjoyLCJuYmYiOjE3MDIzNDMyMjgsImFjY2Vzc19rZXkiOiI2NTYwOGY4MzY4MTExZjZmZTRiNTdmOWIifQ.Sm45lSJsJQSGHtu-tP8BfJ7VYzQPUbyJnHOnaU5koqw';
+$management_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDI1MjE4NjAsImV4cCI6MTcwMjYwODI2MCwianRpIjoiand0X25vbmNlIiwidHlwZSI6Im1hbmFnZW1lbnQiLCJ2ZXJzaW9uIjoyLCJuYmYiOjE3MDI1MjE4NjAsImFjY2Vzc19rZXkiOiI2NTYwOGY4MzY4MTExZjZmZTRiNTdmOWIifQ.Vd4dTHzkqxohtmg-mSBT0X4CMS3THHFBKZFFnggshHk';
 
 if ($mainConn->connect_errno || $schoolConn->connect_errno) {
     die("Failed to connect to the database");
@@ -29,7 +29,7 @@ function check_id_login($id_number) : string
     if($result->num_rows > 0) $count++;
     $result = $schoolConn->query("SELECT * FROM teacher WHERE teacher_id =  '$id_number'");
     if($result->num_rows > 0) $count++;
-    $result = $schoolConn->query("SELECT * FROM couselor WHERE counselor_id =  '$id_number'");
+    $result = $schoolConn->query("SELECT * FROM counselor WHERE counselor_id =  '$id_number'");
     if($result->num_rows > 0) $count++;
 
 //    foreach ($tables as $item) {
@@ -64,7 +64,7 @@ function check_id_reg($id_number) : string
     if($result->num_rows > 0) $count++;
     $result = $schoolConn->query("SELECT * FROM teacher WHERE teacher_id =  '$id_number'");
     if($result->num_rows > 0) $count++;
-    $result = $schoolConn->query("SELECT * FROM couselor WHERE counselor_id =  '$id_number'");
+    $result = $schoolConn->query("SELECT * FROM counselor WHERE counselor_id =  '$id_number'");
     if($result->num_rows > 0) $count++;
 
 //    foreach ($tables as $item) {
@@ -90,7 +90,7 @@ function get_user_role($id_number): array
 {
     global $schoolConn;
 
-    $result = $schoolConn->query("SELECT counselor_id, first_name, last_name, counselor_gender FROM couselor WHERE counselor_id =  '$id_number'");
+    $result = $schoolConn->query("SELECT counselor_id, first_name, last_name, counselor_gender FROM counselor WHERE counselor_id =  '$id_number'");
     if($result->num_rows > 0) {
         $data = $result->fetch_assoc();
         return array('role'=>'counselor', 'first_name'=>$data['first_name'], 'last_name'=>$data['last_name'], 'gender'=>$data['counselor_gender']);
@@ -251,4 +251,68 @@ function get_counselors()
         }
     }
     return $counselors;
+}
+
+function get_all_appointments($id)
+{
+    global $mainConn;
+
+    $result = $mainConn->query("SELECT * FROM appointment INNER JOIN user ON user.user_id = appointment.counselor_id WHERE creator_id = '$id'");
+
+    if ($result->num_rows > 0) {
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    return array();
+}
+
+function get_todays_appointments($id)
+{
+    global $mainConn;
+
+    $date = date('Y-m-d');
+
+    $result = $mainConn->query("SELECT * FROM appointment INNER JOIN user ON user.user_id = appointment.counselor_id WHERE date = '$date' AND creator_id = '$id'");
+    if ($result->num_rows > 0) {
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    return array();
+}
+
+function get_tomorrow_appointments($id)
+{
+    global $mainConn;
+
+    $date = date('Y-m-d');
+
+    $result = $mainConn->query("SELECT * FROM appointment INNER JOIN user ON user.user_id = appointment.counselor_id WHERE DATE(appointment_date) = DATE_ADD(CURDATE(), INTERVAL 1 DAY) AND creator_id = '$id'");
+
+    if ($result->num_rows > 0) {
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    return array();
+}
+
+function get_unfinished_appointments($id)
+{
+    global $mainConn;
+
+    $result = $mainConn->query("SELECT * FROM appointment INNER JOIN user ON user.user_id = appointment.counselor_id WHERE status = 'unfinished' AND creator_id = '$id'");
+
+    if ($result->num_rows > 0) {
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    return array();
+}
+
+function get_finished_appointments($id)
+{
+    global $mainConn;
+
+    $result = $mainConn->query("SELECT * FROM appointment INNER JOIN user ON user.user_id = appointment.counselor_id WHERE status = 'finished' AND creator_id = '$id'");
+
+    if ($result->num_rows > 0) {
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    return array();
 }
