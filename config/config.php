@@ -10,7 +10,9 @@ $mainDB = "iSafe";
 $mainConn = new mysqli($host, $user, $pwd, $mainDB);
 $schoolConn = new mysqli($host, $user, $pwd, $schoolDB);
 
+
 $management_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDI1MjE4NjAsImV4cCI6MTcwMjYwODI2MCwianRpIjoiand0X25vbmNlIiwidHlwZSI6Im1hbmFnZW1lbnQiLCJ2ZXJzaW9uIjoyLCJuYmYiOjE3MDI1MjE4NjAsImFjY2Vzc19rZXkiOiI2NTYwOGY4MzY4MTExZjZmZTRiNTdmOWIifQ.Vd4dTHzkqxohtmg-mSBT0X4CMS3THHFBKZFFnggshHk';
+
 
 if ($mainConn->connect_errno || $schoolConn->connect_errno) {
     die("Failed to connect to the database");
@@ -29,7 +31,9 @@ function check_id_login($id_number) : string
     if($result->num_rows > 0) $count++;
     $result = $schoolConn->query("SELECT * FROM teacher WHERE teacher_id =  '$id_number'");
     if($result->num_rows > 0) $count++;
+
     $result = $schoolConn->query("SELECT * FROM counselor WHERE counselor_id =  '$id_number'");
+
     if($result->num_rows > 0) $count++;
 
 //    foreach ($tables as $item) {
@@ -64,7 +68,9 @@ function check_id_reg($id_number) : string
     if($result->num_rows > 0) $count++;
     $result = $schoolConn->query("SELECT * FROM teacher WHERE teacher_id =  '$id_number'");
     if($result->num_rows > 0) $count++;
+
     $result = $schoolConn->query("SELECT * FROM counselor WHERE counselor_id =  '$id_number'");
+
     if($result->num_rows > 0) $count++;
 
 //    foreach ($tables as $item) {
@@ -82,6 +88,7 @@ function check_id_reg($id_number) : string
     $res = $mainConn->query("SELECT user_id FROM user WHERE user_id = '$id_number'");
     if ($res->num_rows > 0) {
         return "ID already registered";
+
     }
     return "";
 }
@@ -105,6 +112,7 @@ function get_user_role($id_number): array
         $data = $result->fetch_assoc();
         return array('role'=>'teacher', 'first_name'=>$data['first_name'], 'last_name'=>$data['last_name'], 'gender'=>$data['teacher_gender']);
     }
+
     $result = $schoolConn->query("SELECT student_id, first_name, last_name, student_gender FROM student WHERE student_id =  '$id_number'");
     if($result->num_rows > 0) {
         $data = $result->fetch_assoc();
@@ -251,6 +259,7 @@ function get_counselors()
         }
     }
     return $counselors;
+
 }
 
 function get_all_appointments($id)
@@ -315,4 +324,5 @@ function get_finished_appointments($id)
     }
 
     return array();
+
 }

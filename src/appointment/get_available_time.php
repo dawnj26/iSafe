@@ -10,7 +10,9 @@ $date = $_POST['date'];
 
 require '../../config/config.php';
 
+
 $current_time = new DateTime();
+
 $times = array("08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00");
 $available_times = array();
 

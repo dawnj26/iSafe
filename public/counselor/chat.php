@@ -5,9 +5,11 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
     header("Location: ../login.php");
     exit();
 }
+
 require '../../config/config.php';
 
 $counselors = get_counselors();
+
 ?>
 
 <!doctype html>
@@ -299,6 +301,7 @@ $counselors = get_counselors();
 			</button>
 		</div>
 
+
 		<form id="appointment">
 			<input type="hidden" name="latitude" id="latitude">
 			<input type="hidden" name="longitude" id="longitude">
@@ -331,6 +334,7 @@ $counselors = get_counselors();
 				</div>
 				<div id="right-form">
 					<div class="flex flex-col gap-1 mb-2">
+
 						<label for="date-of-event" class="flex gap-4 items-center justify-between">
 							<span class="text-sm">Date of event</span>
 							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
@@ -359,10 +363,12 @@ $counselors = get_counselors();
                             }
 
                             ?>
+
 						</select>
 						<a href="" class="text-brand-600 font-medium text-sm">View profile</a>
 					</div>
 					<div class="flex flex-col gap-1 mb-2">
+
 						<label for="date-of-appointment" class="flex gap-4 items-center justify-between">
 							<span class="text-sm">Date of appointment</span>
 							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
@@ -400,6 +406,7 @@ $counselors = get_counselors();
 								</defs>
 							</svg>
 						</div>
+
 						<button type="submit" class="px-4 py-2 bg-brand-600 text-white font-medium rounded-lg hover:bg-brand-700">Set appointment</button>
 					</div>
 
@@ -417,6 +424,7 @@ $counselors = get_counselors();
 <!--<script src="../js/calendar.js"></script>-->
 <!--<script src="../js/leaflet.js"></script>-->
 <script src="../js/create_appointment.js"></script>
+
 <script src="../js/close_modal.js"></script>
 <script src="../js/message.js"></script>
 </body>

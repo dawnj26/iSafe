@@ -1,4 +1,5 @@
 let temp;
+let temp;
 $(function () {
 
     function load(id) {
@@ -58,12 +59,13 @@ $(function () {
 // load all messaged users
     load("");
 
-
-
     // Create new message
     $('#open-msg').on('click', function () {
         let users = $('#users')
 
+
+        //get all current users
+        let users = $('#users')
 
         //get all current users
         $('#message-modal').removeClass('hidden').addClass('grid')

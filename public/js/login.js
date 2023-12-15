@@ -49,7 +49,9 @@ $(function () {
                 let admin = "admin"
 
                 if (client.includes(response)) {
+
                     location.href = "client/dashboard-new.php"
+
                     return
                 }
 

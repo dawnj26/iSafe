@@ -24,7 +24,9 @@ $(function () {
 
         $.ajax({
             type: 'POST',
+
             url: '../../src/appointment/get_counselor_sched.php',
+
             data: {
                 'counselor_id': $(this).val()
             },
@@ -47,7 +49,9 @@ $(function () {
                     return [availableDays.indexOf(day) !== -1, ''];
                 }
                 dateAppointment.datepicker('option', 'beforeShowDay', disableDays)
+
                 dateAppointment.datepicker('option', 'minDate', 0)
+
                 dateAppointment.prop('disabled', false)
             }
         })
@@ -56,7 +60,9 @@ $(function () {
     dateAppointment.on('change', function () {
         $.ajax({
             type: 'POST',
+
             url: '../../src/appointment/get_available_time.php',
+
             data: {
                 date: dateAppointment.val(),
             },
@@ -91,9 +97,11 @@ $(function () {
             }
 
         })
+
         console.log(errors)
 
         if (errors !== 0) {
+
             return
         }
         let formData = {
@@ -109,10 +117,12 @@ $(function () {
         }
         $.ajax({
             type: 'POST',
+
             url: '../../src/appointment/create_appointment.php',
             data: formData,
             success: function (response) {
                 console.log(response)
+
                 let msg = $('#msg')
                 let success = msg.html()
                 let err = `

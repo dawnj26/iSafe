@@ -1,10 +1,12 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['id']) || !isset($_SESSION['role']) ) {
     session_destroy();
     header("Location: ../login.php");
     exit();
 }
+
 $client = ["student", "employee"];
 if (!in_array($_SESSION['role'], $client)) {
 	session_destroy();
@@ -20,6 +22,7 @@ $id = $_SESSION['id'];
 $name = $mainConn->query("SELECT first_name, last_name FROM user WHERE user_id = '$id'")->fetch_assoc();
 
 $fullname = $name['first_name'] . ' ' . $name['last_name'];
+
 ?>
 
 <!doctype html>
