@@ -12,7 +12,7 @@ $role = $_POST['role'];
 $id = $_POST['id'];
 $gender = $role . "_gender";
 
-$result = $schoolConn->query("SELECT DATE_FORMAT(birth_date, '%M %e, %Y') AS birth_date, $gender AS gender  FROM student WHERE student_id = '$id'");
+$result = $schoolConn->query("SELECT DATE_FORMAT(birth_date, '%M %e, %Y') AS birth_date, $gender AS gender  FROM $role WHERE ".$role."_id = '$id'");
 
 $data = $result->fetch_assoc();
 

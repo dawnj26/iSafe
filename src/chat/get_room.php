@@ -8,6 +8,7 @@ require "../../config/config.php";
 
 $sender = $_SESSION['id'];
 $receiver = $_POST['receiver'];
+
 $result = $mainConn->query("SELECT room_id FROM 100ms_rooms WHERE counselor_id = '$sender'");
 $data = $result->fetch_assoc();
 
