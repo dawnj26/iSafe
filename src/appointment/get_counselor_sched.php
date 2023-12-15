@@ -7,7 +7,7 @@ require '../../config/config.php';
 
 $id = $_POST['counselor_id'];
 
-$q = "SELECT day_of_week FROM couselor_schedule WHERE couselor_id = '$id'";
+$q = "SELECT day_of_week FROM counselor_schedule WHERE counselor_id = '$id'";
 $result = $mainConn->query($q);
 $days = array();
 if ($result->num_rows > 0) {
