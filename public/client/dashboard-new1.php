@@ -168,185 +168,192 @@ $counselors = get_counselors()
 
 
 	<div class="flex items-center justify-center bg-gray-100 h-full w-full">
-		<div class="flex-1 flex flex-col overflow-hidden">
+		<div class="flex-1 flex flex-col overflow-hidden ">
 			<!-- Your main content goes here -->
-			<div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 ">
+			<div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200  ">
 				<!-- Page Content -->
 
-				<div class="m-4 border-black bg-white rounded-md p-4 flex items-center">
+				<div class="m-4 border-black bg-white rounded-md p-4 flex " style="max-width: 1130px; width: 100%;">
 					<div class="flex-1 ml-5">
 						<div class="font-extralight mb-8">
 							<p>Friday, 24 November 2023</p>
 						</div>
 						<div class="text-3xl mb-8">
-							<p>Good Evening, <?php echo $fullname ?></p>
+							<p>Good Evening, USER</p>
 						</div>
 						<div class="font-light mb-8">
-							<p>"The purpose of our life is to be <span style="color: #7F56D9;" class="">happy</span>" -
-								<span class="italic">Dalai Lama</span></p>
+							<p>"The purpose of our life is to be <span style="color: #7F56D9;">happy</span>" - <span class="italic">Dalai Lama</span></p>
 						</div>
 					</div>
-					<div class="flex-shrink-0 mr-14">
-						<img src="../assets/icons/undraw_mindfulness_8gqa 1.svg" alt="Image description"
-						     class="rounded-md" width="300">
+					<div class="flex-shrink-0 ">
+						<img src="../assets/icons/undraw_mindfulness_8gqa 1.svg" alt="Image description" class="rounded-md" width="300" style="position:relative; right:100px">
 					</div>
 				</div>
 				<div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 ">
 					<!-- Page Content -->
 
-					<div class="m-4 border-black bg-white rounded-md p-4 flex items-center">
+					<div class="m-4 border-black bg-white rounded-md p-4 flex items-center " style="max-width: 1130px; width: 100%; position:relative; top:-15px;">
 						<div class="flex-1">
-							<div class="font-bold mb-8 text-2xl mt-4 ml-4">
+							<div class="font-bold mb-8  mt-4 ml-4" >
 								<p>Latest Posts</p>
 							</div>
 
 							<div class="flex justify-evenly">
-								<div class="p-5 inline-block rounded-lg"
-								     style="background-color: #F4EBFF; color: black; width: 400px;">
+								<div class="p-5 inline-block rounded-lg" style="background-color: #F4EBFF; color: black; width: 350px; ">
 
-									<div class="flex items-center justify-between mb-4">
-										<div class="flex items-center">
-											<div class="inline-block">
-												<img src="../assets/icons/olivia.svg" alt="Avatar" class="rounded-full"
-												     style="width: 50px; height: 50px;">
+									<div class="flex flex-col h-full">
+										<div class="flex items-center justify-between mb-4">
+											<div class="flex items-center">
+												<div class="inline-block">
+													<img src="../assets/icons/olivia.svg" alt="Avatar" class="rounded-full" style="width: 50px; height: 50px;">
+												</div>
+												<div class="inline-block ml-4">
+													<p class="font-bold">Olivia Rhye</p>
+													<p class="text-sm">Student</p>
+												</div>
 											</div>
-											<div class="inline-block ml-4">
-												<p class="font-bold">Olivia Rhye</p>
-												<p class="text-sm">Student</p>
-											</div>
+											<p class="text-sm text-gray-500">9:00 PM</p>
 										</div>
-										<p class="text-sm text-gray-500">9:00 PM</p>
-									</div>
 
-									<!-- Adjust max-width for the message box and remove fixed width -->
-									<div class="mt-5 mb-5 overflow-y-auto max-h-40">
-										<p>
-											<!-- Add more text or user information as needed -->
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-											tempor incididunt ut labore et dolore magna aliqua.
-										</p>
-									</div>
+										<!-- Adjust max-width for the message box and remove fixed width -->
+										<div class="mt-5 mb-auto overflow-y-auto max-h-40">
+											<p style="font-size: 13px;">
+												<!-- Add more text or user information as needed -->
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+											</p>
+										</div>
+										<br>
+										<hr>
+										<br>
+										<div class="flex justify-between mt-auto">
+											<a href="#" class="text-blue-500 flex items-center">
+												<svg class="inline-block relative right-1" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M6 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V12C1 11.4696 1.21071 10.9609 1.58579 10.5858C1.96086 10.2107 2.46957 10 3 10H6M13 8V4C13 3.20435 12.6839 2.44129 12.1213 1.87868C11.5587 1.31607 10.7956 1 10 1L6 10V21H17.28C17.7623 21.0055 18.2304 20.8364 18.5979 20.524C18.9654 20.2116 19.2077 19.7769 19.28 19.3L20.66 10.3C20.7035 10.0134 20.6842 9.72068 20.6033 9.44225C20.5225 9.16382 20.3821 8.90629 20.1919 8.68751C20.0016 8.46873 19.7661 8.29393 19.5016 8.17522C19.2371 8.0565 18.9499 7.99672 18.66 8H13Z" stroke="#475467" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
 
-									<hr>
+												</svg>
+												<div class="inline-block">Like</div>
+											</a>
+											<a href="#" class="text-blue-500 flex items-center">
+												<svg class="inline-block relative right-1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M19 9.5C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7117 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013 18.0034 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.5C2.00061 7.92176 2.44061 6.37485 3.27072 5.03255C4.10083 3.69025 5.28825 2.60557 6.7 1.9C7.87812 1.30493 9.18013 0.996557 10.5 0.999998H11C13.0843 1.11499 15.053 1.99476 16.5291 3.47086C18.0052 4.94695 18.885 6.91565 19 9V9.5Z" stroke="#475467" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
 
-									<div class="flex justify-between mt-4">
-										<a href="#" class="text-blue-500">
-											<svg class="inline-block relative right-1" width="22" height="22"
-											     viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M6 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V12C1 11.4696 1.21071 10.9609 1.58579 10.5858C1.96086 10.2107 2.46957 10 3 10H6M13 8V4C13 3.20435 12.6839 2.44129 12.1213 1.87868C11.5587 1.31607 10.7956 1 10 1L6 10V21H17.28C17.7623 21.0055 18.2304 20.8364 18.5979 20.524C18.9654 20.2116 19.2077 19.7769 19.28 19.3L20.66 10.3C20.7035 10.0134 20.6842 9.72068 20.6033 9.44225C20.5225 9.16382 20.3821 8.90629 20.1919 8.68751C20.0016 8.46873 19.7661 8.29393 19.5016 8.17522C19.2371 8.0565 18.9499 7.99672 18.66 8H13Z"
-												      stroke="#475467" stroke-width="2" stroke-linecap="round"
-												      stroke-linejoin="round"/>
-											</svg>
-											<div class="inline-block">Like</div>
-										</a>
-										<a href="#" class="text-blue-500">
-											<svg class="inline-block relative right-1" width="20" height="20"
-											     viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M19 9.5C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7117 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013
-														18.0034 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.5C2.00061 7.92176 2.44061 6.37485 3.27072 5.03255C4.10083 3.69025 5.28825 2.60557 6.7 1.9C7.87812 1.30493 9.18013 0.996557 10.5 0.999998H11C13.0843 1.11499 15.053 1.99476 16.5291 3.47086C18.0052 4.94695 18.885 6.91565 19 9V9.5Z"
-												      stroke="#475467" stroke-width="2" stroke-linecap="round"
-												      stroke-linejoin="round"/>
-											</svg>
-											<div class="inline-block">Comment</div>
-										</a>
+												</svg>
+												<div class="inline-block">Comment</div>
+											</a>
+										</div>
+
 									</div>
 
 								</div>
 
-								<div class="p-5 inline-block rounded-lg"
-								     style="background-color: #F4EBFF; color: black; width: 400px;">
 
-									<div class="flex items-center justify-between mb-4">
-										<div class="flex items-center">
-											<div class="inline-block">
-												<img src="../assets/icons/olivia.svg" alt="Avatar" class="rounded-full"
-												     style="width: 50px; height: 50px;">
+								<div class="p-5 inline-block rounded-lg" style="background-color: #F4EBFF; color: black; width: 350px; ">
+
+									<div class="flex flex-col h-full">
+										<div class="flex items-center justify-between mb-4">
+											<div class="flex items-center">
+												<div class="inline-block">
+													<img src="../assets/icons/olivia.svg" alt="Avatar" class="rounded-full" style="width: 50px; height: 50px;">
+												</div>
+												<div class="inline-block ml-4">
+													<p class="font-bold">Olivia Rhye</p>
+													<p class="text-sm">Student</p>
+												</div>
 											</div>
-											<div class="inline-block ml-4">
-												<p class="font-bold">Olivia Rhye</p>
-												<p class="text-sm">Student</p>
-											</div>
+											<p class="text-sm text-gray-500">9:00 PM</p>
 										</div>
-										<p class="text-sm text-gray-500">9:00 PM</p>
-									</div>
-									<div class="mt-5 mb-5 overflow-y-auto max-h-40">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-											tempor incididunt ut labore et dolore magna aliqua.</p>
-									</div>
 
-									<hr>
+										<!-- Adjust max-width for the message box and remove fixed width -->
+										<div class="mt-5 mb-auto overflow-y-auto max-h-40">
+											<p style="font-size: 13px;">
+												<!-- Add more text or user information as needed -->
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+											</p>
+										</div>
 
-									<div class="flex justify-between mt-4">
-										<a href="#" class="text-blue-500">
-											<svg class="inline-block relative right-1" width="22" height="22"
-											     viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M6 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V12C1 11.4696 1.21071 10.9609 1.58579 10.5858C1.96086 10.2107 2.46957 10 3 10H6M13 8V4C13 3.20435 12.6839 2.44129 12.1213 1.87868C11.5587 1.31607 10.7956 1 10 1L6 10V21H17.28C17.7623 21.0055 18.2304 20.8364 18.5979 20.524C18.9654 20.2116 19.2077 19.7769 19.28 19.3L20.66 10.3C20.7035 10.0134 20.6842 9.72068 20.6033 9.44225C20.5225 9.16382 20.3821 8.90629 20.1919 8.68751C20.0016 8.46873 19.7661 8.29393 19.5016 8.17522C19.2371 8.0565 18.9499 7.99672 18.66 8H13Z"
-												      stroke="#475467" stroke-width="2" stroke-linecap="round"
-												      stroke-linejoin="round"/>
-											</svg>
-											<div class="inline-block">Like</div>
-										</a>
-										<a href="#" class="text-blue-500">
-											<svg class="inline-block relative right-1" width="20" height="20"
-											     viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M19 9.5C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7117 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013
-														18.0034 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.5C2.00061 7.92176 2.44061 6.37485 3.27072 5.03255C4.10083 3.69025 5.28825 2.60557 6.7 1.9C7.87812 1.30493 9.18013 0.996557 10.5 0.999998H11C13.0843 1.11499 15.053 1.99476 16.5291 3.47086C18.0052 4.94695 18.885 6.91565 19 9V9.5Z"
-												      stroke="#475467" stroke-width="2" stroke-linecap="round"
-												      stroke-linejoin="round"/>
-											</svg>
-											<div class="inline-block">Comment</div>
-										</a>
+										<hr>
+
+										<div class="flex justify-between mt-auto">
+											<a href="#" class="text-blue-500 flex items-center">
+												<svg class="inline-block relative right-1" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M6 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V12C1 11.4696 1.21071 10.9609 1.58579 10.5858C1.96086 10.2107 2.46957 10 3 10H6M13 8V4C13 3.20435 12.6839 2.44129 12.1213 1.87868C11.5587 1.31607 10.7956 1 10 1L6 10V21H17.28C17.7623 21.0055 18.2304 20.8364 18.5979 20.524C18.9654 20.2116 19.2077 19.7769 19.28 19.3L20.66 10.3C20.7035 10.0134 20.6842 9.72068 20.6033 9.44225C20.5225 9.16382 20.3821 8.90629 20.1919 8.68751C20.0016 8.46873 19.7661 8.29393 19.5016 8.17522C19.2371 8.0565 18.9499 7.99672 18.66 8H13Z" stroke="#475467" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
+
+												</svg>
+												<div class="inline-block">Like</div>
+											</a>
+											<a href="#" class="text-blue-500 flex items-center">
+												<svg class="inline-block relative right-1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M19 9.5C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7117 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013 18.0034 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.5C2.00061 7.92176 2.44061 6.37485 3.27072 5.03255C4.10083 3.69025 5.28825 2.60557 6.7 1.9C7.87812 1.30493 9.18013 0.996557 10.5 0.999998H11C13.0843 1.11499 15.053 1.99476 16.5291 3.47086C18.0052 4.94695 18.885 6.91565 19 9V9.5Z" stroke="#475467" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
+
+												</svg>
+												<div class="inline-block">Comment</div>
+											</a>
+										</div>
+
 									</div>
-
 
 								</div>
 
-								<div class="p-5 inline-block rounded-lg"
-								     style="background-color: #F4EBFF; color: black; width: 400px;">
 
-									<div class="flex items-center justify-between mb-4">
-										<div class="flex items-center">
-											<div class="inline-block">
-												<img src="../assets/icons/olivia.svg" alt="Avatar" class="rounded-full"
-												     style="width: 50px; height: 50px;">
+								<div class="p-5 inline-block rounded-lg" style="background-color: #F4EBFF; color: black; width: 350px; ">
+
+									<div class="flex flex-col h-full">
+										<div class="flex items-center justify-between mb-4">
+											<div class="flex items-center">
+												<div class="inline-block">
+													<img src="../assets/icons/olivia.svg" alt="Avatar" class="rounded-full" style="width: 50px; height: 50px;">
+												</div>
+												<div class="inline-block ml-4">
+													<p class="font-bold">Olivia Rhye</p>
+													<p class="text-sm">Student</p>
+												</div>
 											</div>
-											<div class="inline-block ml-4">
-												<p class="font-bold">Olivia Rhye</p>
-												<p class="text-sm">Student</p>
-											</div>
+											<p class="text-sm text-gray-500">9:00 PM</p>
 										</div>
-										<p class="text-sm text-gray-500">9:00 PM</p>
-									</div>
-									<div class="mt-5 mb-5 overflow-y-auto max-h-40">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-											tempor incididunt ut labore et dolore magna aliqua.</p>
-									</div>
 
-									<hr>
+										<!-- Adjust max-width for the message box and remove fixed width -->
+										<div class="mt-5 mb-auto overflow-y-auto max-h-40">
+											<p style="font-size: 13px;">
+												<!-- Add more text or user information as needed -->
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+											</p>
+										</div>
 
-									<div class="flex justify-between mt-4">
-										<a href="#" class="text-blue-500">
-											<svg class="inline-block relative right-1" width="22" height="22"
-											     viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M6 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V12C1 11.4696 1.21071 10.9609 1.58579 10.5858C1.96086 10.2107 2.46957 10 3 10H6M13 8V4C13 3.20435 12.6839 2.44129 12.1213 1.87868C11.5587 1.31607 10.7956 1 10 1L6 10V21H17.28C17.7623 21.0055 18.2304 20.8364 18.5979 20.524C18.9654 20.2116 19.2077 19.7769 19.28 19.3L20.66 10.3C20.7035 10.0134 20.6842 9.72068 20.6033 9.44225C20.5225 9.16382 20.3821 8.90629 20.1919 8.68751C20.0016 8.46873 19.7661 8.29393 19.5016 8.17522C19.2371 8.0565 18.9499 7.99672 18.66 8H13Z"
-												      stroke="#475467" stroke-width="2" stroke-linecap="round"
-												      stroke-linejoin="round"/>
-											</svg>
-											<div class="inline-block">Like</div>
-										</a>
-										<a href="#" class="text-blue-500">
-											<svg class="inline-block relative right-1" width="20" height="20"
-											     viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M19 9.5C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7117 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013
-															18.0034 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.5C2.00061 7.92176 2.44061 6.37485 3.27072 5.03255C4.10083 3.69025 5.28825 2.60557 6.7 1.9C7.87812 1.30493 9.18013 0.996557 10.5 0.999998H11C13.0843 1.11499 15.053 1.99476 16.5291 3.47086C18.0052 4.94695 18.885 6.91565 19 9V9.5Z"
-												      stroke="#475467" stroke-width="2" stroke-linecap="round"
-												      stroke-linejoin="round"/>
-											</svg>
-											<div class="inline-block">Comment</div>
-										</a>
+										<hr>
+
+										<div class="flex justify-between mt-auto">
+											<a href="#" class="text-blue-500 flex items-center">
+												<svg class="inline-block relative right-1" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M6 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V12C1 11.4696 1.21071 10.9609 1.58579 10.5858C1.96086 10.2107 2.46957 10 3 10H6M13 8V4C13 3.20435 12.6839 2.44129 12.1213 1.87868C11.5587 1.31607 10.7956 1 10 1L6 10V21H17.28C17.7623 21.0055 18.2304 20.8364 18.5979 20.524C18.9654 20.2116 19.2077 19.7769 19.28 19.3L20.66 10.3C20.7035 10.0134 20.6842 9.72068 20.6033 9.44225C20.5225 9.16382 20.3821 8.90629 20.1919 8.68751C20.0016 8.46873 19.7661 8.29393 19.5016 8.17522C19.2371 8.0565 18.9499 7.99672 18.66 8H13Z" stroke="#475467" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
+
+												</svg>
+												<div class="inline-block">Like</div>
+											</a>
+											<a href="#" class="text-blue-500 flex items-center">
+												<svg class="inline-block relative right-1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M19 9.5C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7117 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013 18.0034 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.5C2.00061 7.92176 2.44061 6.37485 3.27072 5.03255C4.10083 3.69025 5.28825 2.60557 6.7 1.9C7.87812 1.30493 9.18013 0.996557 10.5 0.999998H11C13.0843 1.11499 15.053 1.99476 16.5291 3.47086C18.0052 4.94695 18.885 6.91565 19 9V9.5Z" stroke="#475467" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
+
+												</svg>
+												<div class="inline-block">Comment</div>
+											</a>
+										</div>
+
 									</div>
 
 								</div>
+
 							</div>
 						</div>
 					</div>
@@ -354,94 +361,106 @@ $counselors = get_counselors()
 					<div class="flex items-center w-full">
 
 						<!-- Appointments Container -->
-						<div class="m-4 bg-white rounded-md p-4 items-center w-1/2 inline-block">
+						<div class="m-4 bg-white rounded-md p-4 items-center w-1/2 inline-block" style="position: relative; top:-25px; max-width: 600px; width: 100%; ">
 							<div class="flex-1 ml-5">
-								<div class="font-bold mb-5 text-2xl">
+
+								<div class="font-bold mb-5">
 									<p>Appointments</p>
 								</div>
 
 								<!-- First Appointment -->
-								<a href="#" class="block mb-2 hover:bg-purple-100 rounded-2xl">
-									<div class="p-5 block rounded-lg text-black w-full">
-										<div class="flex items-center justify-between mb-4">
-											<div class="flex items-center">
-												<div class="inline-block">
-													<img src="../assets/icons/olivia.svg" alt="Avatar"
-													     class="rounded-full w-12 h-12">
+								<div class="" style="position: relative; left:-20px;">
+									<a href="#" class="block mb-1" style="background-color: #fff; transition: background-color 0.3s ease-in-out; border-radius: 10px; "
+									   onmouseover="this.style.backgroundColor='#E9D7FE'" onmouseout="this.style.backgroundColor='#fff'">
+										<div class="p-5 block rounded-lg text-black w-full">
+											<div class="flex items-center justify-between mb-2">
+												<div class="flex items-center">
+													<div class="inline-block">
+														<img src="../assets/icons/olivia.svg" alt="Avatar" class="rounded-full w-12 h-12">
+													</div>
+													<div class="inline-block ml-4">
+														<p class="font-bold">Olivia Rhye</p>
+														<p class="text-sm">First Visit | Age: 18</p>
+													</div>
 												</div>
-												<div class="inline-block ml-4">
-													<p class="font-bold">Olivia Rhye</p>
-													<p class="text-sm">First Visit | Age: 18</p>
-												</div>
+												<p class="text-sm text-gray-500">9:00 PM</p>
 											</div>
-											<p class="text-sm text-gray-500">9:00 PM</p>
 										</div>
-									</div>
-								</a>
+									</a>
 
-								<!-- Second Appointment -->
-								<a href="#" class="block mb-2 hover:bg-purple-100 rounded-2xl">
-									<div class="p-5 block rounded-lg text-black w-full">
-										<div class="flex items-center justify-between mb-4">
-											<div class="flex items-center">
-												<div class="inline-block">
-													<img src="../assets/icons/olivia.svg" alt="Avatar"
-													     class="rounded-full w-12 h-12">
+									<!-- Second Appointment -->
+									<a href="#" class="block mb-1" style="background-color: #fff; transition: background-color 0.3s ease-in-out; border-radius: 10px;"
+									   onmouseover="this.style.backgroundColor='#E9D7FE'" onmouseout="this.style.backgroundColor='#fff'">
+										<div class="p-5 block rounded-lg text-black w-full">
+											<div class="flex items-center justify-between mb-2">
+												<div class="flex items-center">
+													<div class="inline-block">
+														<img src="../assets/icons/olivia.svg" alt="Avatar" class="rounded-full w-12 h-12">
+													</div>
+													<div class="inline-block ml-4">
+														<p class="font-bold">hotdog ni kap</p>
+														<p class="text-sm">Second Visit | Age: 25</p>
+													</div>
 												</div>
-												<div class="inline-block ml-4">
-													<p class="font-bold">hotdog ni kap</p>
-													<p class="text-sm">Second Visit | Age: 25</p>
-												</div>
+												<p class="text-sm text-gray-500">10:30 AM</p>
 											</div>
-											<p class="text-sm text-gray-500">10:30 AM</p>
 										</div>
-									</div>
-								</a>
+									</a>
 
-								<!-- Third Appointment -->
-								<a href="#" class="block mb-2 hover:bg-purple-100 rounded-2xl">
-									<div class="p-5 block rounded-lg text-black w-full">
-										<div class="flex items-center justify-between mb-4">
-											<div class="flex items-center">
-												<div class="inline-block">
-													<img src="../assets/icons/olivia.svg" alt="Avatar"
-													     class="rounded-full w-12 h-12">
+									<!-- Third Appointment -->
+									<a href="#" class="block mb-1" style="background-color: #fff; transition: background-color 0.3s ease-in-out; border-radius: 10px;"
+									   onmouseover="this.style.backgroundColor='#E9D7FE'" onmouseout="this.style.backgroundColor='#fff'">
+										<div class="p-5 block rounded-lg text-black w-full">
+											<div class="flex items-center justify-between mb-2">
+												<div class="flex items-center">
+													<div class="inline-block">
+														<img src="../assets/icons/olivia.svg" alt="Avatar" class="rounded-full w-12 h-12">
+													</div>
+													<div class="inline-block ml-4">
+														<p class="font-bold">Jane Smith</p>
+														<p class="text-sm">Third Visit | Age: 30</p>
+													</div>
 												</div>
-												<div class="inline-block ml-4">
-													<p class="font-bold">Jane Smith</p>
-													<p class="text-sm">Third Visit | Age: 30</p>
-												</div>
+												<p class="text-sm text-gray-500">1:45 PM</p>
 											</div>
-											<p class="text-sm text-gray-500">1:45 PM</p>
 										</div>
-									</div>
-								</a>
+									</a>
+								</div>
+
 							</div>
 						</div>
 
+
+
 						<!-- Incident Map -->
-						<div class="m-4 border-black bg-white rounded-md p-4 w-1/2 inline-block">
+						<div class="m-4 border-black bg-white rounded-md p-4 w-1/2 inline-block" style="position: relative; top:-26px; left: 5px; max-width: 600px; width: 100%;">
 							<div class="ml-5 flex flex-col h-full">
-								<div class="font-bold mb-2 text-2xl flex">
+								<div class="font-bold mb-2  flex">
 									<p class="mt-3">Incident Map</p>
 								</div>
 								<div class="text-sm mb-2 flex justify-end relative bottom-8">
 									<p>As of 9:43 am</p>
 								</div>
-								<img src="../assets/icons/Figmap.svg" alt="Incident Map"
-								     class="w-60 h-60 rounded-lg relative bottom-10">
-								<div class="text-sm">
-									<p class="">BULLYING</p>
-									<p class="mb-2 flex">At Umingan Pangasinan</p>
-									<p class="text-gray-500 ">Time: Time of the Incident at Umingan Pangasinan</p>
+								<div class="flex items-center">
+									<img src="../assets/icons/Figmap.svg" alt="Incident Map" width="300px;" style="height: 270px; position: relative; top: -30px;">
+									<a href="#" class="flex items-center">
+										<div class="text-sm ml-4" style="position: absolute; top: 35%; transform: translateY(-50%);">
+											<div class="flex justify-between"><p class="font-bold">BULLYING <p class="">9:52 am</p></p></div>
+											<p class="mb-2">At Umingan Pangasinan</p>
+
+										</div>
+									</a>
 								</div>
+
+
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+
 	</div>
 
 
