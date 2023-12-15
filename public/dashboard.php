@@ -269,14 +269,16 @@ $counselors = get_counselors();
 						</label>
 						<select name="time-of-appointment" id="time-of-appointment" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg text-gray-500 bg-white">
 							<option value="">Select time</option>
-							<option value="08:00">8:00 am to 9:00 am</option>
-							<option value="09:00">9:00 am to 10:00 am</option>
-							<option value="10:00">10:00 am to 11:00 am</option>
-							<option value="11:00">11:00 am to 12:00 pm</option>
-							<option value="13:00">1:00 pm to 2:00 pm</option>
-							<option value="14:00">2:00 pm to 3:00 pm</option>
-							<option value="15:00">3:00 pm to 4:00pm</option>
-							<option value="16:00">4:00 pm to 5:00 pm</option>
+
+<!--							<option value="08:00">8:00 am to 9:00 am</option>-->
+<!--							<option value="09:00">9:00 am to 10:00 am</option>-->
+<!--							<option value="10:00">10:00 am to 11:00 am</option>-->
+<!--							<option value="11:00">11:00 am to 12:00 pm</option>-->
+<!--							<option value="13:00">1:00 pm to 2:00 pm</option>-->
+<!--							<option value="14:00">2:00 pm to 3:00 pm</option>-->
+<!--							<option value="15:00">3:00 pm to 4:00pm</option>-->
+<!--							<option value="16:00">4:00 pm to 5:00 pm</option>-->
+
 						</select>
 					</div>
 					<div class="flex text-sm items-center justify-between">

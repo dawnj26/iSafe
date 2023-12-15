@@ -1,10 +1,10 @@
 <?php
-
+session_start();
 require "../config/config.php";
 
 global $mainConn;
 
-$id = '21-UR-0001';
+$id = $_SESSION['id'];
 
 $query = "
             SELECT user.user_id, user.first_name, user.last_name, user.user_role

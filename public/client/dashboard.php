@@ -1,3 +1,25 @@
+
+<?php
+session_start();
+if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
+    session_destroy();
+    header("Location: ../login.php");
+    exit();
+}
+$client = ["student", "employee"];
+if (!in_array($_SESSION['role'], $client)) {
+    session_destroy();
+    header("Location: ../login.php");
+    exit();
+}
+require '../../config/config.php';
+$id = $_SESSION['id'];
+$name = $mainConn->query("SELECT first_name, last_name FROM user WHERE user_id = '$id'")->fetch_assoc();
+
+$fullname = $name['first_name'] . ' ' . $name['last_name'];
+$counselors = get_counselors()
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -54,7 +76,9 @@
 					<path d="M34.6668 36V33.3333C34.6668 31.9188 34.1049 30.5623 33.1047 29.5621C32.1045 28.5619 30.748 28 29.3335 28H18.6668C17.2523 28 15.8958 28.5619 14.8956 29.5621C13.8954 30.5623 13.3335 31.9188 13.3335 33.3333V36M29.3335 17.3333C29.3335 20.2789 26.9457 22.6667 24.0002 22.6667C21.0546 22.6667 18.6668 20.2789 18.6668 17.3333C18.6668 14.3878 21.0546 12 24.0002 12C26.9457 12 29.3335 14.3878 29.3335 17.3333Z"
 					      stroke="#7F56D9" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
-				<p class="text-sm">Hanni Pham</p>
+
+				<p class="text-sm"><?php echo $fullname ?></p>
+
 			</div>
 
 		</div>
@@ -67,28 +91,43 @@
 	<!-- Wrap in anchor tag to navigate through pages, yung li element-->
 	<aside class="h-full pt-2 shadow-[rgba(0,0,0,0.1)_2px_0_0_0]">
 		<ul>
-			<li class="flex items-center p-4 gap-2 active-tab text-brand-600 w-full border-r-4 border-brand-600 hover:bg-slate-100 cursor-pointer">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M9 22V12H15V22M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
-					      stroke="#7F56D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-				</svg>
-				Dashboard
-			</li>
-			<li class="flex items-center p-4 gap-2 w-full hover:bg-slate-100 cursor-pointer">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M16 2V6M8 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z"
-					      stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-				</svg>
 
-				Appointments
+			<li class="p-4 active-tab text-brand-600 w-full border-r-4 border-brand-600 hover:bg-slate-100 cursor-pointer">
+				<a href="dashboard.php">
+					<div class="flex items-center gap-2">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M9 22V12H15V22M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+							      stroke="#7F56D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+						Dashboard
+					</div>
+				</a>
 			</li>
-			<li class="flex items-center p-4 gap-2 w-full hover:bg-slate-100 cursor-pointer">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
-					      stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-				</svg>
+			<li class="p-4 w-full hover:bg-slate-100 cursor-pointer">
 
-				Chat
+				<a href="appointments.php">
+					<div class="w-full flex items-center gap-2">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M16 2V6M8 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z"
+							      stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+
+						Appointments
+					</div>
+				</a>
+			</li>
+			<li class="p-4 w-full hover:bg-slate-100 cursor-pointer">
+				<a href="chat.php">
+					<div class="flex items-center gap-2">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
+							      stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+
+						Chat
+					</div>
+				</a>
+
 			</li>
 			<li class="flex items-center p-4 gap-2 w-full hover:bg-slate-100 cursor-pointer">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -135,7 +174,9 @@
 							<p>Friday, 24 November 2023</p>
 						</div>
 						<div class="text-3xl mb-8">
-							<p>Good Evening, USER</p>
+
+							<p>Good Evening, <?php echo $fullname ?></p>
+
 						</div>
 						<div class="font-light mb-8">
 							<p>"The purpose of our life is to be <span style="color: #7F56D9;" class="">happy</span>" -
@@ -396,57 +437,62 @@
 
 					</div>
 
+				</div>
+			</div>
+		</div>
 
-					<div id="notification-modal"
-					     class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
-						<div class="bg-white p-8 w-2/3 max-h-96 rounded-xl">
-							<div class="header flex justify-between mb-6">
-								<h2 class="text-xl">Notifications</h2>
-								<button type="button" id="close-modal">
-									<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-									     xmlns="http://www.w3.org/2000/svg">
-										<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828"
-										      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-								</button>
-							</div>
-							<!--Call notification-->
-							<div class="flex justify-between bg-brand-100 p-4 rounded-xl mb-2">
-								<div class="flex gap-4 items-center">
-									<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-									     xmlns="http://www.w3.org/2000/svg">
-										<path d="M16 2V6M8 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z"
-										      stroke="#344054" stroke-width="2" stroke-linecap="round"
-										      stroke-linejoin="round"/>
-									</svg>
-									<div>
-										<p class="text-sm font-semibold">Magno started a meeting</p>
-										<p class="text-xs text-gray-600">Monday, December 25, 2023 | 12:00am</p>
-									</div>
-								</div>
-								<button type="button"
-								        class="text-white text-sm font-medium bg-brand-600 h-min py-2 px-4 rounded-xl hover:bg-brand-700">
-									Join
-								</button>
-							</div>
-							<!--Message notification-->
-							<div class="flex items-center justify-between bg-brand-100 p-4 rounded-xl">
-								<div class="flex gap-4 items-center">
-									<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-									     xmlns="http://www.w3.org/2000/svg">
-										<path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
-										      stroke="#344054" stroke-width="2" stroke-linecap="round"
-										      stroke-linejoin="round"/>
-									</svg>
-									<div>
-										<p class="text-sm font-semibold">Magno messaged you</p>
-										<p class="text-xs text-gray-600">Monday, December 25, 2023 | 12:00am</p>
-									</div>
-								</div>
-							</div>
+
+		<div id="notification-modal"
+		     class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
+			<div class="bg-white p-8 w-2/3 max-h-96 rounded-xl">
+				<div class="header flex justify-between mb-6">
+					<h2 class="text-xl">Notifications</h2>
+					<button type="button" id="close-modal">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+						     xmlns="http://www.w3.org/2000/svg">
+							<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828"
+							      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</button>
+				</div>
+				<!--Call notification-->
+				<div class="flex justify-between bg-brand-100 p-4 rounded-xl mb-2">
+					<div class="flex gap-4 items-center">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+						     xmlns="http://www.w3.org/2000/svg">
+							<path d="M16 2V6M8 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z"
+							      stroke="#344054" stroke-width="2" stroke-linecap="round"
+							      stroke-linejoin="round"/>
+						</svg>
+						<div>
+							<p class="text-sm font-semibold">Magno started a meeting</p>
+							<p class="text-xs text-gray-600">Monday, December 25, 2023 | 12:00am</p>
 						</div>
 					</div>
+					<button type="button"
+					        class="text-white text-sm font-medium bg-brand-600 h-min py-2 px-4 rounded-xl hover:bg-brand-700">
+						Join
+					</button>
+				</div>
+				<!--Message notification-->
+				<div class="flex items-center justify-between bg-brand-100 p-4 rounded-xl">
+					<div class="flex gap-4 items-center">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+						     xmlns="http://www.w3.org/2000/svg">
+							<path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
+							      stroke="#344054" stroke-width="2" stroke-linecap="round"
+							      stroke-linejoin="round"/>
+						</svg>
+						<div>
+							<p class="text-sm font-semibold">Magno messaged you</p>
+							<p class="text-xs text-gray-600">Monday, December 25, 2023 | 12:00am</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-					<script src="js/close_modal.js"></script>
+		<script src="../js/close_modal.js"></script>
+
 </body>
 </html>

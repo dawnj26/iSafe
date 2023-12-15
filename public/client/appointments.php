@@ -1,30 +1,30 @@
 <?php
 session_start();
-
 if (!isset($_SESSION['id']) || !isset($_SESSION['role']) ) {
     session_destroy();
     header("Location: ../login.php");
     exit();
 }
-
 $client = ["student", "employee"];
 if (!in_array($_SESSION['role'], $client)) {
-	session_destroy();
-	header("Location: ../login.php");
-	exit();
+    session_destroy();
+    header("Location: ../login.php");
+    exit();
 }
-
 require '../../config/config.php';
-
-$counselors = get_counselors();
-
 $id = $_SESSION['id'];
 $name = $mainConn->query("SELECT first_name, last_name FROM user WHERE user_id = '$id'")->fetch_assoc();
 
 $fullname = $name['first_name'] . ' ' . $name['last_name'];
+$counselors = get_counselors();
 
+$result = $mainConn->query('SELECT * FROM appointment');
+$total = $result->num_rows;
+$result = $mainConn->query('SELECT * FROM appointment WHERE DATE(appointment_date) = DATE_ADD(CURDATE(), INTERVAL 1 DAY)');
+$today = $result->num_rows;
+$result = $mainConn->query("SELECT * FROM appointment WHERE status = 'finished'");
+$finished = $result->num_rows;
 ?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -32,29 +32,32 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 	<meta name="viewport"
 	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<!--google font-->
+	<!--google font-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<!--tailwindcss file-->
+	<!--tailwindcss file-->
 	<link rel="stylesheet" href="../css/style.css">
-<!--Leaflet-->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+	<!--Leaflet-->
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 	      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
 	      crossorigin=""/>
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
 	        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
 	        crossorigin=""></script>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
 	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-<!--jquery-->
+	<!--jquery-->
 	<link rel="stylesheet" href="../js/jquery-ui-1.13.2.custom/jquery-ui.min.css">
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="../js/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
+	<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 	<title>Document</title>
 </head>
-<body class="min-h-screen max-h-screen h-screen flex flex-col font-inter relative">
-<header class="py-4 px-6 flex w-full items-center justify-between shadow z-20">
+<body class="h-screen flex flex-col font-inter relative">
+<header class="py-4 px-6 flex w-full items-center justify-between shadow">
 	<div class="logo flex items-center gap-2">
 		<svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<rect width="40" height="40" rx="8" fill="#7F56D9"/>
@@ -92,7 +95,7 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 					<path d="M34.6668 36V33.3333C34.6668 31.9188 34.1049 30.5623 33.1047 29.5621C32.1045 28.5619 30.748 28 29.3335 28H18.6668C17.2523 28 15.8958 28.5619 14.8956 29.5621C13.8954 30.5623 13.3335 31.9188 13.3335 33.3333V36M29.3335 17.3333C29.3335 20.2789 26.9457 22.6667 24.0002 22.6667C21.0546 22.6667 18.6668 20.2789 18.6668 17.3333C18.6668 14.3878 21.0546 12 24.0002 12C26.9457 12 29.3335 14.3878 29.3335 17.3333Z"
 					      stroke="#7F56D9" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
-				<p class="text-sm">Hanni Pham</p>
+				<p class="text-sm"><?php echo $fullname?></p>
 			</div>
 
 		</div>
@@ -102,8 +105,8 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 
 <!-- Navigation -->
 <div class="grid grid-cols-[12rem_1fr] h-full">
-<!-- Wrap in anchor tag to navigate through pages, yung li element-->
-	<aside class="h-full pt-2 shadow-[rgba(0,0,0,0.1)_2px_0_0_0] z-10">
+	<!-- Wrap in anchor tag to navigate through pages, yung li element-->
+	<aside class="h-full pt-2 shadow-[rgba(0,0,0,0.1)_2px_0_0_0]">
 		<ul>
 			<li class="flex items-center p-4 gap-2 active-tab w-full hover:bg-slate-100 cursor-pointer">
 				<a href="dashboard-new.php">
@@ -116,24 +119,24 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 					</div>
 				</a>
 			</li>
-			<li class="flex items-center p-4 gap-2 w-full hover:bg-slate-100 cursor-pointer">
+			<li class="flex items-center p-4 gap-2 w-full hover:bg-slate-100 text-brand-600 border-r-4 border-brand-600 cursor-pointer">
 				<a href="appointments.php">
 					<div class="w-full flex items-center gap-2">
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M16 2V6M8 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z"
-							      stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							      stroke="#7F56D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 						</svg>
 
 						Appointments
 					</div>
 				</a>
 			</li>
-			<li class="flex items-center p-4 gap-2 w-full hover:bg-slate-100 text-brand-600 border-r-4 border-brand-600 cursor-pointer">
+			<li class="flex items-center p-4 gap-2 w-full hover:bg-slate-100 cursor-pointer">
 				<a href="chat.php">
 					<div class="flex items-center gap-2">
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
-							      stroke="#7F56D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							      stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 						</svg>
 
 						Chat
@@ -142,9 +145,12 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 			</li>
 			<li class="flex items-center p-4 gap-2 w-full hover:bg-slate-100 cursor-pointer">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-					<path d="M10 7H7V16H10V7Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-					<path d="M17 7H14V12H17V7Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
+					      stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M10 7H7V16H10V7Z" stroke="#344054" stroke-width="2" stroke-linecap="round"
+					      stroke-linejoin="round"/>
+					<path d="M17 7H14V12H17V7Z" stroke="#344054" stroke-width="2" stroke-linecap="round"
+					      stroke-linejoin="round"/>
 				</svg>
 
 				News Feed
@@ -152,8 +158,10 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 			<li class="flex items-center p-4 gap-2 w-full hover:bg-slate-100 cursor-pointer">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<g clip-path="url(#clip0_280_734)">
-						<path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-						<path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						<path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
+						      stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						<path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z"
+						      stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 					</g>
 					<defs>
 						<clipPath id="clip0_280_734">
@@ -173,110 +181,109 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 	</aside>
 
 
-	<div class="grid grid-cols-[0.4fr_1fr_0.4fr] bg-gray-100 h-full w-full">
-		<div class="h-full w-full bg-white p-4">
-			<div class="flex justify-between items-center mb-6">
-				<h3 class="text-xl">
-					Inbox
-				</h3>
-				<button type="button" class="bg-brand-600 rounded-lg h-max p-2 hover:bg-brand-700" id="open-msg">
-					<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M9.99984 4.16666V15.8333M4.1665 9.99999H15.8332" stroke="white" stroke-width="1.67"
-						      stroke-linecap="round" stroke-linejoin="round"/>
-					</svg>
-				</button>
-			</div>
-
-			<div id="messages">
-				<!--users who messaged the user-->
-			</div>
-		</div>
-
-		<div class="grid grid-rows-[1fr_28rem_1fr] h-full">
-			<div class="bg-white p-4 flex items-center">
-				<p class="text-lg font-medium" id="user"></p>
-			</div>
-			<div id="scrollable" class="bg-brand-100 p-4 min-h-full max-h-full h-full overflow-y-scroll">
-			<!--message card-->
-				<div class="flex flex-col justify-end gap-4 min-h-full" id="msg-list">
-
-
-				</div>
-
-
-			</div>
-			<form id="send-message">
-				<div class="bg-white flex items-center justify-between h-full px-4 gap-4">
-					<input type="hidden" name="id" id="id">
-					<input type="text" name="message" id="message" class="px-4 py-2 border border-gray-400 rounded-lg w-full outline-none" placeholder="Type message">
-					<button type="submit" class="p-2 bg-brand-600 hover:bg-brand-700 rounded-lg">
-						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<g clip-path="url(#clip0_480_69)">
-								<path d="M18.3334 1.66663L9.16675 10.8333M18.3334 1.66663L12.5001 18.3333L9.16675 10.8333M18.3334 1.66663L1.66675 7.49996L9.16675 10.8333" stroke="white" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
-							</g>
-							<defs>
-								<clipPath id="clip0_480_69">
-									<rect width="20" height="20" fill="white"/>
-								</clipPath>
-							</defs>
+	<div class="bg-gray-100 h-full w-full p-2">
+		<div class="h-full w-full bg-white rounded-lg p-6">
+			<h2 class="text-xl font-medium mb-4">Appointments</h2>
+			<div class="flex gap-4 mb-2">
+				<!--stats-->
+				<div class="flex items-center justify-between p-4 border border-gray-300 rounded-lg w-full">
+					<div>
+						<p class="text-sm text-gray-500 mb-2">Total appointments </p>
+						<h3 class="text-2xl font-medium"><?php echo $total?></h3>
+					</div>
+					<div class="flex items-center gap-2 text-xs p-2 rounded-full bg-success-100">
+						<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M6 9.5V2.5M6 2.5L2.5 6M6 2.5L9.5 6" stroke="#12B76A" stroke-width="1.5"
+							      stroke-linecap="round" stroke-linejoin="round"/>
 						</svg>
-
-					</button>
-
+						69%
+					</div>
 				</div>
-			</form>
-		</div>
-		<div class="bg-white h-full p-4 flex flex-col gap-4">
-			<div class="flex flex-col items-center w-full h-40 justify-center gap-4 border-b border-gray-400">
-				<div id="avatar" CLASS="rounded-full bg-gray-200 text-brand-600 font-medium w-max p-2 aspect-square flex items-center">
-					<p class="text-3xl" id="initials"></p>
+				<!--stats-->
+				<div class="flex items-center justify-between p-4 border border-gray-300 rounded-lg w-full">
+					<div>
+						<p class="text-sm text-gray-500 mb-4">Today's appointments </p>
+						<h3 class="text-2xl font-medium"><?php echo $today?></h3>
+					</div>
+					<div class="flex items-center gap-2 text-xs p-2 rounded-full bg-success-100">
+						<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M6 9.5V2.5M6 2.5L2.5 6M6 2.5L9.5 6" stroke="#12B76A" stroke-width="1.5"
+							      stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+						69%
+					</div>
 				</div>
-				<p class="text-lg font-medium" id="user-details"></p>
+				<!--stats-->
+				<div class="flex items-center justify-between p-4 border border-gray-300 rounded-lg w-full">
+					<div>
+						<p class="text-sm text-gray-500 mb-2">Finished appointments </p>
+						<h3 class="text-2xl font-medium"><?php echo $finished?></h3>
+					</div>
+					<div class="flex items-center gap-2 text-xs p-2 rounded-full bg-success-100">
+						<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M6 9.5V2.5M6 2.5L2.5 6M6 2.5L9.5 6" stroke="#12B76A" stroke-width="1.5"
+							      stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+						69%
+					</div>
+				</div>
 			</div>
-			<div class="flex justify-between text-sm">
-				<p CLASS="font-medium">ID:</p>
-				<p CLASS="" id="user-id"></p>
+			<div class="mb-2">
+				<p>Filter</p>
+				<div class="flex overflow-hidden rounded-lg text-sm border border-gray-300 w-max">
+					<input type="radio" name="filter" id="all" class="peer/all hidden" value="all" checked>
+					<label for="all" class="px-4 py-2 peer-checked/all:bg-brand-600 peer-checked/all:text-white">All</label>
+					<input type="radio" name="filter" id="today" class="peer/today hidden" value="today">
+					<label for="today" class="px-4 py-2 peer-checked/today:bg-brand-600 peer-checked/today:text-white">Today</label>
+					<input type="radio" name="filter" id="tomorrow" class="peer/tomorrow hidden" value="tomorrow">
+					<label for="tomorrow" class="px-4 py-2 peer-checked/tomorrow:bg-brand-600 peer-checked/tomorrow:text-white">Tomorrow</label>
+					<input type="radio" name="filter" id="unfinished" class="peer/unfinished hidden" value="unfinished">
+					<label for="unfinished" class="px-4 py-2 peer-checked/unfinished:bg-brand-600 peer-checked/unfinished:text-white">Unfinished</label>
+					<input type="radio" name="filter" id="finished" class="peer/finished hidden" value="finished">
+					<label for="finished" class="px-4 py-2 peer-checked/finished:bg-brand-600 peer-checked/finished:text-white">Finished</label>
+				</div>
 			</div>
-			<div class="flex justify-between text-sm">
-				<p CLASS="font-medium">Gender:</p>
-				<p CLASS="" id="user-gender"></p>
-			</div>
-			<div class="flex justify-between text-sm">
-				<p CLASS="font-medium">Birth date:</p>
-				<p CLASS="" id="user-bday"></p>
-			</div>
+			<table id="appointment-table" class="text-sm">
+				<thead>
+				<tr>
+					<th>
+						Name
+					</th>
+					<th>
+						Case
+					</th>
+					<th>
+						Appointment Schedule
+					</th>
+					<th>
+						Status
+					</th>
+					<th>
+						Action
+					</th>
+				</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
 		</div>
+
+
 	</div>
 
 
-</div>
-<!--New message-->
-<div id="message-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute z-50">
-	<div class="bg-white p-8 w-2/5 max-h-96 rounded-xl">
-		<div class="header flex justify-between mb-6">
-			<h2 class="text-xl">New message</h2>
-			<button type="button" id="close-msg">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-				</svg>
-			</button>
-		</div>
-		<input type="text" name="search" id="search" class="border border-gray-500 px-4 py-2 w-full rounded-lg outline-none mb-4" placeholder="Search anything...">
-		<div id="users" class="overflow-y-auto">
-
-		</div>
-
-	</div>
 </div>
 
 <!--Notifications-->
-<div id="notification-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute z-50">
+<div id="notification-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
 	<div class="bg-white p-8 w-2/3 max-h-96 rounded-xl">
 		<div class="header flex justify-between mb-6">
 			<h2 class="text-xl">Notifications</h2>
 			<button type="button" id="close-notification">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828" stroke-width="2"
+					      stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 			</button>
 		</div>
@@ -284,14 +291,16 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 		<div class="flex justify-between bg-brand-100 p-4 rounded-xl mb-2">
 			<div class="flex gap-4 items-center">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M16 2V6M8 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M16 2V6M8 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z"
+					      stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 				<div>
 					<p class="text-sm font-semibold">Magno started a meeting</p>
 					<p class="text-xs text-gray-600">Monday, December 25, 2023 | 12:00am</p>
 				</div>
 			</div>
-			<button type="button" class="text-white text-sm font-medium bg-brand-600 h-min py-2 px-4 rounded-xl hover:bg-brand-700">
+			<button type="button"
+			        class="text-white text-sm font-medium bg-brand-600 h-min py-2 px-4 rounded-xl hover:bg-brand-700">
 				Join
 			</button>
 		</div>
@@ -299,7 +308,8 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 		<div class="flex items-center justify-between bg-brand-100 p-4 rounded-xl">
 			<div class="flex gap-4 items-center">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
+					      stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 				<div>
 					<p class="text-sm font-semibold">Magno messaged you</p>
@@ -312,13 +322,14 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 </div>
 
 <!--Create appointment modal-->
-<div id="appointment-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute z-50">
+<div id="appointment-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
 	<div class="bg-white p-8 w-2/3 rounded-xl">
 		<div class="header flex justify-between mb-6">
 			<h2 class="text-xl font-medium">Create an appointment</h2>
 			<button type="button" id="close-appointment">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828" stroke-width="2"
+					      stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 			</button>
 		</div>
@@ -333,14 +344,17 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 							<span class="text-sm">Type of violence</span>
 							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
 						</label>
-						<input type="text" name="violence" id="violence" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="What did they do?">
+						<input type="text" name="violence" id="violence"
+						       class="input outline-none border border-gray-400 px-4 py-2 rounded-lg"
+						       placeholder="What did they do?">
 					</div>
 					<div class="flex flex-col gap-1 mb-2">
 						<label for="description" class="flex gap-4 items-center justify-between">
 							<span class="text-sm">Event description</span>
 							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
 						</label>
-						<textarea name="description" id="description" cols="30" rows="4" placeholder="What happened?" class="border border-gray-400 input outline-none px-4 py-2 resize-none rounded-lg"></textarea>
+						<textarea name="description" id="description" cols="30" rows="4" placeholder="What happened?"
+						          class="border border-gray-400 input outline-none px-4 py-2 resize-none rounded-lg"></textarea>
 					</div>
 					<div class="flex flex-col gap-1">
 						<label for="location" class="flex gap-4 items-center justify-between">
@@ -350,7 +364,10 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 						<div id="map" class="w-full h-56 rounded-lg">
 
 						</div>
-						<button type="button" id="locate" class="w-max px-4 py-2 border border-gray-500 rounded-lg text-sm hover:bg-gray-100">Locate me</button>
+						<button type="button" id="locate"
+						        class="w-max px-4 py-2 border border-gray-500 rounded-lg text-sm hover:bg-gray-100">
+							Locate me
+						</button>
 					</div>
 				</div>
 				<div id="right-form">
@@ -359,21 +376,26 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 							<span class="text-sm">Date of event</span>
 							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
 						</label>
-						<input type="text" name="date-of-event" id="date-of-event" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select date">
+						<input type="text" name="date-of-event" id="date-of-event"
+						       class="input outline-none border border-gray-400 px-4 py-2 rounded-lg"
+						       placeholder="Select date">
 					</div>
 					<div class="flex flex-col gap-1 mb-8">
 						<label for="time-of-event" class="flex gap-4 items-center justify-between">
 							<span class="text-sm">Time of event</span>
 							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
 						</label>
-						<input type="time" name="time-of-event" id="time-of-event" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select time">
+						<input type="time" name="time-of-event" id="time-of-event"
+						       class="input outline-none border border-gray-400 px-4 py-2 rounded-lg"
+						       placeholder="Select time">
 					</div>
 					<div class="flex flex-col gap-1 mb-4">
 						<label for="counselor" class="flex gap-4 items-center justify-between">
 							<span class="text-sm">Counselor</span>
 							<span class="text-error-500 text-xs hidden error-msg">Must select a counselor</span>
 						</label>
-						<select name="counselor" id="counselor" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg text-gray-500 bg-white">
+						<select name="counselor" id="counselor"
+						        class="input outline-none border border-gray-400 px-4 py-2 rounded-lg text-gray-500 bg-white">
 							<option value="">Select option</option>
                             <?php
                             foreach ($counselors as $counselor) {
@@ -391,14 +413,17 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 							<span class="text-sm">Date of appointment</span>
 							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
 						</label>
-						<input type="text" name="date-of-appointment" id="date-of-appointment" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg" placeholder="Select date">
+						<input type="text" name="date-of-appointment" id="date-of-appointment"
+						       class="input outline-none border border-gray-400 px-4 py-2 rounded-lg"
+						       placeholder="Select date">
 					</div>
 					<div class="flex flex-col gap-1 mb-12">
 						<label for="time-of-appointment" class="flex gap-4 items-center justify-between">
 							<span class="text-sm">Time of appointment</span>
 							<span class="text-error-500 text-xs hidden error-msg">Must not be empty</span>
 						</label>
-						<select name="time-of-appointment" id="time-of-appointment" class="input outline-none border border-gray-400 px-4 py-2 rounded-lg text-gray-500 bg-white">
+						<select name="time-of-appointment" id="time-of-appointment"
+						        class="input outline-none border border-gray-400 px-4 py-2 rounded-lg text-gray-500 bg-white">
 							<option value="">Select time</option>
 							<!--							<option value="08:00">8:00 am to 9:00 am</option>-->
 							<!--							<option value="09:00">9:00 am to 10:00 am</option>-->
@@ -413,9 +438,12 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 					<div class="flex text-sm items-center justify-between">
 						<div id="msg" class="text-success-600 flex items-center gap-2 opacity-0">
 							Successfully appointed
-							<svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<svg width="16" height="17" viewBox="0 0 16 17" fill="none"
+							     xmlns="http://www.w3.org/2000/svg">
 								<g clip-path="url(#clip0_296_882)">
-									<path d="M14.6668 7.45656V8.0699C14.666 9.50751 14.2005 10.9063 13.3397 12.0578C12.4789 13.2092 11.269 14.0515 9.8904 14.4592C8.51178 14.8668 7.03834 14.8178 5.68981 14.3196C4.34128 13.8214 3.18993 12.9006 2.40747 11.6946C1.62501 10.4886 1.25336 9.06194 1.34795 7.62744C1.44254 6.19294 1.9983 4.82745 2.93235 3.73461C3.8664 2.64178 5.12869 1.88015 6.53096 1.56333C7.93323 1.2465 9.40034 1.39145 10.7135 1.97656M14.6668 2.73656L8.00017 9.4099L6.00017 7.4099" stroke="#039855" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+									<path d="M14.6668 7.45656V8.0699C14.666 9.50751 14.2005 10.9063 13.3397 12.0578C12.4789 13.2092 11.269 14.0515 9.8904 14.4592C8.51178 14.8668 7.03834 14.8178 5.68981 14.3196C4.34128 13.8214 3.18993 12.9006 2.40747 11.6946C1.62501 10.4886 1.25336 9.06194 1.34795 7.62744C1.44254 6.19294 1.9983 4.82745 2.93235 3.73461C3.8664 2.64178 5.12869 1.88015 6.53096 1.56333C7.93323 1.2465 9.40034 1.39145 10.7135 1.97656M14.6668 2.73656L8.00017 9.4099L6.00017 7.4099"
+									      stroke="#039855" stroke-width="2" stroke-linecap="round"
+									      stroke-linejoin="round"/>
 								</g>
 								<defs>
 									<clipPath id="clip0_296_882">
@@ -424,7 +452,10 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 								</defs>
 							</svg>
 						</div>
-						<button type="submit" class="px-4 py-2 bg-brand-600 text-white font-medium rounded-lg hover:bg-brand-700">Set appointment</button>
+						<button type="submit"
+						        class="px-4 py-2 bg-brand-600 text-white font-medium rounded-lg hover:bg-brand-700">Set
+							appointment
+						</button>
 					</div>
 
 				</div>
@@ -432,16 +463,15 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 			</div>
 
 
-
 		</form>
 
 	</div>
 </div>
 
-<!--<script src="../js/calendar.js"></script>-->
-<!--<script src="../js/leaflet.js"></script>-->
+<!--<script src="js/calendar.js"></script>-->
+<!--<script src="js/leaflet.js"></script>-->
 <script src="../js/close_modal.js"></script>
-<script src="../js/message.js"></script>
 <script src="../js/create_appointment.js"></script>
+<script src="../js/appointment-tables.js"></script>
 </body>
 </html>

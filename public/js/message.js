@@ -59,12 +59,10 @@ $(function () {
 // load all messaged users
     load("");
 
-
-
-
     // Create new message
     $('#open-msg').on('click', function () {
         let users = $('#users')
+
 
         //get all current users
         let users = $('#users')
@@ -129,7 +127,7 @@ $(function () {
                         usr = "";
                         selected.addClass('bg-gray-100')
                         load_messages(selected.data('id'), true)
-                        
+
                         if(temp !== undefined) {
                             clearInterval(temp)
                             temp = setInterval(() => load_messages($(this).data('id'), false), 1000)
@@ -162,7 +160,7 @@ $(function () {
         if($('#send-message input').val() === "") {
             return;
         }
-        
+
         $.ajax({
             url: '../../src/chat/send_message.php',
             data: $(this).serialize(),
@@ -198,6 +196,7 @@ function load_messages(receiver, click) {
             receiver: receiver
         },
         success: function (response) {
+
             $('#msg-list').html(response)
             if (click) {
                 const scroll = $('#scrollable')
@@ -210,6 +209,7 @@ function load_messages(receiver, click) {
 
 function set_user_details(i, array) {
 
+    console.log(array[i].user_role)
     $('#user').text(array[i].full_name)
     $('#user-details').text(array[i].full_name)
     $('#initials').text(array[i].initials)
