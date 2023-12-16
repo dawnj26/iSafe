@@ -1,6 +1,7 @@
 let appointmentTable = $('#appointment-table')
 let filters = $('input[type="radio"]')
 let cancel = $('.cancel')
+let tBody = $('tbody')
 $(function () {
 
     let table = appointmentTable.DataTable({
@@ -21,7 +22,7 @@ $(function () {
                     $('tbody').html("")
                     return
                 }
-                $('tbody').html(response)
+                tBody.html(response)
             }
         })
         table.draw();
@@ -39,10 +40,10 @@ function getAppointments() {
         },
         success: function (response) {
             if (response === "") {
-                $('tbody').html("")
+                tBody.html("")
                 return
             }
-            $('tbody').html(response)
+            tBody.html(response)
         }
     })
 }

@@ -37,7 +37,7 @@ $(function () {
             displayErr("Password does not match", "repwd");
             return;
         }
-        valid("repws")
+        valid("repwd")
     })
 
     input_email.on('input', function () {
