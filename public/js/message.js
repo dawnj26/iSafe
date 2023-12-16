@@ -1,5 +1,4 @@
 let temp;
-let temp;
 $(function () {
 
     function load(id) {
@@ -60,12 +59,9 @@ $(function () {
     load("");
 
     // Create new message
-    $('#open-msg').on('click', function () {
+    $('#open-new-msg').on('click', function () {
         let users = $('#users')
 
-
-        //get all current users
-        let users = $('#users')
 
         //get all current users
         $('#message-modal').removeClass('hidden').addClass('grid')
@@ -77,7 +73,7 @@ $(function () {
             }
         })
 
-        // search user
+        // search user to message
         $('#search').on('input', function () {
             let searchTxt = $(this).val().toLowerCase();
 
@@ -86,6 +82,7 @@ $(function () {
                 return;
             }
 
+            // get all matching names
             let result = data.filter((item) => {
                 let name = item.full_name.toLowerCase()
                 return name.includes(searchTxt)
@@ -103,11 +100,13 @@ $(function () {
                         </div>`
             })
 
+            // display the users
             users.html(userList);
 
             // create new message
             $('.usr-card').on('click', function (e) {
                 let index = +$(this).data('index')
+                let msg_card = $('.msg-card')
                 let usr = `
                                 <div class='msg-card flex gap-2 items-center bg-gray-100 rounded-lg px-4 py-2' data-id=''>
                                     <div  CLASS='avatar rounded-full bg-gray-200 text-brand-600 font-medium w-max p-2'>
@@ -119,8 +118,8 @@ $(function () {
                                 </div>
                                  `
 
-                $('.msg-card').removeClass('bg-gray-100')
-                $('.msg-card').each(function () {
+                msg_card.removeClass('bg-gray-100')
+                msg_card.each(function () {
                     let name = $(this).find('#receiver-usr .name').text()
                     let selected = $(this)
                     if (result[index].full_name === name) {
@@ -166,27 +165,39 @@ $(function () {
             data: $(this).serialize(),
             method: 'POST',
             success: function (response) {
-                // load messages after sending
+                let user_id = $('#id')
+                if (response !== "") {
+                    alert(response)
+                    return
+                }
                 $('#message').val("")
-                load_messages($('#id').val(),true)
+                // load messages after sending
+                load_messages(user_id.val(),true)
+
+                // start live chat
                 if(temp !== undefined) {
                     clearInterval(temp)
-                    temp = setInterval(() => load_messages($('#id').val(), false), 1000)
+                    temp = setInterval(() => load_messages(user_id.val(), false), 1000)
                 } else {
-                    temp = setInterval(() => load_messages($('#id').val(), false), 1000)
+                    temp = setInterval(() => load_messages(user_id.val(), false), 1000)
                 }
-                load($('#id').val())
+
+                load(user_id.val())
             }
         })
     })
 
-    // close msg modal
+    // close new message modal
     $('#close-msg').on('click', function () {
         $('#message-modal').removeClass('grid').addClass('hidden')
     })
 
 })
 
+/*
+* this function loads messages if the user
+* clicks the chat
+ */
 function load_messages(receiver, click) {
     console.log(receiver)
     $.ajax({
@@ -207,6 +218,10 @@ function load_messages(receiver, click) {
 
 }
 
+/*
+* This function get the information about the user
+* and display it on the message user details
+ */
 function set_user_details(i, array) {
 
     console.log(array[i].user_role)
@@ -242,6 +257,7 @@ function logout() {
     })
 }
 
+// start a video call
 function call() {
     $.ajax({
         url: "../../src/chat/get_room.php",

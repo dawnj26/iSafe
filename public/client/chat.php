@@ -179,7 +179,7 @@ $fullname = $name['first_name'] . ' ' . $name['last_name'];
 				<h3 class="text-xl">
 					Inbox
 				</h3>
-				<button type="button" class="bg-brand-600 rounded-lg h-max p-2 hover:bg-brand-700" id="open-msg">
+				<button type="button" class="bg-brand-600 rounded-lg h-max p-2 hover:bg-brand-700" id="open-new-msg">
 					<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M9.99984 4.16666V15.8333M4.1665 9.99999H15.8332" stroke="white" stroke-width="1.67"
 						      stroke-linecap="round" stroke-linejoin="round"/>
