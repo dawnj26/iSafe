@@ -4,8 +4,8 @@ $host = "localhost";
 $user = "root";
 $pwd = "";
 
-$schoolDB = "PSU";
-$mainDB = "iSafe";
+$schoolDB = "psu";
+$mainDB = "isafe";
 
 $mainConn = new mysqli($host, $user, $pwd, $mainDB);
 $schoolConn = new mysqli($host, $user, $pwd, $schoolDB);
