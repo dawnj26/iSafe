@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="95de11e8-2706-485b-adce-555076104983" name="iSafe" url="http://localhost/IJuanaBeSafe">
+        <fileTransfer mountedRoot="C:\xampp\htdocs\IJuanaBeSafe" accessType="MOUNT" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>
