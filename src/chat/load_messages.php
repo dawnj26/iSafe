@@ -1,13 +1,14 @@
 <?php
+
 if (empty($_POST['receiver'])) {
-    die();
+    exit();
 }
 session_start();
-if(!isset($_SESSION['id'])) {
-    die();
+if (! isset($_SESSION['id'])) {
+    exit();
 }
 
-require "../../config/config.php";
+require '../../config/config.php';
 
 global $mainConn;
 
@@ -18,7 +19,7 @@ $receiver = $_POST['receiver'];
 
 //$receiver = "21-UR-0002";
 
-$query  = "SELECT sender_id, receiver_id, text_message, DATE_FORMAT(chat_date, '%W %h:%i %p') AS chat_date
+$query = "SELECT sender_id, receiver_id, text_message, DATE_FORMAT(chat_date, '%W %h:%i %p') AS chat_date
             FROM chat
             WHERE (sender_id = '$sender' AND receiver_id = '$receiver')
             	OR (sender_id = '$receiver' AND receiver_id = '$sender')
@@ -26,11 +27,10 @@ $query  = "SELECT sender_id, receiver_id, text_message, DATE_FORMAT(chat_date, '
 
 $result = $mainConn->query($query);
 
-
-if($result->num_rows > 0) {
+if ($result->num_rows > 0) {
     $usr = $mainConn->query("SELECT first_name, last_name FROM user WHERE user_id = '$receiver'")->fetch_assoc();
-    $full_name = $usr['first_name']. " " .$usr['last_name'];
-    $initials = strtoupper(substr($usr['first_name'], 0, 1)) . strtoupper(substr($usr['last_name'], 0, 1));
+    $full_name = $usr['first_name'].' '.$usr['last_name'];
+    $initials = strtoupper(substr($usr['first_name'], 0, 1)).strtoupper(substr($usr['last_name'], 0, 1));
 
     while ($data = $result->fetch_assoc()) {
         $msg = $data['text_message'];
@@ -104,8 +104,9 @@ if($result->num_rows > 0) {
 
                             ";
 
-        if (str_contains($msg, "https")) {
+        if (str_contains($msg, 'https')) {
             echo $id != $sender ? $template_call_receiver : $template_call_sender;
+
             continue;
 
         }

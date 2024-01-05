@@ -1,53 +1,54 @@
 <?php
+
 if (empty($_POST['filter'])) {
-    exit("No filter selected");
+    exit('No filter selected');
 }
 session_start();
 require '../../config/config.php';
 $id = $_SESSION['id'];
 $filter = $_POST['filter'];
-$appointments = array();
+$appointments = [];
 switch ($filter) {
     case 'all':
         $appointments = get_all_appointments($id);
-//        print_r($appointments);
+        //        print_r($appointments);
         display_appointments($appointments);
         break;
     case 'today':
         $appointments = get_todays_appointments($id);
-//        print_r($appointments);
+        //        print_r($appointments);
         display_appointments($appointments);
         break;
     case 'tomorrow':
         $appointments = get_tomorrow_appointments($id);
-//        print_r($appointments);
+        //        print_r($appointments);
         display_appointments($appointments);
         break;
     case 'unfinished':
         $appointments = get_unfinished_appointments($id);
-//        print_r($appointments);
+        //        print_r($appointments);
         display_appointments($appointments);
         break;
     case 'finished':
         $appointments = get_finished_appointments($id);
-//        print_r($appointments);
+        //        print_r($appointments);
         display_appointments($appointments);
         break;
     default:
-        exit("Invalid filter");
+        exit('Invalid filter');
 }
 
 function display_appointments($appointments)
 {
     foreach ($appointments as $appointment) {
         $id = $appointment['appointment_id'];
-        $fullName = $appointment['first_name'] . ' ' . $appointment['last_name'];
+        $fullName = $appointment['first_name'].' '.$appointment['last_name'];
         $report_title = $appointment['report_title'];
         $role = $appointment['user_role'];
-        $initials = strtoupper(substr($appointment['first_name'], 0, 1)) . strtoupper(substr($appointment['last_name'], 0, 1));
-        $time_of_event = date("g:i A", strtotime($appointment['time_of_event']));
+        $initials = strtoupper(substr($appointment['first_name'], 0, 1)).strtoupper(substr($appointment['last_name'], 0, 1));
+        $time_of_event = date('g:i A', strtotime($appointment['time_of_event']));
         $date_of_event = DateTime::createFromFormat('Y-m-d', $appointment['date_of_event'])->format('F j, Y');
-        $appointment_time = date("g:i A", strtotime($appointment['appointment_time']));
+        $appointment_time = date('g:i A', strtotime($appointment['appointment_time']));
         $appointment_date = DateTime::createFromFormat('Y-m-d', $appointment['appointment_date'])->format('F j, Y');
         $status = $appointment['status'];
         $unfinished = "
@@ -92,7 +93,7 @@ function display_appointments($appointments)
 					</td>
 					<td>";
         echo $status === 'finished' ? $finished : $unfinished;
-        echo  "</td>
+        echo "</td>
 					<td>
 						<div class=''>
 							<button type='button' onclick='deleteAppointment($id)' class='delete flex items-center gap-2 bg-error-600 hover:bg-error-700 px-4 py-2 rounded-lg text-white font-medium' value='$id'>

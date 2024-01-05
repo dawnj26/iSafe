@@ -1,10 +1,11 @@
 <?php
+
 session_start();
-if(!isset($_SESSION['id'])) {
- die();
+if (! isset($_SESSION['id'])) {
+    exit();
 }
 
-require "../../config/config.php";
+require '../../config/config.php';
 
 global $mainConn;
 
@@ -26,13 +27,13 @@ ORDER BY chat.chat_date DESC
         ";
 
 $result = $mainConn->query($query);
-$json = array();
+$json = [];
 
 if ($result->num_rows > 0) {
-    while($data = $result->fetch_assoc()) {
-        $full_name = $data['first_name'] . " "  . $data['last_name'];
+    while ($data = $result->fetch_assoc()) {
+        $full_name = $data['first_name'].' '.$data['last_name'];
         $receiver_id = $data['user_id'];
-        $initials = strtoupper(substr($data['first_name'], 0, 1)) . strtoupper(substr($data['last_name'], 0, 1));
+        $initials = strtoupper(substr($data['first_name'], 0, 1)).strtoupper(substr($data['last_name'], 0, 1));
         $message = $mainConn->query("
         SELECT text_message
             FROM chat
@@ -41,7 +42,7 @@ if ($result->num_rows > 0) {
             ORDER BY chat_date DESC LIMIT 1
         ")->fetch_assoc();
         $message = truncateString($message['text_message']);
-        $json[] = array('user_id'=>$receiver_id, 'full_name'=>$full_name, 'initials'=>$initials, "user_role"=>$data['user_role'], "message"=>$message);
+        $json[] = ['user_id' => $receiver_id, 'full_name' => $full_name, 'initials' => $initials, 'user_role' => $data['user_role'], 'message' => $message];
 
     }
 
@@ -56,12 +57,12 @@ function truncateString($str)
     // Check if the number of words exceeds the limit
     if (count($words) > $wordCount) {
         // Truncate the array of words and join them back to form a string
-        $truncated = implode(' ', array_slice($words, 0, $wordCount)) . '...';
+        $truncated = implode(' ', array_slice($words, 0, $wordCount)).'...';
+
         return $truncated;
     }
 
     return $str; // Return the original string if it's within the limit
 }
-
 
 echo json_encode($json);

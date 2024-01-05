@@ -1,0 +1,89 @@
+<?php
+require '../config/config.php';
+/*
+* @param $id string
+* @return array
+*/
+function get_user_info($id) {
+  global $mainConn;
+  global $schoolConn;
+
+  $result = $mainConn->query("SELECT user_role, DATE_FORMAT(date_registered, '%M %e, %Y') AS date_registered FROM user WHERE user_id = '$id'");
+  $data_isafe = $result->fetch_all(MYSQLI_ASSOC);
+
+  $role = $data_isafe[0]['user_role'];
+
+  $result = $schoolConn->query("SELECT DATE_FORMAT(birth_date, '%M %e, %Y') AS birth_date, student_address, course_code, student_gender FROM $role WHERE student_id = '$id'"); 
+  $data_school = $result->fetch_all(MYSQLI_ASSOC);
+
+  return array(
+    'role' => $role,
+    'date_registered' => $data_isafe[0]['date_registered'],
+    'birth_date' => $data_school[0]['birth_date'],
+    'address' => $data_school[0]['student_address'],
+    'course_code' => $data_school[0]['course_code'],
+    'gender' => $data_school[0]['student_gender'],
+  );
+}
+
+/*
+* @param $current_user string
+* @param $user_id string
+* @return array
+*/
+function get_user_posts($current_user, $user_id) {
+  global $mainConn;
+
+  $get_all_post = "SELECT user.first_name, user.last_name, user.user_role ,post.post_id,post.poster_id, post.post_text, post.anonymous_post, DATE_FORMAT(post.date_posted, '%M %e, %Y') AS formatted_date FROM post INNER JOIN user ON post.poster_id = user.user_id WHERE post.poster_id = '$user_id'"; 
+  $all_post = $mainConn->query($get_all_post);
+  // $temp_id  = "21-UR-0001";
+  $post_data = [];
+
+  if ($all_post->num_rows > 0) {
+      while ($row = $all_post->fetch_assoc()) {
+
+          $first_name = $row['first_name'];
+          $last_name = $row['last_name'];
+          $post_id = $row['post_id'];
+          $post_text = $row['post_text'];
+          $poster_id = $row['poster_id'];
+          $is_anonymous = $row['anonymous_post'] == 1;
+          $date_posted = $row['formatted_date'];
+          $user_role = $row['user_role'];
+
+          $get_image = "SELECT * FROM post_images WHERE post_id = '$post_id'";
+          $image = $mainConn->query($get_image);
+          $image_path = '';
+
+          $get_likes = "SELECT * FROM post_likes WHERE post_id = '$post_id'";
+          $likes = $mainConn->query($get_likes)->num_rows;
+
+          $get_liked = "SELECT * FROM post_likes WHERE post_id = '$post_id' AND user_id = '$current_user'";
+          $is_liked = $mainConn->query($get_liked)->num_rows > 0;
+
+          $get_comments = "SELECT * FROM post_comments WHERE post_id = '$post_id'";
+          $comments = $mainConn->query($get_comments)->num_rows;
+
+          if ($image->num_rows > 0) {
+              $image_path = $image->fetch_assoc()['image_file_path'];
+          }
+
+          $data = [
+              'first_name' => $first_name,
+              'last_name' => $last_name,
+              'post_id' => $post_id,
+              'post_text' => $post_text,
+              'poster_id' => $poster_id,
+              'is_anonymous' => $is_anonymous,
+              'date_posted' => $date_posted,
+              'user_role' => $user_role,
+              'image' => $image_path,
+              'likes' => $likes,
+              'liked' => $is_liked,
+              'comments' => $comments,
+          ];
+          $post_data[] = $data;
+      }
+    }
+  return $post_data;
+}

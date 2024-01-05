@@ -246,12 +246,12 @@ $counselors = get_counselors();
 							<option value="">Select option</option>
 							<?php
                             foreach ($counselors as $counselor) {
-								$id = $counselor['user_id'];
-								$name = $counselor['full_name'];
-								echo "<option value='$id'>$name</option>";
-							}
+                                $id = $counselor['user_id'];
+                                $name = $counselor['full_name'];
+                                echo "<option value='$id'>$name</option>";
+                            }
 
-							?>
+?>
 						</select>
 						<a href="" class="text-brand-600 font-medium text-sm">View profile</a>
 					</div>

@@ -1,8 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
+if (! isset($_SESSION['id']) || ! isset($_SESSION['role'])) {
     session_destroy();
-    header("Location: ../login.php");
+    header('Location: ../login.php');
     exit();
 }
 
@@ -362,7 +362,7 @@ $counselors = get_counselors();
                                 echo "<option value='$id'>$name</option>";
                             }
 
-                            ?>
+?>
 
 						</select>
 						<a href="" class="text-brand-600 font-medium text-sm">View profile</a>

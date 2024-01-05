@@ -1,22 +1,22 @@
 
 <?php
 session_start();
-if (!isset($_SESSION['id']) || !isset($_SESSION['role'])) {
+if (! isset($_SESSION['id']) || ! isset($_SESSION['role'])) {
     session_destroy();
-    header("Location: ../login.php");
+    header('Location: ../login.php');
     exit();
 }
-$client = ["student", "employee"];
-if (!in_array($_SESSION['role'], $client)) {
+$client = ['student', 'employee'];
+if (! in_array($_SESSION['role'], $client)) {
     session_destroy();
-    header("Location: ../login.php");
+    header('Location: ../login.php');
     exit();
 }
 require '../../config/config.php';
 $id = $_SESSION['id'];
 $name = $mainConn->query("SELECT first_name, last_name FROM user WHERE user_id = '$id'")->fetch_assoc();
 
-$fullname = $name['first_name'] . ' ' . $name['last_name'];
+$fullname = $name['first_name'].' '.$name['last_name'];
 $counselors = get_counselors()
 ?>
 
