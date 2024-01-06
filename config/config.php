@@ -17,25 +17,28 @@ if ($mainConn->connect_errno || $schoolConn->connect_errno) {
 }
 
 function get_user_info($id) {
-  global $mainConn;
-  global $schoolConn;
+    global $mainConn;
+    global $schoolConn;
 
-  $result = $mainConn->query("SELECT user_role, DATE_FORMAT(date_registered, '%M %e, %Y') AS date_registered FROM user WHERE user_id = '$id'");
-  $data_isafe = $result->fetch_all(MYSQLI_ASSOC);
+    $result = $mainConn->query("SELECT user_id, first_name, last_name, user_role, DATE_FORMAT(date_registered, '%M %e, %Y') AS date_registered FROM user WHERE user_id = '$id'");
+    $data_isafe = $result->fetch_all(MYSQLI_ASSOC);
 
-  $role = $data_isafe[0]['user_role'];
+    $role = $data_isafe[0]['user_role'];
 
-  $result = $schoolConn->query("SELECT DATE_FORMAT(birth_date, '%M %e, %Y') AS birth_date, student_address, course_code, student_gender FROM $role WHERE student_id = '$id'"); 
-  $data_school = $result->fetch_all(MYSQLI_ASSOC);
+    $result = $schoolConn->query("SELECT DATE_FORMAT(birth_date, '%M %e, %Y') AS birth_date, student_address, course_code, student_gender FROM $role WHERE student_id = '$id'"); 
+    $data_school = $result->fetch_all(MYSQLI_ASSOC);
 
-  return array(
-    'role' => $role,
-    'date_registered' => $data_isafe[0]['date_registered'],
-    'birth_date' => $data_school[0]['birth_date'],
-    'address' => $data_school[0]['student_address'],
-    'course_code' => $data_school[0]['course_code'],
-    'gender' => $data_school[0]['student_gender'],
-  );
+    return array(
+      'id' => $data_isafe[0]['user_id'],
+      'first_name' => $data_isafe[0]['first_name'],
+      'last_name' => $data_isafe[0]['last_name'],
+      'role' => $role,
+      'date_registered' => $data_isafe[0]['date_registered'],
+      'birth_date' => $data_school[0]['birth_date'],
+      'address' => $data_school[0]['student_address'],
+      'course_code' => $data_school[0]['course_code'],
+      'gender' => $data_school[0]['student_gender'],
+    );
 }
 
 function get_user_posts($current_user, $user_id) {
