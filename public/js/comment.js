@@ -2,8 +2,7 @@ let commentForm = $('#send-comment')
 let sendBtn = $('#send-comment-btn')
 let postId = $('#post_id')
 
-$(document).ready(function() {
-
+$(function() {
   commentForm.on('submit', function(e) {
     e.preventDefault()
 
@@ -42,6 +41,7 @@ function getComments() {
   let postId = $('#post_id').val()
   $('#comments').html('')
 
+      console.log($('#current_user').val())
   $.ajax({
     url: "../../src/comment/get_comment.php",
     method: "POST",
@@ -57,6 +57,9 @@ function getComments() {
 
       data.forEach((item) => {
         let fullName = item.first_name + " " + item.last_name
+        if ($('#current_user').val() === item.user_id) {
+          fullName = 'You'
+        }
         let commentComponent = `
             <div class='grid grid-cols-[auto_1fr] w-full gap-2'>
               <div class="avatar">
