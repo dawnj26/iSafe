@@ -6,7 +6,7 @@ if (empty($_POST['current_user'])) {
 
 require '../../config/config.php';
 
-$get_all_post = "SELECT user.first_name, user.last_name, user.user_role ,post.post_id,post.poster_id, post.post_text, post.anonymous_post, DATE_FORMAT(post.date_posted, '%M %e, %Y') AS formatted_date FROM post INNER JOIN user ON post.poster_id = user.user_id";
+$get_all_post = "SELECT user.first_name, user.last_name, user.user_role ,post.post_id,post.poster_id, post.post_text, post.anonymous_post, DATE_FORMAT(post.date_posted, '%M %e, %Y') AS formatted_date FROM post INNER JOIN user ON post.poster_id = user.user_id ORDER BY post.date_posted DESC";
 $all_post = $mainConn->query($get_all_post);
 
 // $temp_id  = "21-UR-0001";
