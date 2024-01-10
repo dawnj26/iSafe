@@ -26,6 +26,8 @@ $query = "SELECT sender_id, receiver_id, text_message, DATE_FORMAT(chat_date, '%
             ORDER BY chat.chat_date";
 
 $result = $mainConn->query($query);
+$update_read = "UPDATE chat SET is_read = 1 WHERE ( sender_id = '$sender' AND receiver_id = '$receiver' )";
+$mainConn->query($update_read);
 
 if ($result->num_rows > 0) {
     $usr = $mainConn->query("SELECT first_name, last_name FROM user WHERE user_id = '$receiver'")->fetch_assoc();
