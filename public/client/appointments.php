@@ -18,11 +18,11 @@ $name = $mainConn->query("SELECT first_name, last_name FROM user WHERE user_id =
 $fullname = $name['first_name'].' '.$name['last_name'];
 $counselors = get_counselors();
 
-$result = $mainConn->query('SELECT * FROM appointment');
+$result = $mainConn->query("SELECT * FROM appointment WHERE creator_id = '$id'");
 $total = $result->num_rows;
-$result = $mainConn->query('SELECT * FROM appointment WHERE DATE(appointment_date) = DATE_ADD(CURDATE(), INTERVAL 1 DAY)');
+$result = $mainConn->query("SELECT * FROM appointment WHERE DATE(appointment_date) = DATE_ADD(CURDATE(), INTERVAL 1 DAY) AND creator_id = '$id'");
 $today = $result->num_rows;
-$result = $mainConn->query("SELECT * FROM appointment WHERE status = 'finished'");
+$result = $mainConn->query("SELECT * FROM appointment WHERE status = 'finished' AND creator_id = '$id'");
 $finished = $result->num_rows;
 ?>
 <!doctype html>
