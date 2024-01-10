@@ -180,11 +180,14 @@ $user_posts = get_user_posts($current_id, $user_id);
         <div class="flex flex-col items-center h-[35.3rem] w-full bg-white rounded-lg p-4 overflow-y-scroll">
           <div class="flex flex-col min-w-[36rem] bg-brand-200 rounded-lg p-4">
             <div class="mb-2">
+              <a href="">
+
               <button class="bg-white p-2 rounded-lg border border-gray-400">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.8332 9.99996H4.1665M4.1665 9.99996L9.99984 15.8333M4.1665 9.99996L9.99984 4.16663" stroke="#344054" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </button>
+              </a>
             </div>
             <div class="flex">
 
@@ -196,9 +199,23 @@ $user_posts = get_user_posts($current_id, $user_id);
                     <p class="text-gray-500">hannipham@gmail.com</p>
                   </div>
                 </div>
-                <button class="mx-auto text-xs text-white font-medium px-4 py-2 bg-brand-600 rounded-lg">
-                  Send message
-                </button>
+                <?php
+                $send_btn = "
+                <a href='chat.php?id={$user_details['id']}'>
+                  <button class='mx-auto text-xs text-white font-medium px-4 py-2 bg-brand-600 rounded-lg'>
+                    Send message
+                  </button>
+                </a>
+                ";
+
+                echo $user_id !== $current_id ? $send_btn : '';
+
+                ?>
+                <!-- <a href="chat.php?id=<?php echo $user_details['id']; ?>"> -->
+                <!--   <button class="mx-auto text-xs text-white font-medium px-4 py-2 bg-brand-600 rounded-lg"> -->
+                <!--     Send message -->
+                <!--   </button> -->
+                <!-- </a> -->
               </div>
               <div class="grid grid-cols-2 grid-rows-3 w-full gap-4 pl-8 border-l border-gray-400">
                 <div class="text-sm">
@@ -236,10 +253,10 @@ $user_posts = get_user_posts($current_id, $user_id);
 
             for ($i = 0, $iMax = count($user_posts); $i < $iMax; $i++) {
 
-                  $fullName = $user_posts[$i][ 'first_name' ] . ' ' . $user_posts[$i][ 'last_name' ];
+                $fullName = $user_posts[$i][ 'first_name' ] . ' ' . $user_posts[$i][ 'last_name' ];
 
-                  $isAnonymous = $user_posts[$i][ 'is_anonymous' ];
-                  $likeCounter = "
+                $isAnonymous = $user_posts[$i][ 'is_anonymous' ];
+                $likeCounter = "
                           <div class='flex items-center gap-2 like-counter'>
                             <svg width='16' height='16' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                               <path d='M23.3041 11.944C23.3041 11.6086 23.2241 11.294 23.0901 11.008C22.1961 8.12398 18.0107 8.33464 12.0574 8.19398C11.0621 8.17064 11.6314 6.99531 11.9807 4.41531C12.2081 2.73731 11.1261 0.160645 9.30741 0.160645C6.30874 0.160645 9.19341 2.52598 6.54207 8.37531C5.12541 11.5006 1.95874 9.74998 1.95874 12.8893V20.0353C1.95874 21.2573 2.07874 22.432 3.79741 22.6253C5.46341 22.8126 5.08874 24 7.49207 24H19.5214C20.1106 23.9993 20.6755 23.7648 21.0921 23.3482C21.5086 22.9315 21.7429 22.3665 21.7434 21.7773C21.7434 21.2693 21.5654 20.8066 21.2781 20.432C21.9581 20.0513 22.4247 19.3326 22.4247 18.4993C22.4247 17.9926 22.2474 17.53 21.9607 17.156C22.6427 16.776 23.1107 16.0566 23.1107 15.222C23.1107 14.616 22.8654 14.0666 22.4701 13.6646C22.7292 13.4587 22.9387 13.1972 23.0831 12.8993C23.2274 12.6015 23.303 12.275 23.3041 11.944Z' fill='#FFDB5E' />
@@ -248,7 +265,7 @@ $user_posts = get_user_posts($current_id, $user_id);
                             <span class='text-sm num_likes'>{$user_posts[$i]['likes']}</span>
                           </div>
         ";
-                  $commentCounter = "
+                $commentCounter = "
                           <div class='flex items-center gap-2 comment-counter'>
                             <svg width='16' height='16' viewBox='0 0 24 24' fill='#475467' xmlns='http://www.w3.org/2000/svg'>
                               <path d='M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z' stroke='#475467' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
@@ -256,10 +273,10 @@ $user_posts = get_user_posts($current_id, $user_id);
                             <span class='text-sm num_comments'>{$user_posts[$i]['comments']}</span>
                           </div>
         ";
-                  $comments = $user_posts[$i]['comments'] === 0 ? '<div></div>' : $commentCounter;
-                  $likes = $user_posts[$i]['likes'] === 0 ? '<div></div>' : $likeCounter;
+                $comments = $user_posts[$i]['comments'] === 0 ? '<div></div>' : $commentCounter;
+                $likes = $user_posts[$i]['likes'] === 0 ? '<div></div>' : $likeCounter;
 
-                  $counter = "
+                $counter = "
                         <div class='mt-2 flex justify-between items-center'>
                           <!-- Number of likes -->
                             $likes
@@ -267,16 +284,17 @@ $user_posts = get_user_posts($current_id, $user_id);
                           <!-- Number of comments -->
                         </div>
         ";
-                  $visible = $user_posts[$i]['likes'] === 0 && $user_posts[$i]['comments'] === 0 ? '<div></div>' : $counter;
-                  $like_check = $user_posts[$i][ 'liked' ] ? 'checked' : '';
-                  $like_fill = $user_posts[$i][ 'liked' ] ? 'fill-brand-500' : 'fill-brand-200';
-                  $anonymous_first_name = $user_posts[$i][ 'is_anonymous' ] ? 'Anonymous' : $user_posts[$i]['first_name'];
-                  $anonymous_last_name = $user_posts[$i][ 'is_anonymous' ] ? 'user' : $user_posts[$i]['last_name'];
-                  $anonymous_full_name = $anonymous_first_name . ' ' . $anonymous_last_name;
-                  $anonymous_role = $user_posts[$i][ 'is_anonymous' ] ? 'Secret' : $user_posts[$i]['user_role'];
-                  $image_url = str_replace('/opt/lampp/htdocs/IJuanaBeSafe', '../../', $user_posts[$i]['image']);
+                $visible = $user_posts[$i]['likes'] === 0 && $user_posts[$i]['comments'] === 0 ? '<div></div>' : $counter;
+                $like_check = $user_posts[$i][ 'liked' ] ? 'checked' : '';
+                $like_fill = $user_posts[$i][ 'liked' ] ? 'fill-brand-500' : 'fill-brand-200';
+                $anonymous_first_name = $user_posts[$i][ 'is_anonymous' ] ? 'Anonymous' : $user_posts[$i]['first_name'];
+                $anonymous_last_name = $user_posts[$i][ 'is_anonymous' ] ? 'user' : $user_posts[$i]['last_name'];
+                $anonymous_full_name = $anonymous_first_name . ' ' . $anonymous_last_name;
+                $anonymous_role = $user_posts[$i][ 'is_anonymous' ] ? 'Secret' : $user_posts[$i]['user_role'];
+                $image_url = str_replace('/opt/lampp/htdocs/IJuanaBeSafe', '../../', $user_posts[$i]['image']);
+                $poster = $user_posts[$i]['poster_id'];
 
-                  $postWithImage = "
+                $postWithImage = "
                     <!-- Post -->
                     <div class='bg-brand-200 rounded-lg w-[30rem] h-fit px-4 pt-4 pb-0 mb-4' data-id=''>
                       <!-- Post header -->
@@ -284,7 +302,7 @@ $user_posts = get_user_posts($current_id, $user_id);
                         <div class='profile flex items-center gap-2'>
                           <img src='https://ui-avatars.com/api/?name=$anonymous_first_name+$anonymous_last_name&size=48&rounded=true&color=7F56D9&background=F9F5FF' alt=''>
                           <div class='profile-details'>
-                            <p class='text-sm font-medium'>$anonymous_full_name</p>
+                            <a class='' href='./profile.php?user_id=$poster'><p class='text-sm font-medium hover:underline'>$anonymous_full_name</p></a>
                             <p class='text-sm text-gray-500'><span class='capitalize'>$anonymous_role</span> | {$user_posts[$i]['date_posted']}</p>
                           </div>
                         </div>
@@ -324,7 +342,7 @@ $user_posts = get_user_posts($current_id, $user_id);
                     </div>
                   
                  ";
-                  $postWithoutImage = "
+                $postWithoutImage = "
 
                     <!-- Post -->
                     <div class='bg-brand-200 rounded-lg w-[30rem] h-fit px-4 pt-4 pb-0 mb-4' data-id=''>
@@ -370,8 +388,8 @@ $user_posts = get_user_posts($current_id, $user_id);
                     </div>
                   
                   ";
-                  echo empty($user_posts[$i]['image']) ? $postWithoutImage : $postWithImage;
-              }
+                echo empty($user_posts[$i]['image']) ? $postWithoutImage : $postWithImage;
+            }
 
 
 ?>
@@ -380,7 +398,7 @@ $user_posts = get_user_posts($current_id, $user_id);
         </div>
 
     </div>
-
+  </div>
 
 
   <!--Notifications-->
@@ -496,7 +514,7 @@ $user_posts = get_user_posts($current_id, $user_id);
                     echo "<option value='$id'>$name</option>";
                 }
 
-                ?>
+?>
               </select>
               <a href="" class="text-brand-600 font-medium text-sm">View profile</a>
             </div>
@@ -552,10 +570,69 @@ $user_posts = get_user_posts($current_id, $user_id);
     </div>
   </div>
 
+  <!--Comment-->
+  <div id="comment-modal" class="w-full h-full bg-brand-400 bg-opacity-40 hidden place-items-center absolute">
+    <div class="bg-white p-8 w-3/6 rounded-xl">
+      <div class="header flex justify-between mb-6">
+        <h2 class="text-xl">Comments</h2>
+        <button type="button" id="close-comment-modal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 5.99994L6 17.9999M6 5.99994L18 17.9999" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="h-72 overflow-y-scroll mb-4">
+        <div class="w-full">
+          <div class="flex flex-col gap-4" id="comments">
+            <!-- <div class='grid grid-cols-[auto_1fr] w-full gap-2'> -->
+            <!--   <div class="avatar"> -->
+            <!--     <img src='https://ui-avatars.com/api/?name=Donn+Jayson&size=40&rounded=true&color=7F56D9&background=F9F5FF' alt=''> -->
+            <!--   </div> -->
+            <!--   <div class='max-w-fit flex flex-col mr-4'> -->
+            <!--     <div class='flex items-center justify-between mb-2'> -->
+            <!--       <p class='text-xs text-gray-700 font-medium'>Donn Jayson Quinto</p> -->
+            <!--       <p class='text-xs text-gray-700'>January 2, 2024</p> -->
+            <!--     </div> -->
+            <!--     <div class='bg-brand-500 text-white text-sm rounded-lg px-4 py-2 flex items-center gap-2'> -->
+            <!--       Someone started a calling me what? -->
+            <!--     </div> -->
+            <!--   </div> -->
+            <!-- </div> -->
+          </div>
+
+        </div>
+      </div>
+
+      <form id="send-comment">
+        <div class="bg-white flex items-center justify-between h-full gap-4">
+          <input type="hidden" name="current_user" id="current_user" value="<?php echo $current_id ?>">
+          <input type="hidden" name="post_id" id="post_id">
+          <input type="text" name="comment" id="comment" class="px-4 py-2 border border-gray-400 rounded-lg w-full outline-none" placeholder="Comment here...">
+          <button type="submit" class="p-2 bg-brand-600 hover:bg-brand-700 rounded-lg" id="send-comment-btn">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_480_69)">
+                <path d="M18.3334 1.66663L9.16675 10.8333M18.3334 1.66663L12.5001 18.3333L9.16675 10.8333M18.3334 1.66663L1.66675 7.49996L9.16675 10.8333" stroke="white" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
+              </g>
+              <defs>
+                <clipPath id="clip0_480_69">
+                  <rect width="20" height="20" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+
+          </button>
+
+        </div>
+      </form>
+    </div>
+  </div>
   <!--<script src="js/calendar.js"></script>-->
   <!--<script src="js/leaflet.js"></script>-->
   <script src="../js/close_modal.js"></script>
   <script src="../js/create_appointment.js"></script>
+   <script src="../js/profile.js"></script>
+    <script src="../js/comment.js"></script>
 </body>
 
 </html>
