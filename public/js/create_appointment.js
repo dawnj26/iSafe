@@ -99,9 +99,9 @@ $(function () {
         })
 
         console.log(errors)
+        console.log(violenceEl.val())
 
         if (errors !== 0) {
-
             return
         }
         let formData = {
