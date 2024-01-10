@@ -58,6 +58,7 @@ function getPosts() {
                   <!-- Number of comments -->
                 </div>
 `
+          let profile_url = `./profile.php?user_id=${data[i].poster_id}`
         let postWithoutImage = `
             <!-- Post -->
             <div class='bg-brand-200 rounded-lg w-full h-full px-4 pt-4 pb-0' data-id=''>
@@ -66,7 +67,7 @@ function getPosts() {
                 <div class='profile flex items-center gap-2'>
                   <img src='https://ui-avatars.com/api/?name=${isAnonymous ? 'Anonymous' : data[i].first_name}+${isAnonymous ? 'user' : data[i].last_name}&size=48&rounded=true&color=7F56D9&background=F9F5FF' alt=''>
                   <div class='profile-details'>
-                    <a class='' href='./profile.php?user_id=${data[i].poster_id}'><p class='text-sm font-medium hover:underline'>${isAnonymous ? 'Anonymous user' : fullName}</p></a>
+                    <a class='' href='${isAnonymous ? '#' : profile_url}'><p class='text-sm font-medium hover:underline'>${isAnonymous ? 'Anonymous user' : fullName}</p></a>
                     <p class='text-sm text-gray-500'><span class='capitalize'>${isAnonymous ? 'Secret' : data[i].user_role}</span> | ${data[i].date_posted}</p>
                   </div>
                 </div>
@@ -104,7 +105,7 @@ function getPosts() {
           </div>
           `
 
-        postDiv.prepend(postWithoutImage)
+        postDiv.append(postWithoutImage)
         count++
       }
 
@@ -172,10 +173,18 @@ function getAppointments() {
     success: function(response) {
       console.log(response)
       const data = JSON.parse(response)
-      if (response.length === 0) {
+
+      let appointmentsDiv = $('#appointments')
+      let noAppointments = `
+                  <div class="flex items-center justify-center h-full">
+                    No appointments found
+                  </div>
+`
+
+      if (data.length === 0) {
+        appointmentsDiv.html(noAppointments)
         return
       }
-      let appointmentsDiv = $('#appointments')
 
       for (let i in data) {
         let fullName = data[i].first_name + ' ' + data[i].last_name
