@@ -14,6 +14,8 @@ if (! in_array($_SESSION['role'], $client)) {
     exit();
 }
 
+$new_message = isset($_GET['id']);
+
 require '../../config/config.php';
 
 $counselors = get_counselors();
@@ -191,7 +193,7 @@ $fullname = $name['first_name'].' '.$name['last_name'];
 				</button>
 			</div>
 
-			<div id="messages">
+          <div id="messages" data-receiver="<?php echo $new_message ? $_GET['id'] : ''; ?>">
 				<!--users who messaged the user-->
 			</div>
 		</div>
