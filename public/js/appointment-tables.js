@@ -3,34 +3,44 @@ let filters = $('input[type="radio"]');
 let cancel = $(".cancel");
 let tBody = $("tbody");
 $(function () {
-  let table = appointmentTable.DataTable({
-    pageLength: 3,
-    select: true,
-  });
+  $.get("../../src/appointment/check_appointment.php", function (data, status) {
+    if (status !== "success") {
+      console.log(response);
+      return;
+    }
+    console.log(status);
 
-  getAppointments();
-  filters.on("change", function () {
-    table.draw();
-    $.ajax({
-      url: "../../src/appointment/get_appointments.php",
-      method: "POST",
-      data: {
-        filter: $(this).val(),
-      },
-      success: function (response) {
-        if (response === "") {
-          $("tbody").html("");
-          return;
-        }
-        tBody.html(response);
-      },
+    let table = appointmentTable.DataTable({
+      pageLength: 3,
+      select: true,
+    });
+
+    getAppointments();
+    filters.on("change", function () {
+      table.draw();
+      $.ajax({
+        url: "../../src/appointment/get_appointments.php",
+        method: "POST",
+        data: {
+          filter: $(this).val(),
+        },
+        success: function (response) {
+          if (response === "") {
+            $("tbody").html("");
+            return;
+          }
+          tBody.html(response);
+        },
+      });
     });
   });
 });
 
 function getAppointments() {
+  let url = "../../src/appointment/get_appointments.php";
+
   $.ajax({
-    url: "../../src/appointment/get_appointments.php",
+    url: url,
     method: "POST",
     data: {
       filter: "all",
