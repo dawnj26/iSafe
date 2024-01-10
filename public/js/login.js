@@ -56,7 +56,7 @@ $(function() {
         }
 
         if (response === counselor) {
-          location.href = "counselor/chat.php"
+          location.href = "counselor/dashboard-new1.php"
           return
         }
 
