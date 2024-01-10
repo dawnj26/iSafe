@@ -1,11 +1,11 @@
-let newPostModal = $('#new-post-modal')
-let newPostBtn = $('#new-post-btn')
-let closeBtn = $('#close-new-post')
-let newPostForm = $('#create-post-form')
-let form = document.querySelector('#create-post-form')
+let newPostModal = $("#new-post-modal");
+let newPostBtn = $("#new-post-btn");
+let closeBtn = $("#close-new-post");
+let newPostForm = $("#create-post-form");
+let form = document.querySelector("#create-post-form");
 
 /*
- * TODO: 
+ * TODO:
  * Like and comments counter:
  * 1. Don't show if there is no likes same as comments
  * 2. only show icon if there is likes or comments
@@ -15,40 +15,39 @@ let form = document.querySelector('#create-post-form')
  * 3. prolly like comments?
  * 4. on create show on top
  * 5. delete comments
-*/
-$(function() {
-  getPosts()
+ */
+$(function () {
+  getPosts();
 
   // open new post modal
-  newPostBtn.on('click', function() {
-    newPostModal.addClass('grid').removeClass('hidden')
-  })
-  closeBtn.on('click', function() {
-    newPostModal.addClass('hidden').removeClass('grid')
-  })
-
+  newPostBtn.on("click", function () {
+    newPostModal.addClass("grid").removeClass("hidden");
+  });
+  closeBtn.on("click", function () {
+    newPostModal.addClass("hidden").removeClass("grid");
+  });
 
   // on open image
-  $('#image').on('change', function() {
-    let image = $('#image')[0]
+  $("#image").on("change", function () {
+    let image = $("#image")[0];
 
     if (image.files.length > 1) {
-      return
+      return;
     }
 
-    let fileName = $(this).val().split('\\').pop()
+    let fileName = $(this).val().split("\\").pop();
 
-    $('#fileUpload').removeClass('hidden')
-    $('#fileName').text(fileName)
-  })
+    $("#fileUpload").removeClass("hidden");
+    $("#fileName").text(fileName);
+  });
 
-  $('#removeFile').on('click', clearImage)
+  $("#removeFile").on("click", clearImage);
 
-  newPostForm.on('submit', function(e) {
-    e.preventDefault()
-    if ($('#post-text').val() === '') {
-      alert('The post must have a content')
-      return
+  newPostForm.on("submit", function (e) {
+    e.preventDefault();
+    if ($("#post-text").val() === "") {
+      alert("The post must have a content");
+      return;
     }
 
     // let image = $('#image')[0]
@@ -57,7 +56,7 @@ $(function() {
     //   return
     // }
 
-    let formData = new FormData(form)
+    let formData = new FormData(form);
 
     $.ajax({
       url: "../../src/post/create-new-post.php",
@@ -65,50 +64,47 @@ $(function() {
       data: formData,
       contentType: false,
       processData: false,
-      success: function(response) {
-        if (response !== 'SUCCESS') {
-          alert(response)
-          return
+      success: function (response) {
+        if (response !== "SUCCESS") {
+          alert(response);
+          return;
         }
 
         // reset form
-        $('#anonymous-post').prop('checked', false)
-        $('#post-text').val('')
-        clearImage()
-        newPostModal.addClass('hidden').removeClass('grid')
+        $("#anonymous-post").prop("checked", false);
+        $("#post-text").val("");
+        clearImage();
+        newPostModal.addClass("hidden").removeClass("grid");
 
-        getPosts()
-        alert('Posted successfully!')
-      }
-    })
-  })
-})
-
+        getPosts();
+        alert("Posted successfully!");
+      },
+    });
+  });
+});
 
 function getPosts() {
-
   $.ajax({
     url: "../../src/post/get-posts.php",
     method: "POST",
     data: {
-      current_user: $('#current_user').val()
+      current_user: $("#current_user").val(),
     },
-    success: function(response) {
-      let data = JSON.parse(response)
-      let postDiv = $('#posts')
+    success: function (response) {
+      let data = JSON.parse(response);
+      let postDiv = $("#posts");
 
-
-      console.log(data)
+      console.log(data);
 
       if (data.length === 0) {
-        return
+        return;
       }
-      $('#posts').html('')
+      $("#posts").html("");
 
-      data.forEach(data => {
-        let fullName = data.first_name + ' ' + data.last_name
+      data.forEach((data) => {
+        let fullName = data.first_name + " " + data.last_name;
 
-        let isAnonymous = data.is_anonymous
+        let isAnonymous = data.is_anonymous;
         let likeCounter = `
                   <div class='flex items-center gap-2 like-counter'>
                     <svg width='16' height='16' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -117,7 +113,7 @@ function getPosts() {
                     </svg>
                     <span class='text-sm num_likes'>${data.likes}</span>
                   </div>
-`
+`;
         let commentCounter = `
                   <div class='flex items-center gap-2 comment-counter'>
                     <svg width='16' height='16' viewBox='0 0 24 24' fill='#475467' xmlns='http://www.w3.org/2000/svg'>
@@ -125,15 +121,15 @@ function getPosts() {
                     </svg>
                     <span class='text-sm num_comments'>${data.comments}</span>
                   </div>
-`
+`;
         let counter = `
                 <div class='mt-2 flex justify-between items-center'>
                   <!-- Number of likes -->
-                    ${data.likes === 0 ? '<div></div>' : likeCounter}
-                    ${data.comments === 0 ? '<div></div>' : commentCounter}
+                    ${data.likes === 0 ? "<div></div>" : likeCounter}
+                    ${data.comments === 0 ? "<div></div>" : commentCounter}
                   <!-- Number of comments -->
                 </div>
-`
+`;
 
         let postWithImage = `
             <!-- Post -->
@@ -141,10 +137,22 @@ function getPosts() {
               <!-- Post header -->
               <div class='post-header flex items-center justify-between mb-6' data-id=''>
                 <div class='profile flex items-center gap-2'>
-                  <img src='https://ui-avatars.com/api/?name=${isAnonymous ? 'Anonymous' : data.first_name}+${isAnonymous ? 'user' : data.last_name}&size=48&rounded=true&color=7F56D9&background=F9F5FF' alt=''>
+                  <img src='https://ui-avatars.com/api/?name=${
+                    isAnonymous ? "Anonymous" : data.first_name
+                  }+${
+                    isAnonymous ? "user" : data.last_name
+                  }&size=48&rounded=true&color=7F56D9&background=F9F5FF' alt=''>
                   <div class='profile-details'>
-                    <p class='text-sm font-medium'>${isAnonymous ? 'Anonymous user' : fullName}</p>
-                    <p class='text-sm text-gray-500'><span class='capitalize'>${isAnonymous ? 'Secret' : data.user_role}</span> | ${data.date_posted}</p>
+                    <a class='' href='${
+                      isAnonymous
+                        ? ""
+                        : "./profile.php?user_id=" + data.poster_id
+                    }'><p class='text-sm font-medium hover:underline'>${
+                      isAnonymous ? "Anonymous user" : fullName
+                    }</p></a>
+                    <p class='text-sm text-gray-500'><span class='capitalize'>${
+                      isAnonymous ? "Secret" : data.user_role
+                    }</span> | ${data.date_posted}</p>
                   </div>
                 </div>
                 <button type='button'>
@@ -159,13 +167,26 @@ function getPosts() {
                   ${data.post_text}
                 </p>
                 <div class='w-full overflow-hidden rounded-lg object-cover'>
-                  <img src='${data.image.replace('/opt/lampp/htdocs/IJuanaBeSafe', '../../')}' alt='' class='w-full'>
+                  <img src='${data.image.replace(
+                    "/opt/lampp/htdocs/IJuanaBeSafe",
+                    "../../",
+                  )}' alt='' class='w-full'>
                 </div>
-                ${data.likes === 0 && data.comments === 0 ? '<div></div>' : counter}
+                ${
+                  data.likes === 0 && data.comments === 0
+                    ? "<div></div>"
+                    : counter
+                }
               </div>
               <div class='react flex items-center justify-around border-t border-gray-400'>
-                <button type='button' class='${data.liked ? 'checked' : ''} like-btn flex items-center justify-center px-4 py-2 hover:bg-gray-300 rounded-lg text-sm gap-2 font-medium' data-post-id='${data.post_id}' data-user-id='${data.poster_id}'>
-                  <svg class='${data.liked ? 'fill-brand-500' : 'fill-brand-200'}' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+                <button type='button' class='${
+                  data.liked ? "checked" : ""
+                } like-btn flex items-center justify-center px-4 py-2 hover:bg-gray-300 rounded-lg text-sm gap-2 font-medium' data-post-id='${
+                  data.post_id
+                }' data-user-id='${data.poster_id}'>
+                  <svg class='${
+                    data.liked ? "fill-brand-500" : "fill-brand-200"
+                  }' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
                     <path d='M7 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V13C2 12.4696 2.21071 11.9609 2.58579 11.5858C2.96086 11.2107 3.46957 11 4 11H7M14 9V5C14 4.20435 13.6839 3.44129 13.1213 2.87868C12.5587 2.31607 11.7956 2 11 2L7 11V22H18.28C18.7623 22.0055 19.2304 21.8364 19.5979 21.524C19.9654 21.2116 20.2077 20.7769 20.28 20.3L21.66 11.3C21.7035 11.0134 21.6842 10.7207 21.6033 10.4423C21.5225 10.1638 21.3821 9.90629 21.1919 9.68751C21.0016 9.46873 20.7661 9.29393 20.5016 9.17522C20.2371 9.0565 19.9499 8.99672 19.66 9H14Z' stroke='#475467' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
                   </svg>
 
@@ -182,17 +203,29 @@ function getPosts() {
 
             </div>
           </div>
-          `
+          `;
         let postWithoutImage = `
             <!-- Post -->
             <div class='bg-brand-200 rounded-lg w-[30rem] h-fit px-4 pt-4 pb-0 mb-4' data-id=''>
               <!-- Post header -->
               <div class='post-header flex items-center justify-between mb-6' data-id=''>
                 <div class='profile flex items-center gap-2'>
-                  <img src='https://ui-avatars.com/api/?name=${isAnonymous ? 'Anonymous' : data.first_name}+${isAnonymous ? 'user' : data.last_name}&size=48&rounded=true&color=7F56D9&background=F9F5FF' alt=''>
+                  <img src='https://ui-avatars.com/api/?name=${
+                    isAnonymous ? "Anonymous" : data.first_name
+                  }+${
+                    isAnonymous ? "user" : data.last_name
+                  }&size=48&rounded=true&color=7F56D9&background=F9F5FF' alt=''>
                   <div class='profile-details'>
-                    <p class='text-sm font-medium'>${isAnonymous ? 'Anonymous user' : fullName}</p>
-                    <p class='text-sm text-gray-500'><span class='capitalize'>${isAnonymous ? 'Secret' : data.user_role}</span> | ${data.date_posted}</p>
+                    <a class='' href='${
+                      isAnonymous
+                        ? ""
+                        : "./profile.php?user_id=" + data.poster_id
+                    }'><p class='text-sm font-medium hover:underline'>${
+                      isAnonymous ? "Anonymous user" : fullName
+                    }</p></a>
+                    <p class='text-sm text-gray-500'><span class='capitalize'>${
+                      isAnonymous ? "Secret" : data.user_role
+                    }</span> | ${data.date_posted}</p>
                   </div>
                 </div>
                 <button type='button'>
@@ -206,11 +239,21 @@ function getPosts() {
                 <p class='text-sm mb-4'>
                   ${data.post_text}
                 </p>
-                ${data.likes === 0 && data.comments === 0 ? '<div></div>' : counter}
+                ${
+                  data.likes === 0 && data.comments === 0
+                    ? "<div></div>"
+                    : counter
+                }
               </div>
               <div class='react flex items-center justify-around border-t border-gray-400'>
-                <button type='button' class='${data.liked ? 'checked' : ''} like-btn flex items-center justify-center px-4 py-2 hover:bg-gray-300 rounded-lg text-sm gap-2 font-medium' data-post-id='${data.post_id}' data-user-id='${data.poster_id}'>
-                  <svg class='${data.liked ? 'fill-brand-500' : 'fill-brand-200'}' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+                <button type='button' class='${
+                  data.liked ? "checked" : ""
+                } like-btn flex items-center justify-center px-4 py-2 hover:bg-gray-300 rounded-lg text-sm gap-2 font-medium' data-post-id='${
+                  data.post_id
+                }' data-user-id='${data.poster_id}'>
+                  <svg class='${
+                    data.liked ? "fill-brand-500" : "fill-brand-200"
+                  }' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
                     <path d='M7 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V13C2 12.4696 2.21071 11.9609 2.58579 11.5858C2.96086 11.2107 3.46957 11 4 11H7M14 9V5C14 4.20435 13.6839 3.44129 13.1213 2.87868C12.5587 2.31607 11.7956 2 11 2L7 11V22H18.28C18.7623 22.0055 19.2304 21.8364 19.5979 21.524C19.9654 21.2116 20.2077 20.7769 20.28 20.3L21.66 11.3C21.7035 11.0134 21.6842 10.7207 21.6033 10.4423C21.5225 10.1638 21.3821 9.90629 21.1919 9.68751C21.0016 9.46873 20.7661 9.29393 20.5016 9.17522C20.2371 9.0565 19.9499 8.99672 19.66 9H14Z' stroke='#475467' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
                   </svg>
 
@@ -227,39 +270,39 @@ function getPosts() {
 
             </div>
           </div>
-          `
+          `;
 
-        postDiv.prepend(data.image ? postWithImage : postWithoutImage)
-      })
+        postDiv.append(data.image ? postWithImage : postWithoutImage);
+      });
 
-      let reactBtn = $('.like-btn')
-      let commentBtn = $('.comment-btn')
-      let closeComment = $('#close-comment-modal')
-      let commentModal = $('#comment-modal')
-      let inputPostID = $('#post_id')
+      let reactBtn = $(".like-btn");
+      let commentBtn = $(".comment-btn");
+      let closeComment = $("#close-comment-modal");
+      let commentModal = $("#comment-modal");
+      let inputPostID = $("#post_id");
 
-      commentBtn.on('click', function() {
-        let postId = $(this).parent().children('.like-btn').data('post-id')
-        commentModal.addClass('grid').removeClass('hidden')
-        inputPostID.val(postId)
+      commentBtn.on("click", function () {
+        let postId = $(this).parent().children(".like-btn").data("post-id");
+        commentModal.addClass("grid").removeClass("hidden");
+        inputPostID.val(postId);
 
-        $('#comments').html('')
-        setTimeout(getComments, 50)
-      })
+        $("#comments").html("");
+        setTimeout(getComments, 50);
+      });
 
-      closeComment.on('click', function() {
-        commentModal.addClass('hidden').removeClass('grid')
-        inputPostID.val("")
-      })
+      closeComment.on("click", function () {
+        commentModal.addClass("hidden").removeClass("grid");
+        inputPostID.val("");
+      });
 
-      reactBtn.on('click', function() {
-        let btn = $(this)
-        let postId = btn.data('post-id')
-        let userId = $('#current_user').val()
-        let icon = btn.find('svg')
-        let isLiked = btn.hasClass('checked') ? 1 : 0
+      reactBtn.on("click", function () {
+        let btn = $(this);
+        let postId = btn.data("post-id");
+        let userId = $("#current_user").val();
+        let icon = btn.find("svg");
+        let isLiked = btn.hasClass("checked") ? 1 : 0;
 
-        console.log(postId, userId, isLiked)
+        console.log(postId, userId, isLiked);
 
         $.ajax({
           url: "../../src/post/react-post.php",
@@ -267,54 +310,53 @@ function getPosts() {
           data: {
             post_id: postId,
             user_id: userId,
-            is_liked: isLiked
+            is_liked: isLiked,
           },
-          success: function(response) {
-            if (response !== 'SUCCESS') {
-              alert(response)
-              return
+          success: function (response) {
+            if (response !== "SUCCESS") {
+              alert(response);
+              return;
             }
-            isLiked = isLiked === 0 ? 1 : 0
+            isLiked = isLiked === 0 ? 1 : 0;
             if (isLiked) {
-              btn.addClass('checked')
-              icon.addClass('fill-brand-500').removeClass('fill-brand-200')
+              btn.addClass("checked");
+              icon.addClass("fill-brand-500").removeClass("fill-brand-200");
             } else {
-              btn.removeClass('checked')
-              icon.addClass('fill-brand-200').removeClass('fill-brand-500')
+              btn.removeClass("checked");
+              icon.addClass("fill-brand-200").removeClass("fill-brand-500");
             }
-          }
-        })
-      })
-    }
-  })
-
+          },
+        });
+      });
+    },
+  });
 }
 
 function clearImage() {
-  let image = $('#image')[0]
+  let image = $("#image")[0];
 
-  $('#fileUpload').addClass('hidden')
-  image.value = ''
+  $("#fileUpload").addClass("hidden");
+  image.value = "";
 }
 
 function getComments() {
-  let postId = $('#post_id').val()
+  let postId = $("#post_id").val();
 
   $.ajax({
     url: "../../src/comment/get_comment.php",
     method: "POST",
     data: {
-      post_id: postId
+      post_id: postId,
     },
-    success: function(response) {
-      let data = JSON.parse(response)
+    success: function (response) {
+      let data = JSON.parse(response);
 
       if (data.length === 0) {
-        return
+        return;
       }
 
       data.forEach((item) => {
-        let fullName = item.first_name + " " + item.last_name
+        let fullName = item.first_name + " " + item.last_name;
         let commentComponent = `
             <div class='grid grid-cols-[auto_1fr] w-full gap-2'>
               <div class="avatar">
@@ -330,9 +372,9 @@ function getComments() {
                 </div>
               </div>
             </div>
-`
-        $('#comments').prepend(commentComponent)
-      })
-    }
-  })
+`;
+        $("#comments").prepend(commentComponent);
+      });
+    },
+  });
 }
