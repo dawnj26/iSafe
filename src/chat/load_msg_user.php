@@ -35,14 +35,14 @@ if ($result->num_rows > 0) {
         $receiver_id = $data['user_id'];
         $initials = strtoupper(substr($data['first_name'], 0, 1)).strtoupper(substr($data['last_name'], 0, 1));
         $message = $mainConn->query("
-        SELECT text_message
+        SELECT text_message, is_read
             FROM chat
             WHERE (sender_id = '$id' AND receiver_id = '$receiver_id')
             	OR (sender_id = '$receiver_id' AND receiver_id = '$id')
             ORDER BY chat_date DESC LIMIT 1
         ")->fetch_assoc();
-        $message = truncateString($message['text_message']);
-        $json[] = ['user_id' => $receiver_id, 'full_name' => $full_name, 'initials' => $initials, 'user_role' => $data['user_role'], 'message' => $message];
+        $short_message = truncateString($message['text_message']); 
+        $json[] = ['user_id' => $receiver_id, 'full_name' => $full_name, 'initials' => $initials, 'user_role' => $data['user_role'], 'message' => $short_message, 'is_read' => $message['is_read']];
 
     }
 
